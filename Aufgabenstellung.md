@@ -2,7 +2,7 @@
 
 ## Kontext
 
-Im Rahmen des Projekts soll eine Live-Ticker-Applikation für Sportspiele entwickelt werden. Nutzer sollen Teams und Spieler erfassen und verwalten können, um damit Matches zwischen jeweils zwei Teams durchzuführen. Während eines Matches können relevante Ereignisse wie geschossene Tore und Pausen erfasst werden. Die Applikation richtet sich an kleine Vereine, Hobby-Ligen oder Turnierorganisator:innen, die ohne grossen Aufwand einen digitalen Spielstand-Ticker führen möchten.
+Im Rahmen des Projekts soll eine Live-Ticker-Applikation für Sportspiele entwickelt werden. Nutzer sollen Teams und Spieler erfassen und verwalten können, um damit Matches zwischen jeweils zwei Teams durchzuführen. Während eines Matches können relevante Ereignisse wie geschossene Tore und Pausen erfasst werden. Die Applikation richtet sich an kleine Vereine, Hobby-Ligen oder kleine Tourniere, die ohne grossen Aufwand einen digitalen Spielstand-Ticker führen möchten.
 
 ## Userstories
 
@@ -16,14 +16,15 @@ Im Rahmen des Projekts soll eine Live-Ticker-Applikation für Sportspiele entwic
 
 ### Should have
 - Als Admin möchte ich Perioden (Halbzeit, Drittel, etc.) starten/beenden können, damit das Spiel beginnt/endet/in die Pause geht.
+- Als Admin möchte ich, falls existierend auch den Assist eines Tores erfassen können.
 - Als Nutzer möchte ich automatisch (ohne Reload) neue Ereignisse (geschossene Tore, Start und Ende von Spielperioden) erhalten, ohne einen Browserrefresh durchzuführen.
 - Als Nutzer möchte ich sehen können welche Spieler zu den spielenden Teams gehören, damit ich weiss, wie die Teams aufgebaut sind.
 
 ### Could have
-- Als Nutzer möchte ich die Applikation auf einem Smartphone installieren können und richtige Push-Benachrichtigungen erhalten.
+- Als Nutzer möchte ich die Applikation auf einem Smartphone installieren können und native Push-Benachrichtigungen erhalten.
 - Als Nutzer möchte ich die Historie der gespielten Matches anzeigen können, damit ich vergangene Matches anschauen kann.
 - Als Nutzer möchte ich sehen, welche Spieler eines Teams an einem spezifischen Match teilgenommen haben.
-- Als Admin möchte ich die App auch offline benutzen und erfasste Daten sollen, sobald das Gerät wieder online ist synchronisieren können, damit ich Spiele auch offline korrekt erfassen kann.
+- Als Admin möchte ich die App auch offline benutzen und erfasste Daten sollen, sobald das Gerät wieder online ist synchronisiert werden können, damit ich Spiele auch offline korrekt erfassen kann.
 - Als Admin möchte Matches kategorisieren können, damit ich so verschiedenen Saisons abbilden kann.
 
 ### Won't have
@@ -35,5 +36,5 @@ Im Rahmen des Projekts soll eine Live-Ticker-Applikation für Sportspiele entwic
 - **Frontend:** Angular (TypeScript)
 - **Backend:** NestJs
 - **API:** REST-Schnittstelle zwischen Frontend und Backend
-- **Datenbank:** PostgreSQL
+- **Datenbank:** MongoDB
 - **Live-Updates:** ggf. WebSockets (z. B. Socket.IO) für die Echtzeit-Aktualisierung des Spielstands
