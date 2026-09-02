@@ -1,0 +1,13 @@
+{
+  "generic": {
+    "username": "Username",
+    "password": "Password",
+    "submit": "Submit"
+  },
+  "navigation": {
+    "home": "Home",
+    "login": "Login",
+    "teams": "Teams",
+    "games": "Games"
+  }
+}
