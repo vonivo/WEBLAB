@@ -31,7 +31,7 @@ jobs:
           bundle exec asciidoctor-pdf \
             -r asciidoctor-diagram \
             -o build/architecture.pdf \
-            docs/architecture.adoc
+            doc/architecture.adoc
 
       - name: Upload PDF
         uses: actions/upload-artifact@v4
