@@ -9,5 +9,4 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './login-form.css',
   templateUrl: './login-form.html',
 })
-export class LoginForm {
-}
+export class LoginForm {}
