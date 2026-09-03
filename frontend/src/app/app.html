@@ -5,7 +5,12 @@
 ></app-navigation>
 
 <mat-drawer-container autosize>
-  <mat-drawer #drawer (openedChange)="navigationSideNavOpen.set($event)"></mat-drawer>
+  <mat-drawer #drawer (openedChange)="navigationSideNavOpen.set($event)">
+    <app-side-nav
+      [navigationLinks]="getAvailableLinks()"
+      (linkItemClicked)="drawer.toggle()"
+    ></app-side-nav>
+  </mat-drawer>
   <main
     class="w-full md:max-w-3xl lg:max-w-5xl xl:max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-10 min-h-[calc(100vh-4rem)]"
   >
