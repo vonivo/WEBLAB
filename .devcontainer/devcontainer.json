@@ -1,7 +1,7 @@
 {
   "name": "Node.js Dev Container",
   "image": "node:lts-alpine3.24",
-  "forwardPorts": [4200],
+  "forwardPorts": [3000, 4200],
   "postCreateCommand": "apk add --no-cache git openssh-client",
   "mounts": [
     "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,readonly"
