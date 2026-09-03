@@ -1,0 +1,50 @@
+name: Build Arc42
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Build PDF
+        run: |
+          mkdir -p build
+            
+          bundle exec asciidoctor-pdf \
+            -r asciidoctor-diagram \
+            -o build/architecture.pdf \
+            docs/architecture.adoc
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-pdf
+          path: build/architecture.pdf
+
+      - name: Create latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: Latest documentation
+          prerelease: true
+          make_latest: false
+          files: build/architecture.pdf
+          fail_on_unmatched_files: true
