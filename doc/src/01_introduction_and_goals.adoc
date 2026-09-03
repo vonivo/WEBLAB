@@ -17,7 +17,7 @@ These include
 ****
 endif::arc42help[]
 
-Example Diagramm:
+Example Diagram with plantuml:
 [plantuml, architecture, svg]
 ----
 @startuml
