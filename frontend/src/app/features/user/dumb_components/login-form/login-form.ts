@@ -10,5 +10,4 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './login-form.html',
 })
 export class LoginForm {
-  protected readonly navigation = navigation;
 }

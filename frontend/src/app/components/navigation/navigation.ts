@@ -1,10 +1,9 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { NavigationItem } from './navigation.type';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
-import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -15,10 +14,7 @@ import { MatIcon } from '@angular/material/icon';
     RouterLinkActive,
     TranslatePipe,
     MatIconButton,
-    MatMenuTrigger,
     MatIcon,
-    MatMenu,
-    MatMenuItem,
   ],
   selector: 'app-navigation',
   styleUrl: './navigation.css',
@@ -26,4 +22,11 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class Navigation {
   navigationLinks = input.required<NavigationItem[]>();
+  navigationSideNavOpen = input.required<boolean>();
+
+  burgerMenuClicked = output();
+
+  handleMenuButtonClick() {
+    this.burgerMenuClicked.emit();
+  }
 }
