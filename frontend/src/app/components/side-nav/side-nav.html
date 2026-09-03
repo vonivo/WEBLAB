@@ -4,9 +4,10 @@
       mat-button
       (click)="linkItemClicked.emit(linkItem)"
       [routerLink]="linkItem.path"
-      routerLinkActive="bg-primary/10! text-primary! font-semibold!"
+      routerLinkActive="bg-primary/10! font-semibold!"
       [routerLinkActiveOptions]="{ exact: linkItem.path === '/' }"
-      class="w-full! justify-start! px-3!"
+      class="justify-start!"
+      [attr.data-testid]="`SIDE_NAV_ITEM_${linkItem.path}`"
     >
       {{ linkItem.label | translate }}
     </a>

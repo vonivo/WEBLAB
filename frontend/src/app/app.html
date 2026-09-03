@@ -5,7 +5,7 @@
 ></app-navigation>
 
 <mat-drawer-container autosize>
-  <mat-drawer #drawer (openedChange)="navigationSideNavOpen.set($event)">
+  <mat-drawer #drawer (openedChange)="navigationSideNavOpen.set($event)" [autoFocus]="false">
     <app-side-nav
       [navigationLinks]="getAvailableLinks()"
       (linkItemClicked)="drawer.toggle()"

@@ -14,7 +14,7 @@
           routerLinkActive="!text-primary !font-semibold"
           [routerLinkActiveOptions]="{ exact: linkItem.path === '/' }"
           mat-button
-          class="text-sm! min-w-0! px-3!"
+          [attr.data-testid]="`MAIN_NAV_ITEM_${linkItem.path}`"
         >
           {{ linkItem.label | translate }}
         </a>
@@ -28,6 +28,7 @@
         class="md:hidden!"
         (click)="handleMenuButtonClick()"
         aria-label="Open navigation menu"
+        [attr.data-testid]="'MAIN_NAV_BURGER'"
       >
         <mat-icon>{{ navigationSideNavOpen() ? 'close' : 'menu' }}</mat-icon>
       </button>
