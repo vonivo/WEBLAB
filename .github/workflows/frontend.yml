@@ -1,4 +1,4 @@
-name: frontend.yml
+name: Frontend
 on:
   push:
     branches:
