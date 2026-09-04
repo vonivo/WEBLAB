@@ -1,0 +1,30 @@
+services:
+  app:
+    image: node:lts-alpine3.24
+    command: sleep infinity
+    volumes:
+      - ..:/workspace:cached
+    ports:
+      - "3000:3000"
+      - "4200:4200"
+    depends_on:
+      - mongo
+    networks:
+      - devnet
+
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - devnet
+
+volumes:
+  mongo-data:
+
+networks:
+  devnet:

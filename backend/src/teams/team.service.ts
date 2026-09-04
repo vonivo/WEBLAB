@@ -1,24 +1,21 @@
+import { Model } from "mongoose";
 import { Injectable } from "@nestjs/common";
-import { Team } from "./team.entity.js";
+import { InjectModel } from "@nestjs/mongoose";
+import { Team } from "././team.schema.js";
+import { TeamDto } from "./team.dto.js";
 
 @Injectable()
 export class TeamService {
-  private readonly teams: Team[] = [];
-
-  constructor() {
-    this.teams.push(
-      {
-        name: "Boulders Blaster Boys",
-        logoPath: "Logo.png",
-      },
-      {
-        name: "Bettbach Firecrackers",
-        logoPath: "Logo.png",
-      },
-    );
+  constructor(@InjectModel(Team.name) private teamModel: Model<Team>) {
+    this.create({ name: "asdf", logoUrl: "asdf" });
   }
 
-  findAll(): Team[] {
-    return this.teams;
+  async create(team: TeamDto) {
+    const createdTeam = new this.teamModel(team);
+    return createdTeam.save();
+  }
+
+  async findAll(): Promise<Team[]> {
+    return this.teamModel.find().exec();
   }
 }
