@@ -2,12 +2,25 @@
   "generic": {
     "username": "Username",
     "password": "Password",
-    "submit": "Submit"
+    "submit": "Submit",
+    "required": "This filed is required"
   },
   "navigation": {
     "home": "Home",
     "login": "Login",
     "teams": "Teams",
     "games": "Games"
+  },
+  "types": {
+    "team": {
+      "actions": {
+        "addTeam": "Add Team",
+        "addTeamInfo": "You can add players of the detail view"
+      },
+      "fields": {
+        "name": "Name",
+        "logoUrl": "Logo URL"
+      }
+    }
   }
 }

@@ -1,0 +1,44 @@
+<form novalidate class="space-y-4" (submit)="handleFormSubmit($event)">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ 'types.team.actions.addTeam' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-5">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ 'types.team.fields.name' | translate }}</mat-label>
+        <input
+          matInput
+          [formField]="addTeamForm.name"
+          [placeholder]="'types.team.fields.name' | translate"
+        />
+        @if (addTeamForm.name().invalid()) {
+          <mat-error>
+            @for (error of addTeamForm.name().errors(); track error) {
+              <span>{{ error.message | translate }}</span>
+            }
+          </mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ 'types.team.fields.logoUrl' | translate }}</mat-label>
+        <input
+          matInput
+          [formField]="addTeamForm.logoUrl"
+          [placeholder]="'types.team.fields.logoUrl' | translate"
+        />
+        <mat-error>
+          @for (error of addTeamForm.name().errors(); track error) {
+            <span>{{ error.message | translate }}</span>
+          }
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="w-full flex justify-end">
+        <button type="submit" matButton="filled">
+          {{ 'generic.submit' | translate }}
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</form>

@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar>
+      <img
+        [ngSrc]="team().logoUrl"
+        width="32"
+        height="32"
+        [alt]="`Logo of team ${team().name}`"
+        class="w-[40px]"
+      />
+    </div>
+    <mat-card-title>{{ team().name }}</mat-card-title>
+  </mat-card-header>
+</mat-card>
