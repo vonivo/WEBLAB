@@ -16,12 +16,24 @@ services:
     image: mongo:7
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME:
-      MONGO_INITDB_ROOT_PASSWORD:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - mongo-data:/data/db
     networks:
       - devnet
+
+  mongoku:
+    image: huggingface/mongoku:latest
+    depends_on:
+      - mongo
+    ports:
+      - "3100:3100"
+    environment:
+      - MONGOKU_DEFAULT_HOST=mongodb://mongo:27017
+    networks:
+      - devnet
+
 
 volumes:
   mongo-data:

@@ -3,9 +3,6 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspace",
-  "forwardPorts": [3000, 4200, 27017],
+  "forwardPorts": [3000, 4200, 3100],
   "postCreateCommand": "apk add --no-cache git openssh-client",
-  "mounts": [
-    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,readonly"
-  ]
 }

@@ -6,9 +6,7 @@ import { TeamDto } from "./team.dto.js";
 
 @Injectable()
 export class TeamService {
-  constructor(@InjectModel(Team.name) private teamModel: Model<Team>) {
-    this.create({ name: "asdf", logoUrl: "asdf" });
-  }
+  constructor(@InjectModel(Team.name) private teamModel: Model<Team>) {}
 
   async create(team: TeamDto) {
     const createdTeam = new this.teamModel(team);
