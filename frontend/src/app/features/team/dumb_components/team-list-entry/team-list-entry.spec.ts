@@ -1,27 +1,48 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TeamListEntry } from './team-list-entry';
 import { Team } from '../../team.types';
+import { TeamListEntry } from './team-list-entry';
 import { provideTranslateService } from '@ngx-translate/core';
 import { inputBinding, signal } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 describe('TeamListEntry', () => {
-  let component: TeamListEntry;
-  let fixture: ComponentFixture<TeamListEntry>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TeamListEntry],
-      providers: [provideTranslateService()],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(TeamListEntry, {
-      bindings: [inputBinding('team', signal<Team>({ name: 'team1', logoUrl: 'logo.png' }))],
-    });
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
-
-  it('should create', () => {
+  it('should create', async () => {
+    const { component } = await setup();
     expect(component).toBeTruthy();
   });
+
+  it('should render team name', async () => {
+    const { fixture } = await setup();
+    expect(fixture.nativeElement.textContent).toContain(defaultTeam.name);
+  });
+
+  it('should render team logo', async () => {
+    const { fixture } = await setup();
+    expect(fixture.debugElement.query(By.css('img')).nativeElement.src).toEqual(
+      defaultTeam.logoUrl,
+    );
+  });
 });
+
+const defaultTeam: Team = {
+  name: 'Team A',
+  logoUrl: 'https://somelogo.example.com/logo.png',
+};
+
+async function setup() {
+  await TestBed.configureTestingModule({
+    imports: [TeamListEntry],
+    providers: [provideTranslateService()],
+  }).compileComponents();
+
+  const fixture = TestBed.createComponent(TeamListEntry, {
+    bindings: [inputBinding('team', signal<Team>(defaultTeam))],
+  });
+  const component = fixture.componentInstance;
+  fixture.detectChanges();
+
+  return {
+    component,
+    fixture,
+  };
+}

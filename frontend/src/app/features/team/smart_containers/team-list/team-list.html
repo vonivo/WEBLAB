@@ -10,7 +10,11 @@
         <button matFab (click)="openCreateTeamDialog()"><mat-icon>add</mat-icon></button>
       </div>
     } @else if (teamsResource.isLoading()) {
-      loading
+      @for (i of [0, 1, 2, 3]; track i) {
+        <div class="h-18 mb-4">
+          <app-skeleton-loader></app-skeleton-loader>
+        </div>
+      }
     } @else if (teamsResource.error()) {
       error
     }

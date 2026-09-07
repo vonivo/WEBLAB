@@ -35,7 +35,7 @@
     </mat-card-content>
     <mat-card-actions>
       <div class="w-full flex justify-end">
-        <button type="submit" matButton="filled">
+        <button [attr.data-testid]="'SUBMIT_ADD_TEAM'" type="submit" matButton="filled">
           {{ 'generic.submit' | translate }}
         </button>
       </div>
