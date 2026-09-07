@@ -9,7 +9,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { Team } from '../../team.types';
+import { CreatedTeam } from '../../team.types';
 import { form, FormField, required } from '@angular/forms/signals';
 
 @Component({
@@ -32,12 +32,12 @@ import { form, FormField, required } from '@angular/forms/signals';
   templateUrl: './add-team.html',
 })
 export class AddTeam {
-  addTeamModel = signal<Team>({
+  addTeamModel = signal<CreatedTeam>({
     name: '',
     logoUrl: '',
   });
 
-  onFormSubmit = output<Team>();
+  onFormSubmit = output<CreatedTeam>();
 
   addTeamForm = form(this.addTeamModel, (schemaPath) => {
     required(schemaPath.name, { message: 'generic.required' });

@@ -1,0 +1,5 @@
+<app-team-detail-edit
+  [team]="team.value()!"
+  [isLoading]="team.isLoading()"
+  (teamSaved)="handleTeamSaved($event)"
+></app-team-detail-edit>

@@ -4,6 +4,7 @@ import { TeamListEntry } from './team-list-entry';
 import { provideTranslateService } from '@ngx-translate/core';
 import { inputBinding, signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 describe('TeamListEntry', () => {
   it('should create', async () => {
@@ -25,14 +26,16 @@ describe('TeamListEntry', () => {
 });
 
 const defaultTeam: Team = {
+  _id: 'axe234a',
   name: 'Team A',
   logoUrl: 'https://somelogo.example.com/logo.png',
+  players: [],
 };
 
 async function setup() {
   await TestBed.configureTestingModule({
     imports: [TeamListEntry],
-    providers: [provideTranslateService()],
+    providers: [provideTranslateService(), { provide: ActivatedRoute, useValue: {} }],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(TeamListEntry, {

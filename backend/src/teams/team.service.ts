@@ -1,8 +1,8 @@
 import { Model } from "mongoose";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Team } from "././team.schema.js";
-import { TeamDto } from "./team.dto.js";
+import { TeamDto, UpdateTeamDto } from "./team.dto.js";
 
 @Injectable()
 export class TeamService {
@@ -15,5 +15,29 @@ export class TeamService {
 
   async findAll(): Promise<Team[]> {
     return this.teamModel.find().exec();
+  }
+
+  async findById(teamId: string): Promise<Team | null> {
+    return this.teamModel.findById(teamId);
+  }
+
+  async updateTeam(teamId: string, team: UpdateTeamDto) {
+    const updatedTeam = await this.teamModel
+      .findByIdAndUpdate(
+        teamId,
+        { $set: team },
+        { returnDocument: "after", runValidators: true },
+      )
+      .lean();
+
+    if (!updatedTeam) {
+      throw new NotFoundException(`Team with ID ${teamId} not found`);
+    }
+
+    return updatedTeam;
+  }
+
+  async delete(teamId: string) {
+    return this.teamModel.deleteOne({ _id: teamId });
   }
 }

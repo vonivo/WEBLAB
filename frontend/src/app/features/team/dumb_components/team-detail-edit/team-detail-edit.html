@@ -1,0 +1,177 @@
+@if (isLoading()) {
+  <ng-container *ngTemplateOutlet="skeleton"></ng-container>
+} @else if (team()) {
+  <mat-card>
+    <form (ngSubmit)="save($event)">
+      <div class="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
+        <div class="w-full sm:w-auto flex items-center justify-center">
+          <div class="h-24 w-24 rounded-xl">
+            @if (editTeamModel().logoUrl) {
+              <img
+                [src]="editTeamModel().logoUrl"
+                [alt]="editTeamModel().name + ' logo'"
+                class="h-full w-full object-contain"
+              />
+            } @else {
+              <mat-icon class="h-24! w-24! text-8xl! text-slate-400">groups</mat-icon>
+            }
+          </div>
+        </div>
+
+        <div class="flex-1">
+          <div class="grid gap-4 sm:grid-cols-2">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'types.team.fields.name' | translate }}</mat-label>
+              <input
+                matInput
+                [formField]="editTeamForm.name"
+                [attr.data-testid]="'EDIT_TEAM_NAME_INPUT'"
+              />
+              <mat-error>
+                @for (error of editTeamForm.name().errors(); track error) {
+                  <span>{{ error.message | translate }}</span>
+                }
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'types.team.fields.logoUrl' | translate }}</mat-label>
+              <input
+                matInput
+                [formField]="editTeamForm.logoUrl"
+                [attr.data-testid]="'EDIT_TEAM_LOGO_INPUT'"
+              />
+              <mat-error>
+                @for (error of editTeamForm.logoUrl().errors(); track error) {
+                  <span>{{ error.message | translate }}</span>
+                }
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <mat-divider />
+      <!-- Players -->
+      <div class="p-6">
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-semibold">{{ 'types.team.fields.players' | translate }}</h2>
+            <p class="text-sm">
+              {{ editTeamModel().players.length }}
+              {{ editTeamModel().players.length === 1 ? 'player' : 'players' }}
+            </p>
+          </div>
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="addPlayer()"
+            [attr.data-testid]="'BTN_ADD_PLAYER'"
+          >
+            <mat-icon>person_add</mat-icon>
+            {{ 'types.team.actions.addPlayer' | translate }}
+          </button>
+        </div>
+        <div class="divide-y rounded-lg border">
+          @for (player of editTeamForm.players; track i; let i = $index) {
+            <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-start">
+              <mat-form-field appearance="outline" class="w-full sm:flex-1">
+                <mat-label>First name</mat-label>
+                <input
+                  matInput
+                  [formField]="player.firstname"
+                  [attr.data-testid]="`EDIT_TEAM_PLAYER${i}_FIRSTNAME_INPUT`"
+                />
+                <mat-error>
+                  @for (error of player.firstname().errors(); track error) {
+                    <span>{{ error.message | translate }}</span>
+                  }
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="w-full sm:flex-1">
+                <mat-label>Last name</mat-label>
+                <input
+                  matInput
+                  [formField]="player.lastname"
+                  [attr.data-testid]="`EDIT_TEAM_PLAYER${i}_LASTNAME_INPUT`"
+                />
+                <mat-error>
+                  @for (error of player.lastname().errors(); track error) {
+                    <span>{{ error.message | translate }}</span>
+                  }
+                </mat-error>
+              </mat-form-field>
+              <button
+                mat-icon-button
+                type="button"
+                color="warn"
+                aria-label="Remove player"
+                class="mt-1"
+                (click)="removePlayer(i)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          } @empty {
+            <div class="px-6 py-12 text-center">
+              <mat-icon class="!h-10 !w-10 !text-[40px] text-slate-400"> group</mat-icon>
+              <p class="mt-3 font-medium text-slate-700">No players</p>
+              <p class="mt-1 text-sm text-slate-500">Add a player to this team.</p>
+            </div>
+          }
+        </div>
+      </div>
+
+      @if (this.editTeamForm().touched()) {
+        <mat-divider />
+        <div class="flex justify-end gap-3 px-6 py-4">
+          <button mat-button type="button" (click)="cancel()">
+            {{ 'generic.cancel' | translate }}
+          </button>
+          <button mat-flat-button color="primary" type="submit">
+            <mat-icon>save</mat-icon>
+            {{ 'generic.save' | translate }}
+          </button>
+        </div>
+      }
+    </form>
+  </mat-card>
+}
+
+<ng-template #skeleton>
+  <div>
+    <div class="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
+      <div class="w-full sm:w-auto flex items-center justify-center">
+        <div class="h-24 w-24 rounded-xl">
+          <app-skeleton-loader></app-skeleton-loader>
+        </div>
+      </div>
+
+      <div class="flex-1">
+        <div class="grid gap-4 sm:grid-cols-2">
+          @for (i of [0, 1]; track i) {
+            <div class="block h-14 w-full rounded-md">
+              <app-skeleton-loader></app-skeleton-loader>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="p-6">
+      <div class="mb-5 flex items-center justify-between">
+        <div class="space-y-2">
+          <app-skeleton-loader class="block h-6 w-20 rounded"></app-skeleton-loader>
+
+          <app-skeleton-loader class="block h-4 w-14 rounded"></app-skeleton-loader>
+        </div>
+      </div>
+      <div class="p-4">
+        <div class="flex items-center gap-3">
+          <app-skeleton-loader class="block h-14 flex-1 rounded-md"></app-skeleton-loader>
+
+          <app-skeleton-loader class="block h-14 flex-1 rounded-md"></app-skeleton-loader>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

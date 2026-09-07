@@ -15,3 +15,18 @@
   - Setup von CI/CD-Pipeline für Backend, Frontend, Doc.
   - Konfiguration von Pree-Commit-Hooks für beide Projekte
   - Weiterentwicklung der Navigation inklusive Side-Nav-Bar für mobile Geräte
+
+## 04.09.2026
+- **Zeitaufwand: ca. 4h**
+- **Tätigkeit:**
+  - Konfiguration und Implementation der Mongo-dB Integration
+  - Implementation der Team-List-View und der Add-Team-Komponente.
+  - Technischer Durchstich von Add-Team Komponente bis zu MongoDB.
+
+## 07.09.2026
+- **Zeitaufwand: ca. 8h**
+- **Tätigkeit:**
+  - Testing der Team-View-Komponente
+  - Implementation der Team-Details-Page.
+  - Hinzufügen von Players zu einem Team
+  - Implementation der Remove-Team-Funktionalität

@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { DialogAddTeam, TeamList } from './team-list';
+import { TeamList } from './team-list';
 import { TeamApi } from '../../services/api/team.api';
 import { provideTranslateService } from '@ngx-translate/core';
 import { Team } from '../../team.types';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('TeamList', () => {
   it('should create', async () => {
@@ -27,61 +28,32 @@ describe('TeamList', () => {
     expect(skeletonLoaders.length).toBeGreaterThan(1);
   });
 
-  it('should handle if team was created', async () => {
+  it('should handle team deletion', async () => {
     const { component, fixture, teamApiMock } = await setup();
     vi.spyOn(component.teamsResource, 'reload');
 
-    const addTeamComponent = fixture.debugElement.query(By.css('app-add-team'));
-    const addedTeam: Team = { name: 'createdTeam', logoUrl: 'anyLogo' };
-    addTeamComponent.triggerEventHandler('onFormSubmit', addedTeam);
+    const teamEntries = fixture.debugElement.queryAll(By.css('app-team-list-entry'));
+    const teamToDelete = defaultProps.teams[0];
+    teamEntries[0].triggerEventHandler('onTeamDeleted', teamToDelete);
 
-    expect(teamApiMock.createTeam).toHaveBeenCalled();
+    expect(teamApiMock.delete).toHaveBeenCalledWith(teamToDelete._id);
     expect(component.teamsResource.reload).toHaveBeenCalled();
-  });
-
-  it('should open the create team dialog', async () => {
-    const { component, dialog } = await setup();
-    const dialogRef = { afterClosed: vi.fn().mockReturnValue(of(undefined)) };
-
-    dialog.open.mockReturnValue(dialogRef);
-    component.openCreateTeamDialog();
-
-    expect(dialog.open).toHaveBeenCalledWith(DialogAddTeam);
-  });
-
-  it('should create the team when the dialog returns a team', async () => {
-    const { component, dialog } = await setup();
-    const team = { name: 'Test Team', logoUrl: '' } as Team;
-    const dialogRef = { afterClosed: vi.fn().mockReturnValue(of(team)) };
-    const createTeamSpy = vi.spyOn(component, 'createTeam');
-
-    dialog.open.mockReturnValue(dialogRef);
-    component.openCreateTeamDialog();
-
-    expect(createTeamSpy).toHaveBeenCalledWith(team);
-  });
-
-  it('should not create a team when the dialog is closed without a result', async () => {
-    const { component, dialog } = await setup();
-    const dialogRef = { afterClosed: vi.fn().mockReturnValue(of(undefined)) };
-    dialog.open.mockReturnValue(dialogRef);
-    const createTeamSpy = vi.spyOn(component, 'createTeam');
-
-    component.openCreateTeamDialog();
-
-    expect(createTeamSpy).not.toHaveBeenCalled();
   });
 });
 
 const defaultProps: Props = {
   teams: [
     {
+      _id: 'axe234a',
       name: 'Team A',
       logoUrl: 'https://somelogo.example.com/logo.png',
+      players: [],
     },
     {
+      _id: 'bce35a',
       name: 'Team B',
       logoUrl: 'https://somelogo.example.com/logo.png',
+      players: [],
     },
   ],
   isLoading: false,
@@ -91,18 +63,18 @@ const defaultProps: Props = {
 async function setup(props: Partial<Props> = {}) {
   const mergedProps = { ...defaultProps, ...props };
   const teamApiMock = {
-    getTeams: vi.fn(),
-    createTeam: vi.fn(),
-    reload: vi.fn(),
+    getTeamsResource: vi.fn(),
+    delete: vi.fn(),
   };
-  teamApiMock.createTeam.mockReturnValue(of({}));
 
-  teamApiMock.getTeams.mockReturnValue({
+  teamApiMock.getTeamsResource.mockReturnValue({
     value: () => mergedProps.teams,
     isLoading: () => mergedProps.isLoading,
     error: () => mergedProps.isError,
     reload: () => mergedProps.teams,
   });
+
+  teamApiMock.delete.mockReturnValue(of({}));
 
   const dialog = {
     open: vi.fn(),
@@ -114,6 +86,7 @@ async function setup(props: Partial<Props> = {}) {
       provideTranslateService(),
       { provide: TeamApi, useValue: teamApiMock },
       { provide: MatDialog, useValue: dialog },
+      { provide: ActivatedRoute, useValue: {} },
     ],
   }).compileComponents();
 

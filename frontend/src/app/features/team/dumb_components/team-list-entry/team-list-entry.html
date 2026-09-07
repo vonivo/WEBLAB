@@ -1,14 +1,44 @@
-<mat-card>
-  <mat-card-header>
-    <div mat-card-avatar>
+<mat-card class="transition-all duration-200">
+  <mat-card-header class="items-center px-5! py-4!">
+    <!-- Team Logo -->
+    <div
+      mat-card-avatar
+      class="flex items-center justify-center w-12 h-12 rounded-xl! overflow-hidden"
+    >
       <img
         [ngSrc]="team().logoUrl"
-        width="32"
-        height="32"
+        width="48"
+        height="48"
         [alt]="`Logo of team ${team().name}`"
-        class="w-[40px]"
+        class="w-full h-full object-contain"
       />
     </div>
-    <mat-card-title>{{ team().name }}</mat-card-title>
+
+    <!-- Team Info -->
+    <div class="ml-3 min-w-0">
+      <mat-card-title class="text-base font-semibold">
+        {{ team().name }}
+      </mat-card-title>
+
+      <p class="mt-1 text-sm text-gray-500 text-ellipsis">
+        {{ getPlayerList(team()) }}
+      </p>
+    </div>
+
+    <!-- Actions -->
+    <div class="ml-auto flex items-center gap-1">
+      <a [routerLink]="team()._id" mat-icon-button type="button" aria-label="Edit team">
+        <mat-icon>edit</mat-icon>
+      </a>
+
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Delete team"
+        (click)="handleDeleteButtonClick(team())"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </mat-card-header>
 </mat-card>

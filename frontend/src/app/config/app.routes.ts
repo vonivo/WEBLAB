@@ -1,13 +1,26 @@
 import { Routes } from '@angular/router';
 import { Login } from '../features/user/smart_containers/login/login';
 import { PATHS } from './paths.config';
-import { TeamList } from '../features/team/smart_containers/team-list/team-list';
+import { TeamOverview } from '../features/team/pages/team-overview/team-overview';
+import { TeamDetail } from '../features/team/pages/team-detail/team-detail';
 
 const { HOME, LOGIN, TEAMS } = PATHS;
 
 export const routes: Routes = [
   { path: HOME.path, component: Login },
-  { path: TEAMS.path, component: TeamList },
+  {
+    path: TEAMS.path,
+    children: [
+      {
+        path: '',
+        component: TeamOverview,
+      },
+      {
+        path: ':teamId',
+        component: TeamDetail,
+      },
+    ],
+  },
   {
     path: LOGIN.path,
     component: Login,

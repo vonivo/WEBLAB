@@ -1,17 +1,32 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
-import { Team } from '../../team.types';
+import { Team, CreatedTeam } from '../../team.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TeamApi {
-  http = inject(HttpClient);
-  getTeams() {
-    return httpResource<Team[]>(() => `/api/teams`);
+  private readonly teamsResource = httpResource<Team[]>(() => '/api/teams');
+
+  private readonly http = inject(HttpClient);
+
+  getTeamsResource() {
+    return this.teamsResource;
   }
 
-  createTeam(team: Team) {
-    return this.http.post<Team>('/api/teams', team);
+  getTeamById(teamId: Signal<string>) {
+    return httpResource<Team>(() => `/api/teams/${teamId()}`);
+  }
+
+  createTeam(team: CreatedTeam) {
+    return this.http.post<CreatedTeam>('/api/teams', team);
+  }
+
+  updateTeam(team: Team) {
+    return this.http.put<Team>(`/api/teams/${team._id}`, team);
+  }
+
+  delete(id: string) {
+    return this.http.delete<Team>(`/api/teams/${id}`);
   }
 }

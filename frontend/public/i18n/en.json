@@ -3,7 +3,9 @@
     "username": "Username",
     "password": "Password",
     "submit": "Submit",
-    "required": "This filed is required"
+    "required": "This filed is required",
+    "save": "Save",
+    "cancel": "Cancel"
   },
   "navigation": {
     "home": "Home",
@@ -15,11 +17,13 @@
     "team": {
       "actions": {
         "addTeam": "Add Team",
-        "addTeamInfo": "You can add players of the detail view"
+        "addTeamInfo": "You can add players of the detail view",
+        "addPlayer": "Add player"
       },
       "fields": {
         "name": "Name",
-        "logoUrl": "Logo URL"
+        "logoUrl": "Logo URL",
+        "players": "Players"
       }
     }
   }
