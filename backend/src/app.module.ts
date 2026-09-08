@@ -2,18 +2,30 @@ import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller.js";
 import { TeamsModule } from "./teams/teams.module.js";
 import { MongooseModule } from "@nestjs/mongoose";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ConfigModule, ConfigService, ConfigType } from "@nestjs/config";
+import { AuthenticationModule } from "./authentication/authentication.moudule.js";
+import { CacheModule } from "@nestjs/cache-manager";
+import webauthnConfig from "./config/webauthn.config.js";
+import mongoConfig from "./config/mongo.config.js";
+import { envValidationSchema } from "./config/env.validation.js";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [webauthnConfig, mongoConfig],
+      validationSchema: envValidationSchema,
+    }),
     TeamsModule,
+    AuthenticationModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    CacheModule.register(),
     MongooseModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        uri: config.get<string>("MONGODB_URI"),
-        user: config.get<string>("MONGODB_USER"),
-        pass: config.get<string>("MONGODB_PASS"),
+      inject: [mongoConfig.KEY],
+      useFactory: (config: ConfigType<typeof mongoConfig>) => ({
+        uri: config.uri,
+        user: config.user,
+        pass: config.pass,
       }),
     }),
   ],
