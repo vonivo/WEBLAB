@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { NavigationItem } from '../navigation/navigation.type';
+import { NavigationItem, NavigationLinkAccessRole } from '../navigation/navigation.type';
 import { MatButton } from '@angular/material/button';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -11,7 +11,10 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './side-nav.html',
 })
 export class SideNav {
+  readonly NavigationLinkAccessRole = NavigationLinkAccessRole;
+
   navigationLinks = input.required<NavigationItem[]>();
+  navigationAccessRole = input.required<NavigationLinkAccessRole>();
 
   linkItemClicked = output<NavigationItem>();
 }

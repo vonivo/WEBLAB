@@ -1,7 +1,0 @@
-cd ./backend
-npm run format
-npm test --watch=false
-
-cd ../frontend
-npm run prettier
-npm run test:ci

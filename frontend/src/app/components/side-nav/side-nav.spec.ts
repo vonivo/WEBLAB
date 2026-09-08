@@ -3,31 +3,23 @@ import { SideNav } from './side-nav';
 import { provideTranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { inputBinding, signal } from '@angular/core';
-import { NavigationItem } from '../navigation/navigation.type';
+import { NavigationItem, NavigationLinkAccessRole } from '../navigation/navigation.type';
 import { By } from '@angular/platform-browser';
 
 describe('SideNav', () => {
-  let component: SideNav;
-  let fixture: ComponentFixture<SideNav>;
 
-  beforeEach(async () => {
-    const { createdComponent, createdFixture } = await setup();
-
-    component = createdComponent;
-    fixture = createdFixture;
-  });
-
-  it('should create', () => {
+  it('should create', async () => {
+    const {component} = await setup();
     expect(component).toBeTruthy();
   });
 
-  it('should render Navigation Items', () => {
-    expect(fixture.nativeElement.querySelectorAll('[data-testid^="SIDE_NAV"]').length).toBe(
-      defaultProps.navigationLinks.length,
-    );
+  it('should render Navigation Items', async () => {
+    const {fixture} = await setup();
+    expect(fixture.nativeElement.querySelectorAll('[data-testid^="SIDE_NAV"]').length).toBe(2);
   });
 
-  it('should bind routerLink to link path', () => {
+  it('should bind routerLink to link path', async () => {
+    const { fixture } = await setup();
     const aTags = fixture.debugElement.queryAll(By.css('[data-testid^="SIDE_NAV"]'));
     aTags.forEach((aTag, index) => {
       expect(aTag.nativeElement.getAttribute('href')).toBe(
@@ -36,7 +28,8 @@ describe('SideNav', () => {
     });
   });
 
-  it('should emit if navigation link clicked', () => {
+  it('should emit if navigation link clicked', async () => {
+    const { component, fixture } = await setup();
     const emitSpy = vi.spyOn(component.linkItemClicked, 'emit');
     const anchor = fixture.debugElement.query(
       By.css(`[data-testid^="SIDE_NAV_ITEM_${defaultProps.navigationLinks[0].path}"]`),
@@ -46,32 +39,101 @@ describe('SideNav', () => {
     fixture.detectChanges();
     expect(emitSpy).toHaveBeenCalledTimes(1);
   });
+
+  it('should render public navigation items when anonymous', async () => {
+    const { fixture } = await setup();
+    const publicAnchor = fixture.debugElement.query(
+      By.css(`[data-testid="SIDE_NAV_ITEM_${defaultProps.navigationLinks[0].path}"]`),
+    );
+    expect(publicAnchor).toBeTruthy()
+  });
+
+  it('should render public navigation items when logged in', async () => {
+    const { fixture } = await setup({currentAccessRole: NavigationLinkAccessRole.LOGGED_IN});
+    const publicAnchor = fixture.debugElement.query(
+      By.css(`[data-testid="SIDE_NAV_ITEM_${defaultProps.navigationLinks[0].path}"]`),
+    );
+    expect(publicAnchor).toBeTruthy();
+  });
+
+  it('should render logged_in navigation items when logged in', async () => {
+    const { fixture } = await setup({
+      currentAccessRole: NavigationLinkAccessRole.LOGGED_IN,
+    });
+    const publicAnchor = fixture.debugElement.query(
+      By.css(`[data-testid="SIDE_NAV_ITEM_${defaultProps.navigationLinks[2].path}"]`),
+    );
+    expect(publicAnchor).toBeTruthy();
+  });
+
+  it('should not render anonymous navigation items when logged in', async () => {
+    const { fixture } = await setup({
+      currentAccessRole: NavigationLinkAccessRole.LOGGED_IN,
+    });
+    const publicAnchor = fixture.debugElement.query(
+      By.css(`[data-testid="SIDE_NAV_ITEM_${defaultProps.navigationLinks[1].path}"]`),
+    );
+    expect(publicAnchor).toBeFalsy();
+  });
+
+  it('should not render logged_in navigation items when anonymous', async () => {
+    const { fixture } = await setup({
+      currentAccessRole: NavigationLinkAccessRole.ANONYMOUS,
+    });
+    const publicAnchor = fixture.debugElement.query(
+      By.css(`[data-testid="SIDE_NAV_ITEM_${defaultProps.navigationLinks[2].path}"]`),
+    );
+    expect(publicAnchor).toBeFalsy();
+  });
+
+  it('should render anonymous navigation items when anonymous', async () => {
+    const { fixture } = await setup({
+      currentAccessRole: NavigationLinkAccessRole.ANONYMOUS,
+    });
+    const publicAnchor = fixture.debugElement.query(
+      By.css(`[data-testid="SIDE_NAV_ITEM_${defaultProps.navigationLinks[1].path}"]`),
+    );
+    expect(publicAnchor).toBeTruthy();
+  });
 });
 
-const defaultProps = {
+const defaultProps: Props = {
+  currentAccessRole: NavigationLinkAccessRole.ANONYMOUS,
   navigationLinks: [
-    { path: '/home', label: 'Home' },
-    { path: '/login', label: 'Login' },
+    { path: '/home', label: 'Home', accessRole: NavigationLinkAccessRole.PUBLIC },
+    { path: '/login', label: 'Login', accessRole: NavigationLinkAccessRole.ANONYMOUS },
+    { path: '/teams', label: 'Teams', accessRole: NavigationLinkAccessRole.LOGGED_IN },
   ],
 };
 
-async function setup() {
+async function setup(props: Partial<Props>= {}) {
+  const mergedProps = {...defaultProps, ...props};
+
   await TestBed.configureTestingModule({
     imports: [SideNav],
     providers: [provideTranslateService(), { provide: ActivatedRoute, useValue: {} }],
   }).compileComponents();
 
-  const createdFixture = TestBed.createComponent(SideNav, {
+  const fixture = TestBed.createComponent(SideNav, {
     bindings: [
-      inputBinding('navigationLinks', signal<NavigationItem[]>(defaultProps.navigationLinks)),
+      inputBinding('navigationLinks', signal<NavigationItem[]>(mergedProps.navigationLinks)),
+      inputBinding(
+        'navigationAccessRole',
+        signal<NavigationLinkAccessRole>(mergedProps.currentAccessRole),
+      ),
     ],
   });
 
-  const createdComponent = createdFixture.componentInstance;
-  createdFixture.detectChanges();
+  const component = fixture.componentInstance;
+  fixture.detectChanges();
 
   return {
-    createdFixture,
-    createdComponent,
+    fixture,
+    component,
   };
+}
+
+interface Props {
+  currentAccessRole: NavigationLinkAccessRole;
+  navigationLinks: NavigationItem[];
 }

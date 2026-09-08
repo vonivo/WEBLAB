@@ -1,15 +1,17 @@
 <nav class="flex flex-col gap-1 p-3">
   @for (linkItem of navigationLinks(); track linkItem.path) {
-    <a
-      mat-button
-      (click)="linkItemClicked.emit(linkItem)"
-      [routerLink]="linkItem.path"
-      routerLinkActive="bg-primary/10! font-semibold!"
-      [routerLinkActiveOptions]="{ exact: linkItem.path === '/' }"
-      class="justify-start!"
-      [attr.data-testid]="`SIDE_NAV_ITEM_${linkItem.path}`"
-    >
-      {{ linkItem.label | translate }}
-    </a>
+    @if (linkItem.accessRole === NavigationLinkAccessRole.PUBLIC || linkItem.accessRole === navigationAccessRole()) {
+      <a
+        mat-button
+        (click)="linkItemClicked.emit(linkItem)"
+        [routerLink]="linkItem.path"
+        routerLinkActive="bg-primary/10! font-semibold!"
+        [routerLinkActiveOptions]="{ exact: linkItem.path === '/' }"
+        class="justify-start!"
+        [attr.data-testid]="`SIDE_NAV_ITEM_${linkItem.path}`"
+      >
+        {{ linkItem.label | translate }}
+      </a>
+    }
   }
 </nav>

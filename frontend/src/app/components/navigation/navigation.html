@@ -9,15 +9,20 @@
     <!-- Desktop links -->
     <nav class="hidden md:flex items-center gap-1">
       @for (linkItem of navigationLinks(); track linkItem.path) {
-        <a
-          [routerLink]="linkItem.path"
-          routerLinkActive="!text-primary !font-semibold"
-          [routerLinkActiveOptions]="{ exact: linkItem.path === '/' }"
-          mat-button
-          [attr.data-testid]="`MAIN_NAV_ITEM_${linkItem.path}`"
-        >
-          {{ linkItem.label | translate }}
-        </a>
+        @if (
+          linkItem.accessRole === NavigationLinkAccessRole.PUBLIC ||
+          linkItem.accessRole === navigationAccessRole()
+        ) {
+          <a
+            [routerLink]="linkItem.path"
+            routerLinkActive="!text-primary !font-semibold"
+            [routerLinkActiveOptions]="{ exact: linkItem.path === '/' }"
+            mat-button
+            [attr.data-testid]="`MAIN_NAV_ITEM_${linkItem.path}`"
+          >
+            {{ linkItem.label | translate }}
+          </a>
+        }
       }
     </nav>
 

@@ -7,11 +7,14 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from "@nestjs/common";
 import { TeamService } from "./team.service.js";
 import type { TeamDto, UpdateTeamDto } from "./team.dto.js";
+import { AuthGuard } from "../authentication/auth.guard.js";
 
 @Controller("teams")
+@UseGuards(AuthGuard)
 export class TeamController {
   constructor(private teamService: TeamService) {}
 

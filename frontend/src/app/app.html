@@ -2,6 +2,7 @@
   (burgerMenuClicked)="drawer.toggle()"
   [navigationSideNavOpen]="navigationSideNavOpen()"
   [navigationLinks]="getAvailableLinks()"
+  [navigationAccessRole]="navigationAccessRole()"
 ></app-navigation>
 
 <mat-drawer-container autosize>
@@ -9,6 +10,7 @@
     <app-side-nav
       [navigationLinks]="getAvailableLinks()"
       (linkItemClicked)="drawer.toggle()"
+      [navigationAccessRole]="navigationAccessRole()"
     ></app-side-nav>
   </mat-drawer>
   <main
