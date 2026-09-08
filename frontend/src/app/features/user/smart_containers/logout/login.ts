@@ -5,8 +5,8 @@ import { WebauthnService } from '../../services/webautn.service';
 @Component({
   imports: [LoginForm],
   selector: 'app-login',
-  styleUrl: './login.css',
-  templateUrl: './login.html',
+  styleUrl: './logout.css',
+  templateUrl: './logout.html',
 })
 export class Login {
   private readonly webauthnService = inject(WebauthnService);

@@ -3,6 +3,8 @@
     "username": "Username",
     "password": "Password",
     "submit": "Submit",
+    "register": "Register",
+    "login": "Login",
     "required": "This filed is required",
     "save": "Save",
     "cancel": "Cancel"
@@ -11,7 +13,8 @@
     "home": "Home",
     "login": "Login",
     "teams": "Teams",
-    "games": "Games"
+    "games": "Games",
+    "logout": "Logout"
   },
   "types": {
     "team": {

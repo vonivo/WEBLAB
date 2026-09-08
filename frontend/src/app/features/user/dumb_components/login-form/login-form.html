@@ -9,15 +9,28 @@
     <form class="space-y-5">
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>{{ 'generic.username' | translate }}</mat-label>
-        <input matInput [placeholder]="'generic.username' | translate" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>{{ 'generic.password' | translate }}</mat-label>
-        <input matInput type="password" [placeholder]="'generic.password' | translate" />
+        <input
+          matInput
+          [placeholder]="'generic.username' | translate"
+          [formField]="loginForm.username"
+        />
       </mat-form-field>
 
-      <button type="submit" matButton="filled" class="h-12 w-full rounded-lg">
-        {{ 'generic.submit' | translate }}
+      <button
+        type="submit"
+        matButton="filled"
+        class="h-12 w-full rounded-lg"
+        (click)="handleLoginClick($event)"
+      >
+        {{ 'generic.login' | translate }}
+      </button>
+      <button
+        type="submit"
+        matButton="outlined"
+        class="h-12 w-full rounded-lg"
+        (click)="handleRegistrationClick($event)"
+      >
+        {{ 'generic.register' | translate }}
       </button>
     </form>
   </div>
