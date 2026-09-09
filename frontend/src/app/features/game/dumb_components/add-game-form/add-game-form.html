@@ -1,0 +1,149 @@
+<form class="mx-auto max-w-3xl space-y-8 p-6" (ngSubmit)="onSubmit($event)">
+  <header class="space-y-1">
+    <h2 class="text-2xl font-semibold">{{ 'types.game.actions.createGame' | translate }}</h2>
+    <p class="text-sm">{{ 'types.game.actions.createGameInfo' | translate }}</p>
+  </header>
+
+  <section class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ 'types.game.fields.homeTeam' | translate }}</mat-label>
+      <mat-select
+        [formField]="createGameForm.homeTeam"
+        (selectionChange)="onHomeTeamSelected($event)"
+        [attr.data-testid]="'ADD_GAME_SELECT_HOME_TEAM'"
+      >
+        @for (team of homeTeamOptions(); track team._id) {
+          <mat-option [value]="team" [attr.data-testid]="`ADD_GAME_OPTION_HOME_${team._id}`">
+            {{ team.name }}
+          </mat-option>
+        }
+      </mat-select>
+      <mat-error>
+        @for (error of createGameForm.homeTeam().errors(); track error) {
+          <span>{{ error.message | translate }}</span>
+        }
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ 'types.game.fields.awayTeam' | translate }}</mat-label>
+      <mat-select
+        [formField]="createGameForm.awayTeam"
+        (selectionChange)="onAwayTeamSelected($event)"
+        [attr.data-testid]="'ADD_GAME_SELECT_AWAY_TEAM'"
+      >
+        @for (team of awayTeamOptions(); track team._id) {
+          <mat-option [value]="team" [attr.data-testid]="`ADD_GAME_OPTION_AWAY_${team._id}`">
+            {{ team.name }}
+          </mat-option>
+        }
+      </mat-select>
+      <mat-error>
+        @for (error of createGameForm.awayTeam().errors(); track error) {
+          <span>{{ error.message | translate }}</span>
+        }
+      </mat-error>
+    </mat-form-field>
+  </section>
+
+  <mat-form-field appearance="outline" class="w-full sm:w-64">
+    <mat-label>{{ 'types.game.fields.startDate' | translate }}</mat-label>
+    <input matInput [matDatepicker]="picker" [formField]="createGameForm.startDate" />
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-error>
+      @for (error of createGameForm.startDate().errors(); track error) {
+        <span>{{ error.message | translate }}</span>
+      }
+    </mat-error>
+  </mat-form-field>
+
+  <mat-divider></mat-divider>
+
+  <section class="grid grid-cols-1 gap-8 sm:grid-cols-2">
+    <div>
+      <h3 class="mb-2 flex items-center gap-2 text-sm font-semibold text-emerald-700">
+        <span class="h-2 w-2 rounded-full bg-emerald-600"></span>
+        {{ createGameModel().homeTeam?.name ?? ('types.game.fields.homeTeam' | translate) }}
+        {{ 'types.game.fields.lineup' | translate }}
+      </h3>
+
+      @if (!createGameModel().homeTeam) {
+        <div class="text-sm text-slate-400">
+          {{ 'types.game.actions.selectTeamToPickPlayer' | translate }}
+        </div>
+      }
+
+      @if (createGameModel().homeTeam) {
+        <div class="max-h-64 space-y-1 overflow-y-auto rounded-md border p-3">
+          @for (player of createGameModel().homeTeam?.players; track player._id) {
+            <mat-checkbox
+              class="block"
+              [formField]="createGameForm.lineUpHomeSelection[$index].selected"
+            >
+              {{ player.firstname }} {{ player.lastname }}
+            </mat-checkbox>
+          }
+
+          @if (
+            createGameForm.lineUpHomeSelection().errors() &&
+            createGameForm.lineUpHomeSelection().errors().length > 0
+          ) {
+            <mat-error>
+              @for (error of createGameForm.lineUpHomeSelection().errors(); track error) {
+                <span>{{ error.message | translate }}</span>
+              }
+            </mat-error>
+          }
+        </div>
+      }
+    </div>
+
+    <div>
+      <h3 class="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
+        <span class="h-2 w-2 rounded-full bg-slate-600"></span>
+        {{ createGameModel().awayTeam?.name ?? ('types.game.fields.awayTeam' | translate) }}
+        {{ 'types.game.fields.lineup' | translate }}
+      </h3>
+
+      @if (!createGameModel().awayTeam) {
+        <div class="text-sm text-slate-400">
+          {{ 'types.game.actions.selectTeamToPickPlayer' | translate }}
+        </div>
+      }
+
+      @if (createGameModel().awayTeam) {
+        <div class="max-h-64 space-y-1 overflow-y-auto rounded-md border p-3">
+          @for (player of createGameModel().awayTeam?.players; track player._id) {
+            <mat-checkbox
+              class="block"
+              [formField]="createGameForm.lineUpAwaySelection[$index].selected"
+            >
+              {{ player.firstname }} {{ player.lastname }}
+            </mat-checkbox>
+          }
+          @if (
+            createGameForm.lineUpAwaySelection().errors() &&
+            createGameForm.lineUpAwaySelection().errors().length > 0
+          ) {
+            <mat-error>
+              @for (error of createGameForm.lineUpAwaySelection().errors(); track error) {
+                <span>{{ error.message | translate }}</span>
+              }
+            </mat-error>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <div class="flex justify-end gap-3 pt-2">
+    <button mat-stroked-button type="button" (click)="handleCancelClick()">
+      {{ 'generic.cancel' | translate }}
+    </button>
+    <button mat-flat-button color="primary" type="submit">
+      {{ 'generic.submit' | translate }}
+    </button>
+  </div>
+</form>

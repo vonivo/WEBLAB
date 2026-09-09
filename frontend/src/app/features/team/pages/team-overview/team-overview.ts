@@ -1,14 +1,15 @@
 import { Component, inject, model } from '@angular/core';
 import { TeamList } from '../../smart_containers/team-list/team-list';
 import { AddTeam } from '../../dumb_components/add-team/add-team';
-import { Team, CreatedTeam } from '../../team.types';
+import { Team, CreatedTeam } from '../../../../core/types/team.types';
 import { MatIcon } from '@angular/material/icon';
-import { TeamApi } from '../../services/api/team.api';
+import { TeamApi } from '../../../../core/services/team.api';
 import { MatFabButton } from '@angular/material/button';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [TeamList, AddTeam, MatIcon, MatFabButton],
+  imports: [TeamList, AddTeam, MatIcon, MatFabButton, TranslatePipe],
   selector: 'app-team-overview',
   styleUrl: './team-overview.css',
   templateUrl: './team-overview.html',

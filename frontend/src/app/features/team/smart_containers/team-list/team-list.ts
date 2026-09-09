@@ -1,8 +1,8 @@
 import { Component, inject, model } from '@angular/core';
-import { TeamApi } from '../../services/api/team.api';
+import { TeamApi } from '../../../../core/services/team.api';
 import { TeamListEntry } from '../../dumb_components/team-list-entry/team-list-entry';
 import { SkeletonLoader } from '../../../../components/skeleton/skeleton-loader';
-import { Team } from '../../team.types';
+import { Team } from '../../../../core/types/team.types';
 
 @Component({
   imports: [TeamListEntry, SkeletonLoader],

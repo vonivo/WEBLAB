@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Team } from '../../team.types';
+import { Team } from '../../../../core/types/team.types';
 import { TeamListEntry } from './team-list-entry';
 import { provideTranslateService } from '@ngx-translate/core';
 import { inputBinding, signal } from '@angular/core';

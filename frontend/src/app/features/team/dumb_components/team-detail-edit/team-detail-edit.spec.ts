@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TeamDetailEdit } from './team-detail-edit';
 import { provideTranslateService } from '@ngx-translate/core';
-import { Team } from '../../team.types';
+import { Team } from '../../../../core/types/team.types';
 import { inputBinding, signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -250,6 +250,7 @@ const defaultProps: Props = {
     logoUrl: 'logoUrl',
     players: [
       {
+        _id: 'playerId',
         firstname: 'Trick',
         lastname: 'Duck',
       },

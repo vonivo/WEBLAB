@@ -1,6 +1,6 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
-import { Team, CreatedTeam } from '../../team.types';
+import { Team, CreatedTeam } from '../types/team.types';
 
 @Injectable({
   providedIn: 'root',

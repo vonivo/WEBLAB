@@ -1,0 +1,7 @@
+@if (teams.value()) {
+  <app-add-game-form
+    [teams]="teams.value()!"
+    (onGameCreated)="handleGameCreated($event)"
+    (onCancelClick)="onCancelClick.emit()"
+  ></app-add-game-form>
+}

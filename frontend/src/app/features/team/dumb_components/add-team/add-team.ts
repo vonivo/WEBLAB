@@ -9,7 +9,7 @@ import {
 import { TranslatePipe } from '@ngx-translate/core';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
-import { CreatedTeam } from '../../team.types';
+import { CreatedTeam } from '../../../../core/types/team.types';
 import { form, FormField, required } from '@angular/forms/signals';
 
 @Component({

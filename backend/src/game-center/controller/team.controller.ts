@@ -9,9 +9,9 @@ import {
   Put,
   UseGuards,
 } from "@nestjs/common";
-import { TeamService } from "./team.service.js";
-import type { TeamDto, UpdateTeamDto } from "./team.dto.js";
-import { AuthGuard } from "../authentication/auth.guard.js";
+import { TeamService } from "../services/team.service.js";
+import type { TeamDto, UpdateTeamDto } from "../dto/team.dto.js";
+import { AuthGuard } from "../../authentication/auth.guard.js";
 
 @Controller("teams")
 @UseGuards(AuthGuard)

@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TeamDetail } from './team-detail';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { BehaviorSubject, of } from 'rxjs';
-import { Team } from '../../team.types';
-import { TeamApi } from '../../services/api/team.api';
+import { Team } from '../../../../core/types/team.types';
+import { TeamApi } from '../../../../core/services/team.api';
 import { provideTranslateService } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 

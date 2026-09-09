@@ -1,8 +1,8 @@
 import { Model } from "mongoose";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Team } from "././team.schema.js";
-import { TeamDto, UpdateTeamDto } from "./team.dto.js";
+import { Team, TeamDocument } from "../schema/team.schema.js";
+import { TeamDto, UpdateTeamDto } from "../dto/team.dto.js";
 
 @Injectable()
 export class TeamService {
@@ -17,7 +17,7 @@ export class TeamService {
     return this.teamModel.find().exec();
   }
 
-  async findById(teamId: string): Promise<Team | null> {
+  async findById(teamId: string): Promise<TeamDocument | null> {
     return this.teamModel.findById(teamId);
   }
 

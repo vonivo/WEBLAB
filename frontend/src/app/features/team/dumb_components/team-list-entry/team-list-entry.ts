@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Team } from '../../team.types';
+import { Team } from '../../../../core/types/team.types';
 import { MatCard, MatCardAvatar, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';

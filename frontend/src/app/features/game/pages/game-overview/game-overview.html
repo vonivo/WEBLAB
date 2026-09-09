@@ -1,0 +1,14 @@
+<div class="mb-12 flex justify-between">
+  <h1 class="text-4xl font-bold">{{ 'types.game.title' | translate }}</h1>
+  <div class="hidden md:block">
+    <button matFab (click)="handleAddGameClick()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div class="block md:hidden">
+    <a matFab [routerLink]="'create'">
+      <mat-icon>add</mat-icon>
+    </a>
+  </div>
+</div>
+<app-game-list></app-game-list>

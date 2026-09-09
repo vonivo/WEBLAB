@@ -1,6 +1,6 @@
 import { Component, effect, input, output, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { Player, Team } from '../../team.types';
+import { CreatePlayer, Player, Team } from '../../../../core/types/team.types';
 import { MatDivider } from '@angular/material/list';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { MatCard } from '@angular/material/card';
@@ -14,7 +14,7 @@ import { NgTemplateOutlet } from '@angular/common';
 interface EditTeamData {
   name: string;
   logoUrl: string;
-  players: Player[];
+  players: CreatePlayer[];
 }
 
 @Component({
@@ -84,7 +84,7 @@ export class TeamDetailEdit {
   }
 
   addPlayer(): void {
-    const players = [...this.editTeamModel().players];
+    const players: CreatePlayer[] = [...this.editTeamModel().players];
     players.push({
       firstname: '',
       lastname: '',

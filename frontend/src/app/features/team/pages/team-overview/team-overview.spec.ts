@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TeamOverview, DialogAddTeam } from './team-overview';
 import { MatDialog } from '@angular/material/dialog';
 import { of } from 'rxjs';
-import { CreatedTeam, Team } from '../../team.types';
+import { CreatedTeam, Team } from '../../../../core/types/team.types';
 import { provideTranslateService } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
-import { TeamApi } from '../../services/api/team.api';
+import { TeamApi } from '../../../../core/services/team.api';
 
 describe('TeamOverview', () => {
   it('should create', async () => {

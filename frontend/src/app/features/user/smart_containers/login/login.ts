@@ -24,7 +24,10 @@ export class Login {
         this.router.navigate(['/home']);
       }
     } catch (e: any) {
-      this.snackBar.open(this.translateService.translate('login.registrationFailed')());
+      this.snackBar.open(
+        this.translateService.translate('login.registrationFailed')(),
+        this.translateService.translate('generic.close')(),
+      );
     }
   }
 
@@ -35,7 +38,10 @@ export class Login {
         this.router.navigate(['/home']);
       }
     } catch (e: any) {
-      this.snackBar.open(this.translateService.translate('login.loginFailed')());
+      this.snackBar.open(
+        this.translateService.translate('login.loginFailed')(),
+        this.translateService.translate('generic.close')(),
+      );
     }
   }
 }

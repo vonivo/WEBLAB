@@ -1,0 +1,11 @@
+@if (gameResource.value()) {
+  @for (game of gameResource.value(); track game._id) {
+    <app-game-list-entry [game]="game"></app-game-list-entry>
+  }
+} @else if (gameResource.isLoading()) {
+  @for (i of [0, 1, 2, 3]; track i) {
+    <div class="h-28 mb-4">
+      <app-skeleton-loader></app-skeleton-loader>
+    </div>
+  }
+}

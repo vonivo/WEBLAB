@@ -7,7 +7,8 @@
     "login": "Login",
     "required": "This filed is required",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "close": "Close"
   },
   "navigation": {
     "home": "Home",
@@ -18,15 +19,34 @@
   },
   "types": {
     "team": {
+      "title": "Teams",
       "actions": {
         "addTeam": "Add Team",
         "addTeamInfo": "You can add players of the detail view",
-        "addPlayer": "Add player"
+        "addPlayer": "Add player",
+        "editTeam": "Edit Team"
       },
       "fields": {
         "name": "Name",
         "logoUrl": "Logo URL",
         "players": "Players"
+      }
+    },
+    "game": {
+      "title": "Games",
+      "actions": {
+        "createGame": "New Game",
+        "createGameInfo": "Pick both teams, then choose who's playing.",
+        "selectTeamToPickPlayer": "Select a team to pick players."
+      },
+      "fields": {
+        "homeTeam": "Home Team",
+        "awayTeam": "Away Team",
+        "startDate": "Kick-off Date",
+        "lineup": "lineup"
+      },
+      "errors": {
+        "lineMinSelection": "Select at least one player"
       }
     }
   },

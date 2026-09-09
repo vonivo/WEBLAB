@@ -1,12 +1,13 @@
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TeamApi } from '../../services/api/team.api';
+import { TeamApi } from '../../../../core/services/team.api';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TeamDetailEdit } from '../../dumb_components/team-detail-edit/team-detail-edit';
-import { Team } from '../../team.types';
+import { Team } from '../../../../core/types/team.types';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  imports: [TeamDetailEdit],
+  imports: [TeamDetailEdit, TranslatePipe],
   selector: 'app-team-detail',
   styleUrl: './team-detail.css',
   templateUrl: './team-detail.html',

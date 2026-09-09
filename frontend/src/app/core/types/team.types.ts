@@ -11,6 +11,12 @@ export interface CreatedTeam {
 }
 
 export interface Player {
+  _id: string;
+  firstname: string;
+  lastname: string;
+}
+
+export interface CreatePlayer {
   firstname: string;
   lastname: string;
 }

@@ -1,0 +1,102 @@
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
+import { TeamService } from "./team.service.js";
+import { CreateGameDto } from "../dto/game.dto.js";
+import { Team, TeamDocument } from "../schema/team.schema.js";
+import { Player, PlayerDocument } from "../schema/player.schema.js";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { Game } from "../schema/game.schema.js";
+
+@Injectable()
+export class GameService {
+  constructor(
+    private readonly teamService: TeamService,
+    @InjectModel(Game.name) private gameModel: Model<Game>,
+  ) {}
+
+  async findAll() {
+    const result = await this.gameModel.find();
+    return result.sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
+  }
+
+  async createGame(createGameDto: CreateGameDto) {
+    const homeTeam = await this.validateTeam(createGameDto.homeTeamId);
+    const awayTeam = await this.validateTeam(createGameDto.awayTeamId);
+
+    if (homeTeam.id === awayTeam.id) {
+      throw new BadRequestException("Game must consist of two separate teams");
+    }
+
+    const lineUpHome = this.validatePlayersOfTeam(
+      homeTeam,
+      createGameDto.lineupHomeTeam,
+    );
+    const lineUpAway = this.validatePlayersOfTeam(
+      awayTeam,
+      createGameDto.lineupAwayTeam,
+    );
+
+    const newGame = new this.gameModel({
+      homeTeam: {
+        team: homeTeam._id,
+        name: homeTeam.name,
+        logoUrl: homeTeam.logoUrl,
+        players: lineUpHome,
+      },
+      awayTeam: {
+        team: awayTeam._id,
+        name: awayTeam.name,
+        logoUrl: awayTeam.logoUrl,
+        players: lineUpAway,
+      },
+      startDate: createGameDto.startDate,
+    });
+
+    return newGame.save();
+  }
+
+  private async validateTeam(teamId: string): Promise<TeamDocument> {
+    const team = await this.teamService.findById(teamId);
+
+    if (!team) {
+      throw new NotFoundException(`Team with id ${teamId} not found`);
+    }
+
+    return team;
+  }
+
+  private validatePlayersOfTeam(
+    team: TeamDocument,
+    playerIds: string[],
+  ): Player[] {
+    const validPlayerIds = team.players
+      .map((p) => p as PlayerDocument)
+      .map((p) => p.id);
+
+    const nonValidPlayers = playerIds.filter(
+      (p) => !validPlayerIds.includes(p),
+    );
+
+    if (nonValidPlayers.length > 0) {
+      throw new NotFoundException(
+        `Players with id ${nonValidPlayers.join(", ")} not valid`,
+      );
+    }
+
+    const players = team.players
+      .map((p) => p as PlayerDocument)
+      .filter((p) => playerIds.includes(p.id));
+
+    if (players.length < 1) {
+      throw new BadRequestException(
+        `Lineup of Teams with id ${team.id} must at least contain one player`,
+      );
+    }
+
+    return players;
+  }
+}

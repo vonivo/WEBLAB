@@ -6,8 +6,11 @@ import { TeamDetail } from '../features/team/pages/team-detail/team-detail';
 import { authGuard } from '../authentication/guards/auth.guard';
 import { anonymousGuard } from '../authentication/guards/anonymous.guard';
 import { Logout } from '../features/user/smart_containers/logout/logout';
+import { GameOverview } from '../features/game/pages/game-overview/game-overview';
+import { CreateGame } from '../features/game/pages/create-game/create-game';
+import { GameDetail } from '../features/game/pages/game-detail/game-detail';
 
-const { HOME, LOGIN, TEAMS, LOGOUT } = PATHS;
+const { HOME, LOGIN, TEAMS, LOGOUT, GAMES } = PATHS;
 
 export const routes: Routes = [
   { path: HOME.path, component: Login },
@@ -22,6 +25,24 @@ export const routes: Routes = [
       {
         path: ':teamId',
         component: TeamDetail,
+      },
+    ],
+  },
+  {
+    path: GAMES.path,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        component: GameOverview,
+      },
+      {
+        path: 'create',
+        component: CreateGame,
+      },
+      {
+        path: ':gameId',
+        component: GameDetail,
       },
     ],
   },

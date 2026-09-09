@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { TeamList } from './team-list';
-import { TeamApi } from '../../services/api/team.api';
+import { TeamApi } from '../../../../core/services/team.api';
 import { provideTranslateService } from '@ngx-translate/core';
-import { Team } from '../../team.types';
+import { Team } from '../../../../core/types/team.types';
 import { By } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';

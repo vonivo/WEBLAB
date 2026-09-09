@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller.js";
-import { TeamsModule } from "./teams/teams.module.js";
+import { GameCenterModule } from "./game-center/game-center.module.js";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigModule, ConfigService, ConfigType } from "@nestjs/config";
 import { AuthenticationModule } from "./authentication/authentication.moudule.js";
@@ -16,7 +16,7 @@ import { envValidationSchema } from "./config/env.validation.js";
       load: [webauthnConfig, mongoConfig],
       validationSchema: envValidationSchema,
     }),
-    TeamsModule,
+    GameCenterModule,
     AuthenticationModule,
     ConfigModule.forRoot({ isGlobal: true }),
     CacheModule.register(),

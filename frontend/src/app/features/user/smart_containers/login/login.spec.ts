@@ -49,7 +49,7 @@ describe('Login', () => {
       expect(translateServiceMock.translate).toHaveBeenCalledWith('login.registrationFailed');
 
       expect(snackBarMock.open).toHaveBeenCalledOnce();
-      expect(snackBarMock.open).toHaveBeenCalledWith('Registration failed');
+      expect(snackBarMock.open).toHaveBeenCalledWith('Registration failed', 'Close');
 
       expect(routerMock.navigate).not.toHaveBeenCalled();
     });
@@ -91,7 +91,7 @@ describe('Login', () => {
       expect(translateServiceMock.translate).toHaveBeenCalledWith('login.loginFailed');
 
       expect(snackBarMock.open).toHaveBeenCalledOnce();
-      expect(snackBarMock.open).toHaveBeenCalledWith('Login failed');
+      expect(snackBarMock.open).toHaveBeenCalledWith('Login failed', 'Close');
 
       expect(routerMock.navigate).not.toHaveBeenCalled();
     });
@@ -117,6 +117,7 @@ async function setup() {
       const translations: Record<string, () => string> = {
         'login.registrationFailed': () => 'Registration failed',
         'login.loginFailed': () => 'Login failed',
+        'generic.close': () => 'Close',
       };
 
       return translations[key];
