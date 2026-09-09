@@ -15,8 +15,7 @@ describe('Login', () => {
 
   describe('handleRegistration', () => {
     it('should navigate to home when registration is verified', async () => {
-      const { component, webauthnServiceMock, routerMock } =
-        await setup();
+      const { component, webauthnServiceMock, routerMock } = await setup();
 
       webauthnServiceMock.register.mockResolvedValue(true);
 
@@ -29,8 +28,7 @@ describe('Login', () => {
     });
 
     it('should not navigate when registration is not verified', async () => {
-      const { component, webauthnServiceMock, routerMock } =
-        await setup();
+      const { component, webauthnServiceMock, routerMock } = await setup();
 
       webauthnServiceMock.register.mockResolvedValue(false);
 
@@ -41,28 +39,17 @@ describe('Login', () => {
     });
 
     it('should show registration failed message when registration throws', async () => {
-      const {
-        component,
-        webauthnServiceMock,
-        routerMock,
-        snackBarMock,
-        translateServiceMock,
-      } = await setup();
+      const { component, webauthnServiceMock, routerMock, snackBarMock, translateServiceMock } =
+        await setup();
 
-      webauthnServiceMock.register.mockRejectedValue(
-        new Error('Registration failed'),
-      );
+      webauthnServiceMock.register.mockRejectedValue(new Error('Registration failed'));
 
       await component.handleRegistration('alice');
 
-      expect(
-        translateServiceMock.translate,
-      ).toHaveBeenCalledWith('login.registrationFailed');
+      expect(translateServiceMock.translate).toHaveBeenCalledWith('login.registrationFailed');
 
       expect(snackBarMock.open).toHaveBeenCalledOnce();
-      expect(snackBarMock.open).toHaveBeenCalledWith(
-        'Registration failed',
-      );
+      expect(snackBarMock.open).toHaveBeenCalledWith('Registration failed');
 
       expect(routerMock.navigate).not.toHaveBeenCalled();
     });
@@ -70,8 +57,7 @@ describe('Login', () => {
 
   describe('handleLogin', () => {
     it('should navigate to home when login is verified', async () => {
-      const { component, webauthnServiceMock, routerMock } =
-        await setup();
+      const { component, webauthnServiceMock, routerMock } = await setup();
 
       webauthnServiceMock.login.mockResolvedValue(true);
 
@@ -84,8 +70,7 @@ describe('Login', () => {
     });
 
     it('should not navigate when login is not verified', async () => {
-      const { component, webauthnServiceMock, routerMock } =
-        await setup();
+      const { component, webauthnServiceMock, routerMock } = await setup();
 
       webauthnServiceMock.login.mockResolvedValue(false);
 
@@ -96,28 +81,17 @@ describe('Login', () => {
     });
 
     it('should show login failed message when login throws', async () => {
-      const {
-        component,
-        webauthnServiceMock,
-        routerMock,
-        snackBarMock,
-        translateServiceMock,
-      } = await setup();
+      const { component, webauthnServiceMock, routerMock, snackBarMock, translateServiceMock } =
+        await setup();
 
-      webauthnServiceMock.login.mockRejectedValue(
-        new Error('Login failed'),
-      );
+      webauthnServiceMock.login.mockRejectedValue(new Error('Login failed'));
 
       await component.handleLogin('alice');
 
-      expect(
-        translateServiceMock.translate,
-      ).toHaveBeenCalledWith('login.loginFailed');
+      expect(translateServiceMock.translate).toHaveBeenCalledWith('login.loginFailed');
 
       expect(snackBarMock.open).toHaveBeenCalledOnce();
-      expect(snackBarMock.open).toHaveBeenCalledWith(
-        'Login failed',
-      );
+      expect(snackBarMock.open).toHaveBeenCalledWith('Login failed');
 
       expect(routerMock.navigate).not.toHaveBeenCalled();
     });
@@ -171,8 +145,7 @@ async function setup() {
     ],
   }).compileComponents();
 
-  const fixture: ComponentFixture<Login> =
-    TestBed.createComponent(Login);
+  const fixture: ComponentFixture<Login> = TestBed.createComponent(Login);
 
   return {
     fixture,

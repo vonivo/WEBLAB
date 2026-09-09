@@ -1,6 +1,9 @@
 <nav class="flex flex-col gap-1 p-3">
   @for (linkItem of navigationLinks(); track linkItem.path) {
-    @if (linkItem.accessRole === NavigationLinkAccessRole.PUBLIC || linkItem.accessRole === navigationAccessRole()) {
+    @if (
+      linkItem.accessRole === NavigationLinkAccessRole.PUBLIC ||
+      linkItem.accessRole === navigationAccessRole()
+    ) {
       <a
         mat-button
         (click)="linkItemClicked.emit(linkItem)"

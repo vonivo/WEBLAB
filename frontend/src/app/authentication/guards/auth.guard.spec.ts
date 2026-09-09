@@ -9,9 +9,7 @@ describe('authGuard', () => {
   it('should allow logged-in users', () => {
     const { authServiceMock, routerMock } = setup(true);
 
-    const result = TestBed.runInInjectionContext(() =>
-      authGuard({} as never, {} as never),
-    );
+    const result = TestBed.runInInjectionContext(() => authGuard({} as never, {} as never));
 
     expect(result).toBe(true);
     expect(authServiceMock.isLoggedIn).toHaveBeenCalledOnce();
@@ -21,9 +19,7 @@ describe('authGuard', () => {
   it('should redirect anonymous users to login', () => {
     const { authServiceMock, routerMock, loginUrl } = setup(false);
 
-    const result = TestBed.runInInjectionContext(() =>
-      authGuard({} as never, {} as never),
-    );
+    const result = TestBed.runInInjectionContext(() => authGuard({} as never, {} as never));
 
     expect(authServiceMock.isLoggedIn).toHaveBeenCalledOnce();
     expect(routerMock.parseUrl).toHaveBeenCalledWith('/login');

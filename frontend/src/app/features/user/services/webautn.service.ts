@@ -45,7 +45,7 @@ export class WebauthnService {
       this.authService.setToken(authResult.jwt);
     }
 
-    return authResult.verified
+    return authResult.verified;
   }
 
   async login(username: string): Promise<boolean> {

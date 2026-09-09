@@ -5,8 +5,7 @@ import { AuthService } from '../../../../authentication/auth.service';
 import { provideRouter, Router } from '@angular/router';
 
 describe('Logout', () => {
-
-  it('should create',async () => {
+  it('should create', async () => {
     const { component } = await setup();
     expect(component).toBeTruthy();
   });
@@ -41,8 +40,8 @@ describe('Logout', () => {
 
 async function setup() {
   const authServiceMock = {
-    logout: vi.fn()
-  }
+    logout: vi.fn(),
+  };
 
   const routerMock = {
     navigate: vi.fn(),

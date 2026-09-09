@@ -69,9 +69,7 @@ describe('AuthService', () => {
 
       service.setToken(token);
 
-      expect(localStorage.getItem('auth')).toBe(
-        JSON.stringify(token),
-      );
+      expect(localStorage.getItem('auth')).toBe(JSON.stringify(token));
     });
   });
 

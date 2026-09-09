@@ -54,11 +54,11 @@ describe('Navigation', () => {
     const publicAnchor = fixture.debugElement.query(
       By.css(`[data-testid="MAIN_NAV_ITEM_${defaultProps.navigationLinks[0].path}"]`),
     );
-    expect(publicAnchor).toBeTruthy()
+    expect(publicAnchor).toBeTruthy();
   });
 
   it('should render public navigation items when logged in', async () => {
-    const { fixture } = await setup({currentAccessRole: NavigationLinkAccessRole.LOGGED_IN});
+    const { fixture } = await setup({ currentAccessRole: NavigationLinkAccessRole.LOGGED_IN });
     const publicAnchor = fixture.debugElement.query(
       By.css(`[data-testid="MAIN_NAV_ITEM_${defaultProps.navigationLinks[0].path}"]`),
     );

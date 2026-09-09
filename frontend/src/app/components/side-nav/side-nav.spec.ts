@@ -7,14 +7,13 @@ import { NavigationItem, NavigationLinkAccessRole } from '../navigation/navigati
 import { By } from '@angular/platform-browser';
 
 describe('SideNav', () => {
-
   it('should create', async () => {
-    const {component} = await setup();
+    const { component } = await setup();
     expect(component).toBeTruthy();
   });
 
   it('should render Navigation Items', async () => {
-    const {fixture} = await setup();
+    const { fixture } = await setup();
     expect(fixture.nativeElement.querySelectorAll('[data-testid^="SIDE_NAV"]').length).toBe(2);
   });
 
@@ -45,11 +44,11 @@ describe('SideNav', () => {
     const publicAnchor = fixture.debugElement.query(
       By.css(`[data-testid="SIDE_NAV_ITEM_${defaultProps.navigationLinks[0].path}"]`),
     );
-    expect(publicAnchor).toBeTruthy()
+    expect(publicAnchor).toBeTruthy();
   });
 
   it('should render public navigation items when logged in', async () => {
-    const { fixture } = await setup({currentAccessRole: NavigationLinkAccessRole.LOGGED_IN});
+    const { fixture } = await setup({ currentAccessRole: NavigationLinkAccessRole.LOGGED_IN });
     const publicAnchor = fixture.debugElement.query(
       By.css(`[data-testid="SIDE_NAV_ITEM_${defaultProps.navigationLinks[0].path}"]`),
     );
@@ -106,8 +105,8 @@ const defaultProps: Props = {
   ],
 };
 
-async function setup(props: Partial<Props>= {}) {
-  const mergedProps = {...defaultProps, ...props};
+async function setup(props: Partial<Props> = {}) {
+  const mergedProps = { ...defaultProps, ...props };
 
   await TestBed.configureTestingModule({
     imports: [SideNav],

@@ -53,7 +53,7 @@ export class AddTeam {
         name: this.addTeamForm.name().value(),
         logoUrl: this.addTeamForm.logoUrl().value(),
       });
-      this.addTeamForm().reset({name: '', logoUrl: ''});
+      this.addTeamForm().reset({ name: '', logoUrl: '' });
     }
   }
 }

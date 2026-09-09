@@ -8,12 +8,7 @@ describe('anonymousGuard', () => {
   it('should allow anonymous users', () => {
     const { authServiceMock } = setup(false);
 
-    const result = TestBed.runInInjectionContext(() =>
-      anonymousGuard(
-        {} as never,
-        {} as never,
-      ),
-    );
+    const result = TestBed.runInInjectionContext(() => anonymousGuard({} as never, {} as never));
 
     expect(result).toBe(true);
     expect(authServiceMock.isLoggedIn).toHaveBeenCalledOnce();
@@ -22,12 +17,7 @@ describe('anonymousGuard', () => {
   it('should deny logged-in users', () => {
     const { authServiceMock } = setup(true);
 
-    const result = TestBed.runInInjectionContext(() =>
-      anonymousGuard(
-        {} as never,
-        {} as never,
-      ),
-    );
+    const result = TestBed.runInInjectionContext(() => anonymousGuard({} as never, {} as never));
 
     expect(result).toBe(false);
     expect(authServiceMock.isLoggedIn).toHaveBeenCalledOnce();
