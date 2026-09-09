@@ -4,11 +4,9 @@ import { vi } from 'vitest';
 import { GameApi } from '../../service/game.api';
 import { By } from '@angular/platform-browser';
 import { GameListEntry } from '../../dumb_components/game-list-entry/game-list-entry';
+import { ActivatedRoute } from '@angular/router';
 
 describe('GameList', () => {
-  let component: GameList;
-  let fixture: ComponentFixture<GameList>;
-
   beforeEach(async () => {});
 
   it('should create', async () => {
@@ -26,6 +24,7 @@ describe('GameList', () => {
 async function setup() {
   const gamesResource = {
     value: vi.fn(),
+    reload: vi.fn(),
   };
 
   gamesResource.value.mockReturnValue([
@@ -49,7 +48,7 @@ async function setup() {
 
   await TestBed.configureTestingModule({
     imports: [GameList],
-    providers: [{ provide: GameApi, useValue: gameApiMock }],
+    providers: [{ provide: GameApi, useValue: gameApiMock }, {provide: ActivatedRoute, useValue: {} }],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(GameList);

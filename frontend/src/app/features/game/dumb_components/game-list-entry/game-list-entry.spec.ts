@@ -3,6 +3,7 @@ import { GameListEntry } from './game-list-entry';
 import { Game } from '../../game.types';
 import { inputBinding, signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 describe('GameListEntry', () => {
   it('should create', async () => {
@@ -48,6 +49,7 @@ const defaultProps: Props = {
 async function setUp() {
   await TestBed.configureTestingModule({
     imports: [GameListEntry],
+    providers: [{ provide: ActivatedRoute, useValue: { } }],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(GameListEntry, {

@@ -14,7 +14,6 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class TeamDetail {
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly teamApi = inject(TeamApi);
 
   private readonly routeParams = toSignal(this.route.paramMap, { requireSync: true });

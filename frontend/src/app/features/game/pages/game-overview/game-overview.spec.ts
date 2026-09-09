@@ -53,6 +53,7 @@ async function setUp() {
 
   gameApiMock.getGamesResource.mockReturnValue({
     value: () => [],
+    reload: () => {},
   });
 
   await TestBed.configureTestingModule({

@@ -1,36 +1,38 @@
 <div class="mb-6">
-  <mat-card>
-    <mat-card-content>
-      <div class="flex justify-between">
-        <div class="flex items-center sm:gap-8">
-          <div class="h-12 w-12 sm:h-24 sm:w-24 rounded-xl">
-            <img
-              [src]="game().homeTeam.logoUrl"
-              [alt]="game().homeTeam.name + ' logo'"
-              class="h-full w-full object-contain"
-            />
+  <a [routerLink]="game()._id">
+    <mat-card>
+      <mat-card-content>
+        <div class="flex justify-between">
+          <div class="flex items-center sm:gap-8">
+            <div class="h-12 w-12 sm:h-24 sm:w-24 rounded-xl">
+              <img
+                [src]="game().homeTeam.logoUrl"
+                [alt]="game().homeTeam.name + ' logo'"
+                class="h-full w-full object-contain"
+              />
+            </div>
+            <div>
+              <h2 class="text-md sm:text-2xl font-semibold">{{ game().homeTeam.name }}</h2>
+            </div>
           </div>
-          <div>
-            <h2 class="text-md sm:text-2xl font-semibold">{{ game().homeTeam.name }}</h2>
+          <div class="flex items-center text-md sm:text-2xl font-semibold">
+            <!-- TODO Result -->
+            <span>2:2</span>
+          </div>
+          <div class="flex items-center sm:gap-8">
+            <div>
+              <h2 class="text-md sm:text-2xl font-semibold">{{ game().awayTeam.name }}</h2>
+            </div>
+            <div class="h-12 w-12 sm:h-24 sm:w-24 rounded-xl">
+              <img
+                [src]="game().awayTeam.logoUrl"
+                [alt]="game().awayTeam.name + ' logo'"
+                class="h-full w-full object-contain"
+              />
+            </div>
           </div>
         </div>
-        <div class="flex items-center text-md sm:text-2xl font-semibold">
-          <!-- TODO Result -->
-          <span>2:2</span>
-        </div>
-        <div class="flex items-center sm:gap-8">
-          <div>
-            <h2 class="text-md sm:text-2xl font-semibold">{{ game().awayTeam.name }}</h2>
-          </div>
-          <div class="h-12 w-12 sm:h-24 sm:w-24 rounded-xl">
-            <img
-              [src]="game().awayTeam.logoUrl"
-              [alt]="game().awayTeam.name + ' logo'"
-              class="h-full w-full object-contain"
-            />
-          </div>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </a>
 </div>
