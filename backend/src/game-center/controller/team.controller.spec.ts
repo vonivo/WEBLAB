@@ -50,9 +50,17 @@ describe("TeamController", () => {
   });
 
   afterAll(async () => {
-    await app.close();
-    await appWithoutAuth.close();
-    await mongo.stop();
+    if (app) {
+      await app.close();
+    }
+
+    if (appWithoutAuth) {
+      await appWithoutAuth.close();
+    }
+
+    if (mongo) {
+      await mongo.stop();
+    }
   });
 
   describe("GET /teams", () => {
