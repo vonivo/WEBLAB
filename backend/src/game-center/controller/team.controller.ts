@@ -10,11 +10,12 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { TeamService } from "../services/team.service.js";
-import type { TeamDto, UpdateTeamDto } from "../dto/team.dto.js";
+import { TeamDto } from "../dto/team.dto.js";
 import { AuthGuard } from "../../authentication/auth.guard.js";
+import { IsObjectIdPipe } from "@nestjs/mongoose";
 
 @Controller("teams")
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class TeamController {
   constructor(private teamService: TeamService) {}
 
@@ -24,7 +25,9 @@ export class TeamController {
   }
 
   @Get(":teamId")
-  async getTeamById(@Param("teamId") teamId: string): Promise<TeamDto> {
+  async getTeamById(
+    @Param("teamId", IsObjectIdPipe) teamId: string,
+  ): Promise<TeamDto> {
     const team = await this.teamService.findById(teamId);
     if (!team) {
       throw new NotFoundException(`Team with ID ${teamId} not found`);
@@ -40,14 +43,14 @@ export class TeamController {
 
   @Put(":teamId")
   async updateTeam(
-    @Param("teamId") teamId: string,
-    @Body() team: UpdateTeamDto,
+    @Param("teamId", IsObjectIdPipe) teamId: string,
+    @Body() team: TeamDto,
   ): Promise<TeamDto> {
     return this.teamService.updateTeam(teamId, team);
   }
 
   @Delete(":teamId")
-  async delete(@Param("teamId") teamId: string) {
+  async delete(@Param("teamId", IsObjectIdPipe) teamId: string) {
     await this.teamService.delete(teamId);
   }
 }

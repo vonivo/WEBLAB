@@ -110,6 +110,15 @@ export class GameService {
       );
     }
 
+    if (
+      event.primaryPlayerId &&
+      event.primaryPlayerId === event.secondaryPlayerId
+    ) {
+      throw new BadRequestException(
+        "primaryPlayerId cannot be equal to secondaryPlayerId",
+      );
+    }
+
     const createdEvent: GameEvent = {
       minute: event.minute,
       minuteExtra: event.minuteExtra ?? 0,

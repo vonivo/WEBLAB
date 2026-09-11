@@ -1,16 +1,30 @@
 import { Model } from "mongoose";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Team, TeamDocument } from "../schema/team.schema.js";
-import { TeamDto, UpdateTeamDto } from "../dto/team.dto.js";
+import { TeamDto } from "../dto/team.dto.js";
+import { MongoServerError } from "mongodb";
 
 @Injectable()
 export class TeamService {
   constructor(@InjectModel(Team.name) private teamModel: Model<Team>) {}
 
   async create(team: TeamDto) {
-    const createdTeam = new this.teamModel(team);
-    return createdTeam.save();
+    try {
+      const createdTeam = new this.teamModel(team);
+      return await createdTeam.save();
+    } catch (err) {
+      if (err instanceof MongoServerError && err.code === 11000) {
+        throw new BadRequestException(
+          `Team with name "${team.name}" already exists`,
+        );
+      }
+      throw err;
+    }
   }
 
   async findAll(): Promise<Team[]> {
@@ -21,20 +35,29 @@ export class TeamService {
     return this.teamModel.findById(teamId);
   }
 
-  async updateTeam(teamId: string, team: UpdateTeamDto) {
-    const updatedTeam = await this.teamModel
-      .findByIdAndUpdate(
-        teamId,
-        { $set: team },
-        { returnDocument: "after", runValidators: true },
-      )
-      .lean();
+  async updateTeam(teamId: string, team: TeamDto) {
+    try {
+      const updatedTeam = await this.teamModel
+        .findByIdAndUpdate(
+          teamId,
+          { $set: team },
+          { returnDocument: "after", runValidators: true },
+        )
+        .lean();
 
-    if (!updatedTeam) {
-      throw new NotFoundException(`Team with ID ${teamId} not found`);
+      if (!updatedTeam) {
+        throw new NotFoundException(`Team with ID ${teamId} not found`);
+      }
+
+      return updatedTeam;
+    } catch (err) {
+      if (err instanceof MongoServerError && err.code === 11000) {
+        throw new BadRequestException(
+          `Team with name "${team.name}" already exists`,
+        );
+      }
+      throw err;
     }
-
-    return updatedTeam;
   }
 
   async delete(teamId: string) {
