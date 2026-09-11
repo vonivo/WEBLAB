@@ -1,0 +1,28 @@
+@if (liveGame(); as game) {
+  <h1 class="text-4xl font-bold mb-8">{{ 'home.liveGames' | translate }}</h1>
+  <a [routerLink]="`/games/${game._id}`">
+    <article class="mx-auto overflow-hidden rounded-2xl border-outline-variant shadow-sm">
+      <app-game-detail-header
+        [game]="game"
+        [homeScore]="gameService.countGoalsFor(GameSide.HOME, game)"
+        [awayScore]="gameService.countGoalsFor(GameSide.AWAY, game)"
+        [isLive]="gameService.isLive(game)"
+        [statusLabel]="gameService.getStatusLabel(game)"
+      ></app-game-detail-header>
+    </article>
+  </a>
+}
+
+<div class="mt-16">
+  <h2 class="text-4xl font-bold mb-8">{{ 'home.upcomingGames' | translate }}</h2>
+  @for (game of upcomingGames(); track game._id) {
+    <app-game-list-entry
+      [game]="game"
+      [homeScore]="gameService.countGoalsFor(GameSide.HOME, game)"
+      [awayScore]="gameService.countGoalsFor(GameSide.AWAY, game)"
+      [isLive]="gameService.isLive(game)"
+      [statusLabel]="gameService.getStatusLabel(game)"
+      [isUpcoming]="gameService.isUpcoming(game)"
+    ></app-game-list-entry>
+  }
+</div>

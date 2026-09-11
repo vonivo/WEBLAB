@@ -30,3 +30,17 @@
   - Implementation der Team-Details-Page.
   - Hinzufügen von Players zu einem Team
   - Implementation der Remove-Team-Funktionalität
+
+## 08.09.2026
+- **Zeitaufwand: ca. 8h**
+- **Tätigkeit:**
+  - Implementation des Logins via Pass-Key
+  - Implementation der Navigation welche sich an den Login-Zustand anpasst
+  - Implementation des Logout
+
+## 09.09.2026
+- **Zeitaufwand: ca. 8h**
+- **Tätigkeit:**
+  - Implementation der Game-List-View
+  - Implementation der Create-Game
+  - Beginn mit der Game-Detail-View

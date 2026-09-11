@@ -21,4 +21,17 @@
 
   --color-outline: var(--mat-sys-outline);
   --color-outline-variant: var(--mat-sys-outline-variant);
+
+  --lt-surface: #fff9ee; /* neutral / 98         */
+  --lt-border: #e8e2da; /* neutral-variant / 90 */
+  --lt-track: #e8e2da; /* neutral-variant / 90 */
+  --lt-text: #1e1b15; /* neutral / 10         */
+  --lt-muted: #7a7670; /* neutral-variant / 50 */
+
+  --lt-accent: #7f5700; /* primary / 40   (live dot, progress bar, kickoff/status)       */
+  --lt-yellow: #c08500; /* primary / 60   (yellow card — same family as accent, lighter) */
+  --lt-red: #ba1a1a; /* error / 40     (red card)                                     */
+  --lt-sub: #4c6171; /* secondary / 40 (substitution)                                 */
+  --lt-goal: #326764; /* tertiary / 40  (goal)                                         */
+  --lt-neutral: #7b776e; /* neutral / 50   (half-time / full-time)                        */
 }

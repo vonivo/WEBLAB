@@ -4,12 +4,18 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { TeamService } from "./team.service.js";
-import { CreateGameDto } from "../dto/game.dto.js";
+import { CreateGameDto, GameEventDto } from "../dto/game.dto.js";
 import { Team, TeamDocument } from "../schema/team.schema.js";
 import { Player, PlayerDocument } from "../schema/player.schema.js";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { Game } from "../schema/game.schema.js";
+import { Model, Types } from "mongoose";
+import {
+  Game,
+  GameEvent,
+  GameEventType,
+  GameSide,
+  GameTeam,
+} from "../schema/game.schema.js";
 
 @Injectable()
 export class GameService {
@@ -21,6 +27,28 @@ export class GameService {
   async findAll() {
     const result = await this.gameModel.find();
     return result.sort((a, b) => b.startDate.getTime() - a.startDate.getTime());
+  }
+
+  async findById(id: string) {
+    const game: Game | null = await this.gameModel.findById(id);
+    if (game) {
+      const sortedEvents = game.events.sort((a, b) => {
+        const minuteDiff = this.totalMinute(b) - this.totalMinute(a);
+
+        if (b.timeStamp && a.timeStamp) {
+          const timeStampA = new Date(a.timeStamp);
+          const timeStampB = new Date(b.timeStamp);
+
+          return minuteDiff !== 0
+            ? minuteDiff
+            : timeStampB.getTime() - timeStampA.getTime();
+        }
+
+        return minuteDiff;
+      });
+    }
+
+    return game;
   }
 
   async createGame(createGameDto: CreateGameDto) {
@@ -57,6 +85,48 @@ export class GameService {
     });
 
     return newGame.save();
+  }
+
+  async addEvent(event: GameEventDto, gameId: string) {
+    const game = await this.gameModel.findById(gameId).lean();
+    if (!game) {
+      throw new NotFoundException(`Game ${gameId} not found`);
+    }
+
+    const teamSnapshot =
+      event.team === GameSide.HOME ? game.homeTeam : game.awayTeam;
+    const primaryPlayerId = this.resolvePlayerFromLineUpId(
+      teamSnapshot,
+      event.primaryPlayerId,
+    );
+    const secondaryPlayerId = this.resolvePlayerFromLineUpId(
+      teamSnapshot,
+      event.secondaryPlayerId,
+    );
+
+    if (event.type === GameEventType.GOAL && !primaryPlayerId) {
+      throw new BadRequestException(
+        "primaryPlayerId is required for GOAL events",
+      );
+    }
+
+    const createdEvent: GameEvent = {
+      minute: event.minute,
+      minuteExtra: event.minuteExtra ?? 0,
+      type: event.type,
+      team: event.team ?? null,
+      primaryPlayerId,
+      secondaryPlayerId,
+      timeStamp: new Date(),
+    };
+
+    await this.gameModel.findByIdAndUpdate(
+      gameId,
+      { $push: { events: event } },
+      { new: true },
+    );
+
+    return createdEvent;
   }
 
   private async validateTeam(teamId: string): Promise<TeamDocument> {
@@ -98,5 +168,29 @@ export class GameService {
     }
 
     return players;
+  }
+
+  private resolvePlayerFromLineUpId(
+    team: GameTeam,
+    playerId: string | undefined,
+  ): Types.ObjectId | undefined {
+    if (!playerId) return undefined;
+
+    const objectId = new Types.ObjectId(playerId);
+    const isInLineup = team.players
+      .map((p) => p as PlayerDocument)
+      .some((p) => p._id.equals(objectId));
+
+    if (!isInLineup) {
+      throw new BadRequestException(
+        `Player ${playerId} is not part of the selected team's lineup`,
+      );
+    }
+
+    return objectId;
+  }
+
+  private totalMinute(event: GameEvent): number {
+    return event.minute + (event.minuteExtra ?? 0) / 100;
   }
 }

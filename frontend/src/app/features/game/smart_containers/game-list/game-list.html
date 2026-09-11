@@ -1,6 +1,13 @@
 @if (gameResource.value()) {
   @for (game of gameResource.value(); track game._id) {
-    <app-game-list-entry [game]="game"></app-game-list-entry>
+    <app-game-list-entry
+      [game]="game"
+      [homeScore]="gameService.countGoalsFor(GameSide.HOME, game)"
+      [awayScore]="gameService.countGoalsFor(GameSide.AWAY, game)"
+      [isLive]="gameService.isLive(game)"
+      [statusLabel]="gameService.getStatusLabel(game)"
+      [isUpcoming]="gameService.isUpcoming(game)"
+    ></app-game-list-entry>
   }
 } @else if (gameResource.isLoading()) {
   @for (i of [0, 1, 2, 3]; track i) {

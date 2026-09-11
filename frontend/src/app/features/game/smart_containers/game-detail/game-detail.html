@@ -1,0 +1,9 @@
+@if (game.value(); as game) {
+  <app-game-detail-view
+    [game]="game"
+    [homeScore]="gameService.countGoalsFor(GameSide.HOME, game)"
+    [awayScore]="gameService.countGoalsFor(GameSide.AWAY, game)"
+    [isLive]="gameService.isLive(game)"
+    [statusLabel]="gameService.getStatusLabel(game)"
+  ></app-game-detail-view>
+}

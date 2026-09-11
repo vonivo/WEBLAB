@@ -6,6 +6,7 @@ import { MatFabButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../../authentication/auth.service';
 
 @Component({
   imports: [GameList, TranslatePipe, MatFabButton, MatIcon, RouterLink],
@@ -14,7 +15,10 @@ import { RouterLink } from '@angular/router';
   templateUrl: './game-overview.html',
 })
 export class GameOverview {
-  readonly dialog = inject(MatDialog);
+  private readonly AuthService = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
+
+  isLoggedIn = this.AuthService.isLoggedIn;
 
   handleAddGameClick() {
     this.dialog.open(AddGameDialog);

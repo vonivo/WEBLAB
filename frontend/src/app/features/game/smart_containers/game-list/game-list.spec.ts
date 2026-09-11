@@ -1,10 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { GameList } from './game-list';
 import { vi } from 'vitest';
 import { GameApi } from '../../service/game.api';
 import { By } from '@angular/platform-browser';
 import { GameListEntry } from '../../dumb_components/game-list-entry/game-list-entry';
 import { ActivatedRoute } from '@angular/router';
+import { provideTranslateService } from '@ngx-translate/core';
+import { GameService } from '../../service/game.service';
 
 describe('GameList', () => {
   beforeEach(async () => {});
@@ -40,6 +42,13 @@ async function setup() {
     },
   ]);
 
+  const gameServiceMock = {
+    countGoalsFor: vi.fn(),
+    isLive: vi.fn(),
+    getStatusLabel: vi.fn(),
+    isUpcoming: vi.fn(),
+  };
+
   const gameApiMock = {
     getGamesResource: vi.fn(),
   };
@@ -48,7 +57,12 @@ async function setup() {
 
   await TestBed.configureTestingModule({
     imports: [GameList],
-    providers: [{ provide: GameApi, useValue: gameApiMock }, {provide: ActivatedRoute, useValue: {} }],
+    providers: [
+      provideTranslateService(),
+      { provide: GameApi, useValue: gameApiMock },
+      { provide: ActivatedRoute, useValue: {} },
+      { provide: GameService, useValue: gameServiceMock },
+    ],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(GameList);

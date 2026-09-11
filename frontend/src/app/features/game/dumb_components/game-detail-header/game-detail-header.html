@@ -1,0 +1,64 @@
+<header class="border-b border-outline-variant px-6 pb-6 pt-5 sm:px-8">
+  <div class="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 sm:gap-6">
+    <div
+      class="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs font-semibold tracking-wide"
+    >
+      <div class="h-16 w-16 sm:h-24 sm:w-24 rounded-xl">
+        <img
+          [src]="game().homeTeam.logoUrl"
+          [alt]="game().homeTeam.name + ' logo'"
+          class="h-full w-full object-contain"
+        />
+      </div>
+      <span class="order-2 truncate text-sm font-bold text-(--lt-text) sm:order-1 sm:text-lg">
+        {{ game().homeTeam.name }}
+      </span>
+    </div>
+
+    <div class="flex flex-col h-full mt-4">
+      <div
+        class="flex items-center justify-center gap-2 text-xs font-semibold tracking-wide justify-self-start"
+      >
+        @if (isLive()) {
+          <span class="relative flex h-2 w-2">
+            <span
+              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-(--lt-accent) opacity-75"
+            ></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-(--lt-accent)"></span>
+          </span>
+        }
+        <span [ngClass]="'live' === 'live' ? 'text-(--lt-accent)' : 'text-(--lt-muted)'">
+          {{ statusLabel() }}
+        </span>
+      </div>
+
+      <div
+        class="flex items-baseline gap-2 font-display text-4xl font-bold tabular-nums sm:text-5xl"
+      >
+        <span>{{ homeScore() }}</span>
+        <span class="text-(--lt-muted))">:</span>
+        <span>{{ awayScore() }}</span>
+      </div>
+      <div class="mt-2 font-semibold">
+        <span class="text-(--lt-muted)">
+          {{ game().startDate | date }}
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col-reverse sm:flex-row items-center justify-center gap-2 text-xs font-semibold tracking-wide"
+    >
+      <span class="truncate text-sm font-bold text-(--lt-text) sm:text-lg">
+        {{ game().awayTeam.name }}
+      </span>
+      <div class="h-16 w-16 sm:h-24 sm:w-24 rounded-xl">
+        <img
+          [src]="game().awayTeam.logoUrl"
+          [alt]="game().awayTeam.name + ' logo'"
+          class="h-full w-full object-contain"
+        />
+      </div>
+    </div>
+  </div>
+</header>

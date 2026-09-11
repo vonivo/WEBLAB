@@ -1,0 +1,15 @@
+@if (isLoggedIn()) {
+  <div class="fixed bottom-0 right-0 mb-6 mr-6 z-50">
+    <div class="hidden md:block">
+      <button matFab aria-label="add game event" (click)="handleAddClick()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="block md:hidden">
+      <a matFab [routerLink]="'event/create'">
+        <mat-icon>add</mat-icon>
+      </a>
+    </div>
+  </div>
+}
+<app-game-detail [gameId]="gameId()"></app-game-detail>

@@ -1,0 +1,107 @@
+<form class="mx-auto max-w-3xl space-y-8 p-6" (ngSubmit)="handleSubmit($event)">
+  <header class="space-y-1">
+    <h2 class="text-2xl font-semibold">{{ 'types.game.actions.createEvent' | translate }}</h2>
+  </header>
+
+  <section class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ 'types.game.fields.events.type' | translate }}</mat-label>
+      <mat-select [formField]="createEventForm.type" (selectionChange)="handleSelectionChange()">
+        @for (eventType of eventTypes; track eventType) {
+          <mat-option [value]="eventType">
+            {{ `types.game.fields.events.types.${eventType}` | translate }}
+          </mat-option>
+        }
+      </mat-select>
+      <mat-error>
+        @for (error of createEventForm.type().errors(); track error) {
+          <span>{{ error.message | translate }}</span>
+        }
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ 'types.game.fields.events.minute' | translate }}</mat-label>
+      <input matInput type="number" [formField]="createEventForm.minute" />
+      <mat-error>
+        @for (error of createEventForm.minute().errors(); track error) {
+          <span>{{ error.message | translate }}</span>
+        }
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ 'types.game.fields.events.minuteExtra' | translate }}</mat-label>
+      <input matInput type="number" [formField]="createEventForm.minuteExtra" />
+      <mat-error>
+        @for (error of createEventForm.minuteExtra().errors(); track error) {
+          <span>{{ error.message | translate }}</span>
+        }
+      </mat-error>
+    </mat-form-field>
+  </section>
+  @if (createEventModle().type === GameEventType.GOAL) {
+    <section class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ 'types.game.fields.events.side' | translate }}</mat-label>
+        <mat-select [formField]="createEventForm.side">
+          @for (gameSide of gameSides; track gameSide) {
+            <mat-option [value]="gameSide">
+              {{ `types.game.fields.events.sides.${gameSide}` | translate }}
+            </mat-option>
+          }
+        </mat-select>
+        <mat-error>
+          @for (error of createEventForm.side().errors(); track error) {
+            <span>{{ error.message | translate }}</span>
+          }
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ 'types.game.fields.events.primaryPlayer' | translate }}</mat-label>
+        <mat-select
+          [formField]="createEventForm.primaryPlayer"
+          [attr.data-testid]="'AGEF_PRIMARY_PLAYER_SELECT'"
+        >
+          @for (player of getPlayerSelection(); track player._id) {
+            <mat-option
+              [value]="player"
+              [attr.data-testid]="`AGEF_PRIMARY_PLAYER_OPTION_${player._id}`"
+            >
+              {{ player.firstname }} {{ player.lastname }}
+            </mat-option>
+          }
+        </mat-select>
+        <mat-error>
+          @for (error of createEventForm.primaryPlayer().errors(); track error) {
+            <span>{{ error.message | translate }}</span>
+          }
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>{{ 'types.game.fields.events.secondaryPlayer' | translate }}</mat-label>
+        <mat-select
+          [formField]="createEventForm.secondaryPlayer"
+          [attr.data-testid]="'AGEF_SECONDARY_PLAYER_SELECT'"
+        >
+          @for (player of getPlayerSelection(); track player._id) {
+            <mat-option
+              [value]="player"
+              [attr.data-testid]="`AGEF_SECONDARY_PLAYER_OPTION_${player._id}`"
+            >
+              {{ player.firstname }} {{ player.lastname }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </section>
+  }
+  <div class="flex justify-end gap-3 pt-2">
+    <button mat-stroked-button type="button" (click)="handleCancelClick()">
+      {{ 'generic.cancel' | translate }}
+    </button>
+    <button mat-flat-button color="primary" type="submit">
+      {{ 'generic.submit' | translate }}
+    </button>
+  </div>
+</form>

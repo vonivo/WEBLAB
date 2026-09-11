@@ -8,12 +8,17 @@ import { anonymousGuard } from '../authentication/guards/anonymous.guard';
 import { Logout } from '../features/user/smart_containers/logout/logout';
 import { GameOverview } from '../features/game/pages/game-overview/game-overview';
 import { CreateGame } from '../features/game/pages/create-game/create-game';
-import { GameDetail } from '../features/game/pages/game-detail/game-detail';
+import { GameDetailPage } from '../features/game/pages/game-detail-page/game-detail-page.component';
+import { AddGame } from '../features/game/smart_containers/add-game/add-game';
+import { AddGameEventForm } from '../features/game/dumb_components/add-game-event/add-game-event-form.component';
+import { AddGameEvent } from '../features/game/smart_containers/add-game-event/add-game-event';
+import { CreateGameEvent } from '../features/game/pages/create-game-event/create-game-event';
+import { Home } from '../features/game/smart_containers/home/home';
 
 const { HOME, LOGIN, TEAMS, LOGOUT, GAMES } = PATHS;
 
 export const routes: Routes = [
-  { path: HOME.path, component: Login },
+  { path: HOME.path, component: Home },
   {
     path: TEAMS.path,
     canActivate: [authGuard],
@@ -30,7 +35,6 @@ export const routes: Routes = [
   },
   {
     path: GAMES.path,
-    canActivate: [authGuard],
     children: [
       {
         path: '',
@@ -38,11 +42,17 @@ export const routes: Routes = [
       },
       {
         path: 'create',
+        canActivate: [authGuard],
         component: CreateGame,
       },
       {
+        path: ':gameId/event/create',
+        canActivate: [authGuard],
+        component: CreateGameEvent,
+      },
+      {
         path: ':gameId',
-        component: GameDetail,
+        component: GameDetailPage,
       },
     ],
   },

@@ -9,7 +9,7 @@ export const PATHS: { [key: string]: NavigationItem } = {
   GAMES: {
     path: 'games',
     label: 'navigation.games',
-    accessRole: NavigationLinkAccessRole.LOGGED_IN,
+    accessRole: NavigationLinkAccessRole.PUBLIC,
   },
   TEAMS: {
     path: 'teams',

@@ -13,6 +13,7 @@ export interface Game {
   homeTeam: GameTeam;
   awayTeam: GameTeam;
   startDate: Date;
+  events: GameEvent[];
 }
 
 export interface GameTeam {
@@ -20,4 +21,30 @@ export interface GameTeam {
   name: string;
   logoUrl: string;
   players: Player[];
+}
+
+export interface GameEvent {
+  _id?: string;
+  minute: number;
+  minuteExtra?: number;
+  type: GameEventType;
+  team?: GameSide;
+  primaryPlayerId?: string;
+  secondaryPlayerId?: string;
+  timeStamp?: string;
+}
+
+export enum GameSide {
+  HOME = 'HOME',
+  AWAY = 'AWAY',
+}
+
+export enum GameEventType {
+  GOAL = 'GOAL',
+  HALF_TIME = 'HALF_TIME',
+  PERIOD_END = 'PERIOD_END',
+  PERIOD_START = 'PERIOD_START',
+  KICKOFF = 'KICKOFF',
+  GAME_END = 'GAME_END',
+  OVERTIME_START = 'OVERTIME_START',
 }

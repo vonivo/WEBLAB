@@ -1,0 +1,5 @@
+<app-add-game-event-form
+  [game]="gameResource.value()!"
+  (onGameEventCreated)="handleEventCreated($event)"
+  (onCancel)="handleCancel()"
+></app-add-game-event-form>

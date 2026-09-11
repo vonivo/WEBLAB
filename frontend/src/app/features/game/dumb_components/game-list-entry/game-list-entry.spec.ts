@@ -1,9 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { GameListEntry } from './game-list-entry';
 import { Game } from '../../game.types';
 import { inputBinding, signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { provideTranslateService } from '@ngx-translate/core';
 
 describe('GameListEntry', () => {
   it('should create', async () => {
@@ -25,6 +26,26 @@ describe('GameListEntry', () => {
 
     expect(imgSrc).toStrictEqual(['Chudley_Cannons.png', 'Tutshill_Tornados.png']);
   });
+
+  it('should render live indicator when live', async () => {
+    const { fixture } = await setUp({ isLive: true });
+
+    const liveIndicator = fixture.debugElement.query(
+      By.css('[data-testid="GLE_gameid_LIVE_INDICATOR'),
+    );
+
+    expect(liveIndicator).toBeTruthy();
+  });
+
+  it('should not render live indicator when not live', async () => {
+    const { fixture } = await setUp({ isLive: false });
+
+    const liveIndicator = fixture.debugElement.query(
+      By.css('[data-testid="GLE_gameid_LIVE_INDICATOR'),
+    );
+
+    expect(liveIndicator).toBeFalsy();
+  });
 });
 
 const defaultProps: Props = {
@@ -43,20 +64,36 @@ const defaultProps: Props = {
       logoUrl: 'Tutshill_Tornados.png',
       players: [],
     },
+    events: [],
   },
+  isLive: false,
+  gameStatus: '',
+  homeScore: 0,
+  awayScore: 0,
+  isUpcoming: true,
 };
 
-async function setUp() {
+async function setUp(props: Partial<Props> = {}) {
+  const mergedProps = { ...defaultProps, ...props };
+
   await TestBed.configureTestingModule({
     imports: [GameListEntry],
-    providers: [{ provide: ActivatedRoute, useValue: { } }],
+    providers: [provideTranslateService(), { provide: ActivatedRoute, useValue: {} }],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(GameListEntry, {
-    bindings: [inputBinding('game', signal(defaultProps.game))],
+    bindings: [
+      inputBinding('game', signal(mergedProps.game)),
+      inputBinding('statusLabel', signal(mergedProps.gameStatus)),
+      inputBinding('homeScore', signal(mergedProps.homeScore)),
+      inputBinding('awayScore', signal(mergedProps.awayScore)),
+      inputBinding('isLive', signal(mergedProps.isLive)),
+      inputBinding('isUpcoming', signal(mergedProps.isUpcoming)),
+    ],
   });
   const component = fixture.componentInstance;
   fixture.detectChanges();
+  await fixture.whenStable();
 
   return {
     component,
@@ -66,4 +103,9 @@ async function setUp() {
 
 interface Props {
   game: Game;
+  isLive: boolean;
+  gameStatus: string;
+  homeScore: number;
+  awayScore: number;
+  isUpcoming: boolean;
 }

@@ -37,13 +37,41 @@
       "actions": {
         "createGame": "New Game",
         "createGameInfo": "Pick both teams, then choose who's playing.",
-        "selectTeamToPickPlayer": "Select a team to pick players."
+        "selectTeamToPickPlayer": "Select a team to pick players.",
+        "createEvent": "Create new Event"
       },
+      "live": "live",
+      "upcoming": "upcoming",
+      "finished": "finished",
       "fields": {
         "homeTeam": "Home Team",
         "awayTeam": "Away Team",
         "startDate": "Kick-off Date",
-        "lineup": "lineup"
+        "lineup": "lineup",
+        "events": {
+          "type": "Type",
+          "minute": "Minute",
+          "minuteExtra": "Minute Extra",
+          "side": "Side",
+          "primaryPlayer": "Primary player",
+          "secondaryPlayer": "Secondary player",
+          "types": {
+            "GOAL": "Goal",
+            "KICKOFF": "Kick-off",
+            "HALF_TIME": "Half-time",
+            "PERIOD_END": "Period end",
+            "PERIOD_START": "Period start",
+            "GAME_END": "Game end",
+            "OVERTIME_START": "Overtime start"
+          },
+          "sides": {
+            "HOME": "Home",
+            "AWAY": "Away"
+          },
+          "errors": {
+            "min": "Value must be greater or equal 0"
+          }
+        }
       },
       "errors": {
         "lineMinSelection": "Select at least one player"
@@ -53,5 +81,13 @@
   "login": {
     "loginFailed": "Login failed, please try again",
     "registrationFailed": "Registration failed, please try again"
+  },
+  "home": {
+    "liveGames": "Live",
+    "upcomingGames": "Upcoming Games"
+  },
+  "gameDetail": {
+    "live": "Live",
+    "lineup": "Lineup"
   }
 }

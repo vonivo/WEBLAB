@@ -1,0 +1,50 @@
+<section class="px-4 py-6 sm:px-8">
+  <h3 class="mb-5 text-xs font-semibold uppercase tracking-wide text-(--lt-muted)">Match events</h3>
+
+  <ol class="relative">
+    @for (event of game().events; track event._id) {
+      <li
+        class="relative mb-5 grid grid-cols-[3rem_1fr] items-start gap-x-3 pb-5 last:mb-0 last:pb-0 sm:grid-cols-[1fr_2.5rem_1fr] sm:gap-x-4"
+      >
+        <!-- connecting rail: left edge on mobile, centered on desktop -->
+        @if (!$last) {
+          <span
+            class="absolute left-6 top-12 h-[calc(100%-1.8rem)] w-px bg-(--lt-border) sm:left-1/2"
+          ></span>
+        }
+
+        <!-- marker + minute -->
+        <div
+          class="z-10 order-1 flex items-center flex-col sm:gap-2 sm:order-2 sm:items-center sm:gap-1 sm:col-start-2"
+        >
+          <div
+            class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full ring-4 ring-(--lt-surface)"
+            [ngClass]="markerClasses(event)"
+          >
+            <mat-icon class="h-3.5! w-3.5! text-[14px]! text-white">
+              {{ eventIcon(event.type) }}
+            </mat-icon>
+          </div>
+          <span class="text-[11px] tabular-nums text-(--lt-muted)">
+            {{ eventMinuteLabel(event) }}
+          </span>
+        </div>
+
+        <!--          &lt;!&ndash; content: left column for home events, right column for away events &ndash;&gt;-->
+        <div
+          class="order-2 sm:order-1"
+          [ngClass]="
+            event.team === 'HOME'
+              ? 'sm:order-1 sm:col-start-1 sm:text-right'
+              : 'sm:order-3 sm:col-start-3 sm:text-left'
+          "
+        >
+          <p class="text-sm font-medium leading-snug">{{ eventTitle(event) }}</p>
+          @if (event.type === 'GOAL' && event.secondaryPlayerId) {
+            <p class="text-xs text-(--lt-muted)">{{ getAssist(event.secondaryPlayerId!) }}</p>
+          }
+        </div>
+      </li>
+    }
+  </ol>
+</section>

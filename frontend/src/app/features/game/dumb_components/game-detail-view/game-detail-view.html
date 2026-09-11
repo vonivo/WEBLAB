@@ -1,0 +1,19 @@
+<article class="mx-auto overflow-hidden rounded-2xl border-outline-variant shadow-sm">
+  <!-- Header / scoreboard -->
+  <app-game-detail-header
+    [game]="game()"
+    [homeScore]="homeScore()"
+    [awayScore]="awayScore()"
+    [isLive]="isLive()"
+    [statusLabel]="statusLabel()"
+  ></app-game-detail-header>
+
+  <mat-tab-group>
+    <mat-tab [label]="'gameDetail.live' | translate">
+      <app-game-detail-timeline [game]="game()"></app-game-detail-timeline>
+    </mat-tab>
+    <mat-tab [label]="'gameDetail.lineup' | translate"
+      ><app-game-detail-lineup [game]="game()"></app-game-detail-lineup
+    ></mat-tab>
+  </mat-tab-group>
+</article>
