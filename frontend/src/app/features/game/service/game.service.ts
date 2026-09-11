@@ -16,7 +16,7 @@ export class GameService {
   }
 
   isUpcoming(game: Game) {
-    return game.events.map((e) => e.type).some((t) => t === GameEventType.KICKOFF);
+    return !game.events.map((e) => e.type).some((t) => t === GameEventType.KICKOFF);
   }
 
   getStatusLabel(game: Game) {
