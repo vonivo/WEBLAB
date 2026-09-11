@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import { TeamService } from "./team.service.js";
 import { CreateGameDto, GameEventDto } from "../dto/game.dto.js";
-import { Team, TeamDocument } from "../schema/team.schema.js";
+import { TeamDocument } from "../schema/team.schema.js";
 import { Player, PlayerDocument } from "../schema/player.schema.js";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
@@ -32,7 +32,7 @@ export class GameService {
   async findById(id: string) {
     const game: Game | null = await this.gameModel.findById(id);
     if (game) {
-      const sortedEvents = game.events.sort((a, b) => {
+      game.events = game.events.sort((a, b) => {
         const minuteDiff = this.totalMinute(b) - this.totalMinute(a);
 
         if (b.timeStamp && a.timeStamp) {

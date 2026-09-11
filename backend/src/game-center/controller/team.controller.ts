@@ -15,7 +15,7 @@ import { AuthGuard } from "../../authentication/auth.guard.js";
 import { IsObjectIdPipe } from "@nestjs/mongoose";
 
 @Controller("teams")
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class TeamController {
   constructor(private teamService: TeamService) {}
 

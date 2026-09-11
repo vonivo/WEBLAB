@@ -18,7 +18,6 @@ import { envValidationSchema } from "./config/env.validation.js";
     }),
     GameCenterModule,
     AuthenticationModule,
-    ConfigModule.forRoot({ isGlobal: true }),
     CacheModule.register(),
     MongooseModule.forRootAsync({
       inject: [mongoConfig.KEY],

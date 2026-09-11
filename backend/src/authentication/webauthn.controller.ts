@@ -11,7 +11,6 @@ import {
 } from "@nestjs/common";
 
 import {
-  WebAuthnCredential,
   GenerateRegistrationOptionsOpts,
   generateRegistrationOptions,
   VerifiedRegistrationResponse,
