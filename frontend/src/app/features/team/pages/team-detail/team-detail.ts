@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeamApi } from '../../../../core/services/team.api';
 import { toSignal } from '@angular/core/rxjs-interop';

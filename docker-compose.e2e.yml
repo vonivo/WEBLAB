@@ -1,0 +1,52 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/
+      MONGODB_USER: root
+      MONGODB_PASS: example
+      WEBAUTHN_RP_NAME: Live Ticker
+      WEBAUTHN_RP_ID: localhost
+      WEBAUTHN_ORIGINS: http://localhost:4200
+      JWT_ACCESS_TOKEN_SECRET: <This is a Demo JWT-Secret and should not be used in production!>
+      JWT_ACCESS_TOKEN_EXPIRATION: 2h
+      JWT_REFRESH_TOKEN_SECRET: <This is another Demo JWT-Secret and should not be used in production!>
+      JWT_REFRESH_TOKEN_EXPIRATION: 7d
+    networks:
+      - devnet
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo-data:/data/db
+    expose:
+      - 27017
+    networks:
+      - devnet
+
+  frontend:
+    container_name: weblab-demo-project_frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    # Exposes the containers internal Port 80 (right) to the host system through port 80 (left)
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - devnet
+
+volumes:
+  mongo-data:
+
+networks:
+  devnet:

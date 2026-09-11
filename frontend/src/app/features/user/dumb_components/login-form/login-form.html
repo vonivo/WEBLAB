@@ -13,7 +13,13 @@
           matInput
           [placeholder]="'generic.username' | translate"
           [formField]="loginForm.username"
+          data-testid="LF_USERNAME_INPUT"
         />
+        <mat-error>
+          @for (error of loginForm.username().errors(); track error) {
+            <span>{{ error.message | translate }}</span>
+          }
+        </mat-error>
       </mat-form-field>
 
       <button
@@ -21,6 +27,7 @@
         matButton="filled"
         class="h-12 w-full rounded-lg"
         (click)="handleLoginClick($event)"
+        data-testid="LF_LOGIN_BTN"
       >
         {{ 'generic.login' | translate }}
       </button>
@@ -29,6 +36,7 @@
         matButton="outlined"
         class="h-12 w-full rounded-lg"
         (click)="handleRegistrationClick($event)"
+        data-testid="LF_REGISTER_BTN"
       >
         {{ 'generic.register' | translate }}
       </button>

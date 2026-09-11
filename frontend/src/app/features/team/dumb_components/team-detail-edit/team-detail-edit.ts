@@ -66,6 +66,7 @@ export class TeamDetailEdit {
 
   save(event: Event): void {
     event.preventDefault();
+    this.editTeamForm().markAsTouched();
     if (this.editTeamForm().valid()) {
       const team = {
         _id: this.team()._id,
@@ -101,6 +102,7 @@ export class TeamDetailEdit {
   }
 
   private setTeam(team: Team): void {
+    console.log('aaa', team);
     this.editTeamForm.name().value.set(team.name);
     this.editTeamForm.logoUrl().value.set(team.logoUrl);
     this.editTeamForm.players().value.set(team.players);

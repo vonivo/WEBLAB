@@ -1,6 +1,6 @@
 import { Component, model, output } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { TranslatePipe } from '@ngx-translate/core';
 import { form, FormField, required } from '@angular/forms/signals';
 
@@ -9,7 +9,7 @@ interface LoginData {
 }
 
 @Component({
-  imports: [MatButton, MatFormField, MatLabel, TranslatePipe, MatInput, FormField],
+  imports: [MatButton, MatFormField, MatLabel, TranslatePipe, MatInput, FormField, MatError],
   selector: 'app-login-form',
   styleUrl: './login-form.css',
   templateUrl: './login-form.html',
@@ -27,6 +27,7 @@ export class LoginForm {
 
   handleRegistrationClick(event: Event) {
     event.preventDefault();
+    this.loginForm().markAsTouched();
     if (this.loginForm().valid()) {
       this.onRegister.emit(this.loginModel().username);
     }
@@ -34,6 +35,7 @@ export class LoginForm {
 
   handleLoginClick(event: Event) {
     event.preventDefault();
+    this.loginForm().markAsTouched();
     if (this.loginForm().valid()) {
       this.onLogin.emit(this.loginModel().username);
     }

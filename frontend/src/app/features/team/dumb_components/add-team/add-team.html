@@ -10,6 +10,7 @@
           matInput
           [formField]="addTeamForm.name"
           [placeholder]="'types.team.fields.name' | translate"
+          data-testid="AT_NAME_INPUT"
         />
         @if (addTeamForm.name().invalid()) {
           <mat-error>
@@ -19,15 +20,16 @@
           </mat-error>
         }
       </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
+      <mat-form-field appearance="outline" class="w-full mt-2">
         <mat-label>{{ 'types.team.fields.logoUrl' | translate }}</mat-label>
         <input
           matInput
           [formField]="addTeamForm.logoUrl"
           [placeholder]="'types.team.fields.logoUrl' | translate"
+          data-testid="AT_LOGO_URL_INPUT"
         />
         <mat-error>
-          @for (error of addTeamForm.name().errors(); track error) {
+          @for (error of addTeamForm.logoUrl().errors(); track error) {
             <span>{{ error.message | translate }}</span>
           }
         </mat-error>

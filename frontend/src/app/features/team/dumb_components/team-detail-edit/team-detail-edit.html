@@ -107,6 +107,7 @@
                 aria-label="Remove player"
                 class="mt-1"
                 (click)="removePlayer(i)"
+                [attr.data-testid]="`EDIT_TEAM_PLAYER${i}_DELETE`"
               >
                 <mat-icon>delete</mat-icon>
               </button>
@@ -124,10 +125,10 @@
       @if (this.editTeamForm().touched()) {
         <mat-divider />
         <div class="flex justify-end gap-3 px-6 py-4">
-          <button mat-button type="button" (click)="cancel()">
+          <button mat-button type="button" (click)="cancel()" data-testid="TDE_CANCEL">
             {{ 'generic.cancel' | translate }}
           </button>
-          <button mat-flat-button color="primary" type="submit">
+          <button mat-flat-button color="primary" type="submit" data-testid="TDE_SUBMIT">
             <mat-icon>save</mat-icon>
             {{ 'generic.save' | translate }}
           </button>

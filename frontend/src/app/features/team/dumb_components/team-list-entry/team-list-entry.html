@@ -1,4 +1,4 @@
-<mat-card class="transition-all duration-200">
+<mat-card class="transition-all duration-200" [attr.data-testid]="`TLE_${team().name}`">
   <mat-card-header class="items-center px-5! py-4!">
     <!-- Team Logo -->
     <div
@@ -27,7 +27,13 @@
 
     <!-- Actions -->
     <div class="ml-auto flex items-center gap-1">
-      <a [routerLink]="team()._id" mat-icon-button type="button" aria-label="Edit team">
+      <a
+        [routerLink]="team()._id"
+        mat-icon-button
+        type="button"
+        aria-label="Edit team"
+        [attr.data-testid]="`TLE_${team().name}_EDIT`"
+      >
         <mat-icon>edit</mat-icon>
       </a>
 
@@ -36,6 +42,7 @@
         type="button"
         aria-label="Delete team"
         (click)="handleDeleteButtonClick(team())"
+        [attr.data-testid]="`TLE_${team().name}_DELETE`"
       >
         <mat-icon>delete</mat-icon>
       </button>
