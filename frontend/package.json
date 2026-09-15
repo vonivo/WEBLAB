@@ -9,7 +9,8 @@
     "test": "ng test",
     "test:ci": "ng test --watch=false",
     "prettier": "prettier --write .",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "packageManager": "npm@11.19.0",
