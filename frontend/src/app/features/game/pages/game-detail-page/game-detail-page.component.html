@@ -1,7 +1,12 @@
 @if (isLoggedIn()) {
   <div class="fixed bottom-0 right-0 mb-6 mr-6 z-50">
     <div class="hidden md:block">
-      <button matFab aria-label="add game event" (click)="handleAddClick()">
+      <button
+        matFab
+        aria-label="add game event"
+        (click)="handleAddClick()"
+        data-testid="GDP_ADD_EVENT_BTN"
+      >
         <mat-icon>add</mat-icon>
       </button>
     </div>

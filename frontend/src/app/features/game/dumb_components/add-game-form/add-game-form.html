@@ -48,7 +48,12 @@
 
   <mat-form-field appearance="outline" class="w-full sm:w-64">
     <mat-label>{{ 'types.game.fields.startDate' | translate }}</mat-label>
-    <input matInput [matDatepicker]="picker" [formField]="createGameForm.startDate" />
+    <input
+      matInput
+      [matDatepicker]="picker"
+      [formField]="createGameForm.startDate"
+      data-testid="AGF_STARTTIME_INPUT"
+    />
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
     <mat-hint>MM/DD/YYYY</mat-hint>
@@ -81,6 +86,7 @@
             <mat-checkbox
               class="block"
               [formField]="createGameForm.lineUpHomeSelection[$index].selected"
+              [attr.data-testid]="`AGF_LINEUP_HOME_${player._id}`"
             >
               {{ player.firstname }} {{ player.lastname }}
             </mat-checkbox>
@@ -119,6 +125,7 @@
             <mat-checkbox
               class="block"
               [formField]="createGameForm.lineUpAwaySelection[$index].selected"
+              [attr.data-testid]="`AGF_LINEUP_AWAY_${player._id}`"
             >
               {{ player.firstname }} {{ player.lastname }}
             </mat-checkbox>
@@ -142,7 +149,7 @@
     <button mat-stroked-button type="button" (click)="handleCancelClick()">
       {{ 'generic.cancel' | translate }}
     </button>
-    <button mat-flat-button color="primary" type="submit">
+    <button mat-flat-button color="primary" type="submit" data-testid="AGF_SUBMIT_BTN">
       {{ 'generic.submit' | translate }}
     </button>
   </div>

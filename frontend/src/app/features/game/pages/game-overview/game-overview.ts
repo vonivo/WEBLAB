@@ -10,7 +10,7 @@ import { AuthService } from '../../../../authentication/auth.service';
 
 @Component({
   imports: [GameList, TranslatePipe, MatFabButton, MatIcon, RouterLink],
-  selector: 'app-match-overview',
+  selector: 'app-game-overview',
   styleUrl: './game-overview.css',
   templateUrl: './game-overview.html',
 })

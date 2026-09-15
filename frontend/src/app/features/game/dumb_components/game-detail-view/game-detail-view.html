@@ -9,10 +9,10 @@
   ></app-game-detail-header>
 
   <mat-tab-group>
-    <mat-tab [label]="'gameDetail.live' | translate">
+    <mat-tab [label]="'gameDetail.live' | translate" data-testid="GDV_LIVE_TAB">
       <app-game-detail-timeline [game]="game()"></app-game-detail-timeline>
     </mat-tab>
-    <mat-tab [label]="'gameDetail.lineup' | translate"
+    <mat-tab [label]="'gameDetail.lineup' | translate" data-testid="GDV_LINEUP_TAB"
       ><app-game-detail-lineup [game]="game()"></app-game-detail-lineup
     ></mat-tab>
   </mat-tab-group>

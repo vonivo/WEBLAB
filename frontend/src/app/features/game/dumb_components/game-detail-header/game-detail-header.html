@@ -20,14 +20,17 @@
         class="flex items-center justify-center gap-2 text-xs font-semibold tracking-wide justify-self-start"
       >
         @if (isLive()) {
-          <span class="relative flex h-2 w-2">
+          <span class="relative flex h-2 w-2" data-testid="GDH_LIVE_INDICATOR">
             <span
               class="absolute inline-flex h-full w-full animate-ping rounded-full bg-(--lt-accent) opacity-75"
             ></span>
             <span class="relative inline-flex h-2 w-2 rounded-full bg-(--lt-accent)"></span>
           </span>
         }
-        <span [ngClass]="'live' === 'live' ? 'text-(--lt-accent)' : 'text-(--lt-muted)'">
+        <span
+          [ngClass]="'live' === 'live' ? 'text-(--lt-accent)' : 'text-(--lt-muted)'"
+          data-testid="GDH_STATUS"
+        >
           {{ statusLabel() }}
         </span>
       </div>
