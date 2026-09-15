@@ -102,9 +102,10 @@ export class TeamDetailEdit {
   }
 
   private setTeam(team: Team): void {
-    console.log('aaa', team);
-    this.editTeamForm.name().value.set(team.name);
-    this.editTeamForm.logoUrl().value.set(team.logoUrl);
-    this.editTeamForm.players().value.set(team.players);
+    if (team) {
+      this.editTeamForm.name().value.set(team.name);
+      this.editTeamForm.logoUrl().value.set(team.logoUrl);
+      this.editTeamForm.players().value.set(team.players);
+    }
   }
 }

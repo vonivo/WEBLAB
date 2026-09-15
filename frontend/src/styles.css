@@ -26,7 +26,7 @@
   --lt-border: #e8e2da; /* neutral-variant / 90 */
   --lt-track: #e8e2da; /* neutral-variant / 90 */
   --lt-text: #1e1b15; /* neutral / 10         */
-  --lt-muted: #7a7670; /* neutral-variant / 50 */
+  --lt-muted: #69655f;
 
   --lt-accent: #7f5700; /* primary / 40   (live dot, progress bar, kickoff/status)       */
   --lt-yellow: #c08500; /* primary / 60   (yellow card — same family as accent, lighter) */
