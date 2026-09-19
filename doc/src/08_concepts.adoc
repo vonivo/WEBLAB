@@ -1,65 +1,181 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-concepts]]
-== Cross-cutting Concepts
+== Querschnittliche Konzepte
 
+=== Datenmodell
+Das Datenmodell besteht aus insgesamt 3 MonogDB-Kollektionen:
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Content
-This section describes crosscutting concepts (practices, patterns, regulations or solution ideas).
-Such concepts are often related to multiple building blocks. 
-They may include many different topics, such as the topics shown in the following diagram:
+* User
+* Team
+* Game
 
-image::08-concepts-EN.drawio.png["Possible topics for crosscutting concepts"]
+[plantuml, data-model, svg]
+----
+@startuml DatenmodellDiagram
+class Team <<Collection>> {
+  _id : ObjectId
+  name : string {unique}
+  logoUrl : string
+}
 
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
-Thus, they are an important contribution to achieve inner qualities of your system.
+class Game <<Collection>> {
+  _id : ObjectId
+  startDate : Date
+  endDate : Date
+}
 
-This is the place in the template that we provided for a cohesive specification of such concepts.
+class User <<Collection>> {
+  _id : ObjectId
+  username : string {unique}
+}
 
-Many of these concepts relate to or influence several of your building blocks. 
+class Player <<Embedded>> {
+  _id : ObjectId
+  firstname : string
+  lastname : string
+}
 
-.Form
-The form can be varied:
+class GameTeam <<Embedded>> {
+  team : ObjectId
+  name : string
+  logoUrl : string
+}
 
-* concept papers with any kind of structure
-* example implementations,especially for technical concepts
-* cross-cutting model excerpts or scenarios using notations of the architecture views
+class GameEvent <<Embedded>> {
+  minute : number
+  minuteExtra : number = 0
+  type : GameEventType
+  team : GameSide
+  primaryPlayerId : ObjectId
+  secondaryPlayerId : ObjectId
+  timeStamp : Date
+}
 
-.Structure
-Pick **only** the most-needed topics for your system and assign each a level-2 heading in this section (e.g. 8.1, 8.2 etc).
+class Credential <<Embedded>> {
+  id : string
+  publicKey : Buffer
+  counter : number = 0
+  transports : string[]
+}
 
-DO NOT ATTEMPT to cover all of the topics of the aforementioned diagram.
+enum GameSide {
+  HOME
+  AWAY
+}
 
+enum GameEventType {
+  KICKOFF
+  GOAL
+  HALF_TIME
+  PERIOD_START
+  PERIOD_END
+  OVERTIME_START
+  GAME_END
+}
 
-.Further Information
+Team "1" *-- "0..*" Player : players
 
-Some topics within systems often concern multiple building blocks, hardware elements or development processes.
-It might be easier to communicate or document such _cross-cutting_ topics at a central location, instead of repeating them in the description of the concerned building blocks, hardware elements or development processes.
+Game "1" *-- "1" GameTeam : homeTeam
+Game "1" *-- "1" GameTeam : awayTeam
+Game "1" *-- "0..*" GameEvent : events
 
-Certain concepts might concern **all** elements of a system, others might only be relevant for a few.
-In the diagram above, logging concerns all three components, whereas security is relevant only for two components.
+GameTeam "1" *-- "1..*" Player : players\n(Aufstellung)
+GameTeam "0..*" ..> "1" Team : team\n(Referenz)
 
+GameEvent "0..*" ..> "0..2" Player : primaryPlayerId /\nsecondaryPlayerId
+GameEvent ..> GameEventType
+GameEvent ..> GameSide
 
-See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
-****
-endif::arc42help[]
+User "1" *-- "0..*" Credential : credentials
+@enduml
+----
 
-=== _<Concept 1>_
+Wichtig zu vermerken, eine Entität welche den Stereotypen `Embedded` gekennzeichnet sind,
+sind keine eigenständigen Entitäten und werden im MongoDB-Dokument eingebettet.
 
-_<explanation>_
+Durch diese Struktur sind alle Informationen welche benötigt werden in einem Dokument verfügbar.
 
+*Beispiele*
 
+[source,json]
+----
+{
+    "_id": "ObjectId('6aa98f4277cd081018863ca0')",
+    "homeTeam": {
+        "team": "ObjectId('6aa98f4177cd081018863c7e')",
+        "name": "Team Stark",
+        "logoUrl": "https://images.seeklogo.com/logo-png/19/1/house-stark-logo-png_seeklogo-195050.png",
+        "players": [
+            {
+                "firstname": "Jon",
+                "lastname": "Snow",
+                "_id": "ObjectId('6aa98f4177cd081018863c7f')"
+            },
+            {
+                "firstname": "Rob",
+                "lastname": "Stark",
+                "_id": "ObjectId('6aa98f4177cd081018863c80')",
+            }
+        ],
+        "_id": "ObjectId('6aa98f4277cd081018863ca1')"
+      },
+    "awayTeam": {
+        "team": "ObjectId('6aa98f4177cd081018863c83')",
+        "name": "Team Lannister",
+        "logoUrl": "https://images.seeklogo.com/logo-png/25/2/house-lannister-logo-png_seeklogo-254146.png",
+        "players": [
+            {
+                "firstname": "Jamie",
+                "lastname": "Lannister",
+                "_id": "ObjectId('6aa98f4177cd081018863c84')"
+            },
+            {
+                "firstname": "Cersei",
+                "lastname": "Lannister",
+                "_id": "ObjectId('6aa98f4177cd081018863c86')"
+            }
+        ],
+        "_id": "ObjectId('6aa98f4277cd081018863ca5')"
+    },
+    "startDate": "Date('2026-09-14T22:00:00.000Z')",
+    "events": [
+        {
+            "minute": 95,
+            "minuteExtra": 0,
+            "type": "GOAL",
+            "team": "HOME",
+            "primaryPlayerId": "6aa98f4177cd081018863c80",
+            "secondaryPlayerId": "6aa98f4177cd081018863c82",
+            "_id": "ObjectId('6aa98f4b77cd081018863d69')",
+            "timeStamp": "Date('2026-09-15T18:32:43.787Z')",
+        }
+    ]
+}
+----
 
-=== _<Concept 2>_
+=== Authentication
+Die Anmeldung erfolgt passwortlos mit WebAuthn (Passkeys) und liefert ein JWT.
+Geschütze Funktionen (z.b. das Erstellen eines Teams) erfordern ein gültiges JWT.
 
-_<explanation>_
+*Backend*
 
-...
+* Das Login/Register wird über den `WebAuthnController` mittels `@simplewebauthn/server` realisiert. Nach erfolgreichem Login wird ein JWT generiert und ausgeliefert.
+* Für die Implementation der JWT-Funktionalität wird `@nestjs/jwt` verwendet.
+* Die Klasse `AuthGuard` kann verwendet werden, um Ressourcen zu schützen.
 
-=== _<Concept n>_
+*Frontend*
 
-_<explanation>_
+* Nach erfolgreichem Login/Register wird der `AuthService` aufgerufen, welcher das JWT im LocalStorage des Browsers speichert.
+* Bei jedem HTTP-Request wird über den `authInterceptor` das JWT an den Request angefügt.
+* `AuthService` stellt dem Rest der Applikation den Login-Status des benutzers zur Verfügung.
+
+=== Validierung
+*Backend*
+
+Input-Validierung auf der Seite des Backends wird mittles einer `global ValidationPipe` mit class-validatorDTOs realisiert.
+Weitergehende Business-Validation-Rules werden von den einzelnen Service-Klassen ausgeführt.
+
+*Frontend*
+
+Die Validierung im Frontend wird mithilfe der in Signal-Forms eingebauten Validierungsmechanismen umgesetzt.
