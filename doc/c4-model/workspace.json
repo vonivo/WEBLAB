@@ -1,0 +1,121 @@
+{
+  "configuration" : {
+    "scope" : "SoftwareSystem"
+  },
+  "description" : "DSL of Live Ticker c4 model",
+  "documentation" : { },
+  "id" : 1,
+  "lastModifiedDate" : "2026-09-19T08:19:08Z",
+  "model" : {
+    "people" : [ {
+      "description" : "Benutzer welcher die Live Ticker Applikation nutzt.",
+      "id" : "1",
+      "name" : "User",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "relationships" : [ {
+        "description" : "Ruft Infromationen zu Spielen ab",
+        "destinationId" : "3",
+        "id" : "5",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Person"
+    }, {
+      "description" : "Admin benutzer welches Teams, Games und Events verwaltet.",
+      "id" : "2",
+      "name" : "Admin",
+      "properties" : {
+        "structurizr.dsl.identifier" : "adm"
+      },
+      "relationships" : [ {
+        "description" : "Erfasst Games/Teams/Events",
+        "destinationId" : "3",
+        "id" : "4",
+        "sourceId" : "2",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Person"
+    } ],
+    "softwareSystems" : [ {
+      "description" : "Live Ticker Web-Application.",
+      "documentation" : { },
+      "id" : "3",
+      "name" : "Live Ticker",
+      "properties" : {
+        "structurizr.dsl.identifier" : "liveTicker"
+      },
+      "relationships" : [ {
+        "description" : "SPA-Webapplikation",
+        "destinationId" : "1",
+        "id" : "6",
+        "sourceId" : "3",
+        "tags" : "Relationship"
+      } ],
+      "tags" : "Element,Software System"
+    } ]
+  },
+  "name" : "Live Ticker",
+  "properties" : {
+    "structurizr.inspection.error" : "3",
+    "structurizr.dsl" : "d29ya3NwYWNlICJMaXZlIFRpY2tlciIgIkRTTCBvZiBMaXZlIFRpY2tlciBjNCBtb2RlbCIgewogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKICAgICAgICB1c2VyID0gcGVyc29uICJVc2VyIiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICJCZW51dHplciB3ZWxjaGVyIGRpZSBMaXZlIFRpY2tlciBBcHBsaWthdGlvbiBudXR6dC4KICAgICAgICB9CiAgICAgICAgYWRtID0gcGVyc29uICJBZG1pbiIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiQWRtaW4gYmVudXR6ZXIgd2VsY2hlcyBUZWFtcywgR2FtZXMgdW5kIEV2ZW50cyB2ZXJ3YWx0ZXQuIgogICAgICAgIH0KCiAgICAgICAgbGl2ZVRpY2tlciA9IHNvZnR3YXJlU3lzdGVtICJMaXZlIFRpY2tlciIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiTGl2ZSBUaWNrZXIgV2ViLUFwcGxpY2F0aW9uLiIKICAgICAgICB9CgogICAgICAgIGFkbSAtPiBsaXZlVGlja2VyICJFcmZhc3N0IEdhbWVzL1RlYW1zL0V2ZW50cyIKICAgICAgICB1c2VyIC0+IGxpdmVUaWNrZXIgIlJ1ZnQgSW5mcm9tYXRpb25lbiB6dSBTcGllbGVuIGFiIgogICAgICAgIGxpdmVUaWNrZXIgLT4gdXNlciAiU1BBLVdlYmFwcGxpa2F0aW9uIgogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzeXN0ZW1Db250ZXh0IGxpdmVUaWNrZXIgIktvbnRleHREaWFncmFtIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiRWxlbWVudCIgewogICAgICAgICAgICAgICAgY29sb3IgIzAwNjZiMwogICAgICAgICAgICAgICAgc3Ryb2tlICMwMDY2YjMKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDcKICAgICAgICAgICAgICAgIHNoYXBlIHJvdW5kZWRib3gKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJQZXJzb24iIHsKICAgICAgICAgICAgICAgIHNoYXBlIHBlcnNvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRhdGFiYXNlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBjeWxpbmRlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkJvdW5kYXJ5IiB7CiAgICAgICAgICAgICAgICBzdHJva2VXaWR0aCA1CiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmVsYXRpb25zaGlwICJSZWxhdGlvbnNoaXAiIHsKICAgICAgICAgICAgICAgIHRoaWNrbmVzcyA0CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgY29uZmlndXJhdGlvbiB7CiAgICAgICAgc2NvcGUgc29mdHdhcmVzeXN0ZW0KICAgIH0KfQ==",
+    "structurizr.inspection.info" : "0",
+    "structurizr.inspection.ignore" : "0",
+    "structurizr.inspection.warning" : "0"
+  },
+  "views" : {
+    "configuration" : {
+      "styles" : {
+        "elements" : [ {
+          "strokeWidth" : 5,
+          "tag" : "Boundary"
+        }, {
+          "shape" : "Cylinder",
+          "tag" : "Database"
+        }, {
+          "color" : "#0066b3",
+          "shape" : "RoundedBox",
+          "stroke" : "#0066b3",
+          "strokeWidth" : 7,
+          "tag" : "Element"
+        }, {
+          "shape" : "Person",
+          "tag" : "Person"
+        } ],
+        "relationships" : [ {
+          "tag" : "Relationship",
+          "thickness" : 4
+        } ]
+      },
+      "terminology" : { }
+    },
+    "systemContextViews" : [ {
+      "elements" : [ {
+        "id" : "1",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "2",
+        "x" : 0,
+        "y" : 0
+      }, {
+        "id" : "3",
+        "x" : 0,
+        "y" : 0
+      } ],
+      "enterpriseBoundaryVisible" : true,
+      "key" : "KontextDiagram",
+      "name" : "System Context View: Live Ticker",
+      "order" : 1,
+      "relationships" : [ {
+        "id" : "4"
+      }, {
+        "id" : "5"
+      }, {
+        "id" : "6"
+      } ],
+      "softwareSystemId" : "3"
+    } ]
+  }
+}
