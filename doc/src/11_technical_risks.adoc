@@ -1,27 +1,33 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-technical-risks]]
-== Risks and Technical Debts
+==  Risiken und technische Schulden
 
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
+|===
+|Risiko / technische Schuld |Massnahme / Status
 
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
+|Internationalisierung: Bisher wird nur die Sprache EN ausgeliefert.
+|Grundstein für weitere Sprachen mit `ngx-translate` gelegt und könnte einfach hinzugefügt werden.
 
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
+|Registrierung: Die Registrierung ist bisher nicht beschränkt und jeder kann einfach einen Account erstellen und dan Daten bearbeiten.
+|Ist soweit angedacht, dass die Applikation einfach getestet werden kann. Wenn die Applikation produktiv geht, muss dies entsprechend gefixt werden.
 
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
+|Live-Updates: Neue Ereignisse erscheinen nur nach Neuladen oder Navigation. Es gibt weder WebSockets noch Polling, obwohl die Anforderung "Ereignisse ohne Reload" (Should have) besteht.
+|Offen. Polling als einfache Lösung oder WebSockets/SSE für Echtzeit ergänzen.
 
+|Token-Ablauf: Es gibt kein Refresh-Token, und die Angular-UI prüft weder den Ablauf noch behandelt sie `401`. Nach Ablauf wirkt der Benutzer angemeldet, Requests schlagen aber fehl. In `jwt.config.ts` liest `refreshTokenExpiration` ausserdem die falsche Variable.
+|Offen. `401` im Interceptor behandeln (Logout und Umleitung auf `/login`), Refresh-Token oder längere Gültigkeit prüfen.
 
-.Further Information
+|Token-Speicherung: Das JWT liegt im LocalStorage (bei XSS auslesbar) und bleibt nach dem Logout bis zum Ablauf gültig.
+|Akzeptiert für den Projektrahmen. Bei produktivem Betrieb Cookies (`HttpOnly`) und kurze Gültigkeit prüfen.
 
-See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
+|Challenge im Arbeitsspeicher: Die WebAuthn-Challenges liegen im lokalen Cache des Backends. Bei mehreren Instanzen oder einem Neustart schlägt ein laufender Ablauf fehl.
+|Bei einer Instanz unproblematisch. Für Skalierung einen gemeinsamen Cache (z. B. Redis) verwenden.
 
-****
-endif::arc42help[]
+|Eingabevalidierung und Missbrauchsschutz: Die WebAuthn-Endpunkte nehmen den Body untypisiert (`any`) entgegen, und ein Rate-Limiting ist nicht vorhanden.
+|Offen. DTOs mit `class-validator` ergänzen, Rate-Limiting für die Auth-Endpunkte prüfen.
+
+|Spieleliste ohne Paginierung: `GET /games` lädt alle Spiele mit allen Ereignissen und sortiert im Speicher. Die Antwort wächst mit jedem Spiel.
+|Bei kleiner Datenmenge unproblematisch. Später Paginierung, Filter nach Status und Sortierung in der Datenbank.
+|===

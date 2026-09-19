@@ -1,44 +1,21 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-glossary]]
-== Glossary
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-The most important domain and technical terms that your stakeholders use when discussing the system.
-
-You can also see the glossary as source for translations if you work in multi-language teams.
-
-.Motivation
-You should clearly define your terms, so that all stakeholders
-
-* have an identical understanding of these terms
-* do not use synonyms and homonyms
-
-
-.Form
-
-A table with columns <Term> and <Definition>.
-
-Potentially more columns in case you need translations.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
-
-****
-endif::arc42help[]
+== Glossar
 
 [cols="e,2e" options="header"]
 |===
-|Term |Definition
+|Begriff |Definition
 
-|<Term-1>
-|<definition-1>
+|SPA
+|Single-Page-Application. UI wird einmal geladen und dann clientseitig gerendert.
 
-|<Term-2>
-|<definition-2>
+|PWA
+|Progressive Web App: Web-Applikation die auf Mobile-Geräten installiert werden können und gewisse Native-Funktionalitäten unterstützen.
+
+|ADR
+|Architecture Decision Record: Hält eine getroffene Architekturentscheidung fest.
+
+|Lighthouse
+|Analyse-Tool für Web-Performance und Best-Practices von Google.
 |===

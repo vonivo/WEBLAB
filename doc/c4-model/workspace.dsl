@@ -69,7 +69,7 @@ workspace "Live Ticker" "DSL of Live Ticker c4 model" {
                     }
                 }
 
-                group "Login" {
+                group "User" {
                     loginContainer = component "Login Container" {
                         description "Registrierung und Anmeldung mit Login-Formular."
                     }

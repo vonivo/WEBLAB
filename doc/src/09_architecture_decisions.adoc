@@ -3,35 +3,216 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-design-decisions]]
 == Architecture Decisions
 
+=== ADR 01: Datenbanktechnologie
+==== Kontext
+Teams, Spiele (inklusive Spielereignissen und Aufstellung) sowie Benutzer mit ihren
+WebAuthn-Credentials müssen persistiert werden. Ein Spiel wird meist als Ganzes gelesen,
+und während eines Spiels kommen laufend neue Ereignisse hinzu.
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-Important, expensive, large scale or risky architecture decisions including rationales.
-With "decisions" we mean selecting one alternative based on given criteria.
+==== Betrachtete Alternativen
+* MongoDB (dokumentenorientiert)
+* PostgreSQL (relational)
 
-Please use your judgement to decide whether an architectural decision should be documented
-here in this central section or whether you better document it locally
-(e.g. within the white box template of one building block).
+==== Entscheidung
+Für die Persistenz wird MongoDB und Mongoose verwendet.
 
-Avoid redundancy. 
-Refer to section 4, where you already captured the most important decisions of your architecture.
+==== Begründung
+Ein Spiel ist ein in sich geschlossenes Dokument aus zwei Teams mit Aufstellung
+und Ereignissen. Es kann mit einer einzigen Abfrage gelesen werden.
+Das Embedding von einem Team-Snapshot passt sehr gut, um alle an einem Spiel beteiligten
+Spieler eines Teams abzubilden. Zusätzlich werden keine Joins benötigt.
+Name, Logo und Aufstellung der Teams werden beim Erstellen eines Spiels als Snapshot in das Spiel kopiert (siehe Datenmodell). Das passt gut zum Dokumentenmodell.
 
-.Motivation
-Stakeholders of your system should be able to comprehend and retrace your decisions.
+==== Konsequenz
+* Änderungen an einem Team wirken sich nicht auf bestehende Spiele aus. Das ist
+gewollt, damit vergangene Spiele nicht verändert werden.
+* Die Datenbank prüft Referenzen nicht. Die Konsistenz müssen die Services sicherstellen.
+* Es gibt keine Schema-Migration. Bei Änderungen der Mongoose-Schemas behalten
+bestehende Dokumente ihre alte Struktur
 
-.Form
-Various options:
 
-* ADR (https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions[Documenting Architecture Decisions]) for every important decision
-* List or table, ordered by importance and consequences or:
-* more detailed in form of separate sections per decision
+=== ADR 02: Backend-Technologie
+==== Kontext
+Die Backend-Technologie kann frei gewählt werden mit der Auflage das ein JavaScript/TypeScript backend genutzt wird.
 
-.Further Information
+==== Betrachtete Alternativen
+* NestJs
+* Express (ohne zusätzliches Framework)
 
-See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 documentation.
-There you will find links and examples about ADR.
+==== Entscheidung
+Für die Backentechnologie wird NestJs verwendet.
 
-****
-endif::arc42help[]
+==== Begründung
+NestJs bietet ein Framework mit vorgegebener Struktur (Module, Controller, Services, Dependency Injection) und integriert viele benötigte Funktionen:
+
+* Routing und Guards für die Absicherung von Endpunkten
+* Pipes und `class-validator` für die Validierung von Eingaben
+* `@nestjs/mongoose` für den Datenbankzugriff
+* `@nestjs/jwt` und `@nestjs/config` für JWT und Konfiguration
+
+==== Konsequenz
+* Alle Bausteine folgen dem Muster Modul, Controller, Service. Das sorgt für eine einheitliche Struktur und ist die Grundlage der Komponentensicht des Backends.
+* Dependency Injection macht Services einfach testbar (`@nestjs/testing`).
+* Das Projekt hängt vom Framework und dessen Versionen ab, Major-Upgrades können Anpassungen erfordern.
+
+=== ADR 03: Snapshot der Teams im Spiel
+==== Kontext
+Ein Spiel wird zwischen zwei Teams ausgetragen. Teams können verändert werden, ausserdem
+ist nicht jeder Spieler eines Teams automatisch an jedem Spiel des Teams beteiligt.
+Vergangene Spiele historisch korrekt angezeigt werden.
+
+==== Betrachtete Alternativen
+* *Nur Referenz:* Das Spiel speichert nur die Team-ID und die Spieler-IDs. Name, Logo und Spieler werden beim Lesen aus der Team-Collection geladen.
+* *Snapshot:* Beim Erstellen des Spiels werden Name, Logo und die Aufstellung aus dem Team in das Spiel kopiert.
+
+==== Entscheidung
+eim Erstellen eines Spiels wird ein Snapshot der beiden Teams im Spiel gespeichert
+(`GameTeam`: Name, Logo und Aufstellung). Zusätzlich bleibt die ID des Teams als
+Referenz erhalten.
+
+==== Begründung
+* Ein Spiel ist ein historisches Ereignis. Spätere Änderungen an einem Team dürfen bestehende Spiele nicht verändern.
+* Die Aufstellung enthält nur die Spieler, die am Spiel teilnehmen, nicht den ganzen Kader.
+* Ein Spiel lässt sich mit einer einzigen Abfrage vollständig laden, ohne Team-Daten nachzuladen.
+* Ein Team kann gelöscht werden, ohne dass bestehende Spiele unvollständig werden
+
+==== Konsequenz
+* Name, Logo und Spieler sind möglicherweise redundant gespeichert
+* Änderungen am Team wirken sich nicht auf bestehende Spiele aus.
+* Die Prüfung, ob Teams und Spieler existieren und ob die Teams verschieden sind,
+geschieht nur beim Erstellen des Spiels im `Game Service`.
+* Beim Hinzufügen von Ereignissen werden Spieler-IDs gegen die Aufstellung des Spiels geprüft und nicht gegen das Team.
+
+=== ADR 04: Authentication via Webauthn
+==== Kontext
+Die Verwaltung von Spielen und Teams darf nur von angemeldeten Benutzern gemacht werden.
+
+==== Betrachtete Alternativen
+* Benutzername und Passwort
+* WebAuthn
+
+==== Entscheidung
+Für die Authentication wird WebAuthn verwendet.
+
+==== Begründung
+Damit ein möglichst grosser Lerneffekt erzielt werden kann, wird WebAuthn verwendet,
+da damit bisher noch keine Erfahrungen gesammelt wurden.
+Zusätzlich müssen keine Passwörter gespeichert werden und das Login-Verfahren ist Phishing-Resistent
+
+==== Konsequenz
+* Die Datenbank enthält keine geheimen Anmeldedaten. Pro Benutzer werden nur Credentials (ID, öffentlicher Schlüssel, Zähler, Transports) gespeichert.
+* Für die Anmeldung wird ein Authenticator benötigt.
+* Der Browser muss WebAuthn unterstützen.
+* Jede Registrierung und Anmeldung besteht aus zwei Requests (Optionen holen, Ergebnis verifizieren). Das Backend muss die Challenge dazwischen halten, aktuell im lokalen Cache.
+* Es gibt keinen Wiederherstellungsprozess. Geht der Authenticator verloren, ist kein Zugang mehr möglich.
+* Die Registrierung ist aktuell nicht auf bestimmte Benutzer beschränkt. Aus Testzwecken kann sich bisher jeder registrieren.
+
+=== ADR 05: Frontend-Technologie
+==== Kontext
+Die Benutzeroberfläche des Live-Tickers muss im Browser laufen, auf Desktop und Mobile
+bedienbar sein und Daten über die REST-API des Backends darstellen und erfassen.
+Für spätere Weiterentwicklungen soll die Technologie PWAs unterstützen.
+
+==== Betrachtete Alternativen
+* Angular
+* React
+
+==== Entscheidung
+Das Frontend wird als Single-Page-Application mit Angular (TypeScript) umgesetzt.
+
+==== Begründung
+* Das Framework Angular wurde im kurs WEBLAB behandelt.
+* Das Konzept (Dekoratoren, Dependency Injection, Services) ist dem von NestJs sehr ähnlich, siehe ADR 02. In Frontend und Backend wird TypeScript verwendet.
+* Mithilfe von Servicerworkern kann mit Angular eine PWA umgesetzt werden.
+
+==== Konsequenz
+* Die Anwendung muss gebuildet werden und als statische Dateien ausgeliefert werden.
+* Angular hat einen grossen Funktionsumfang.
+
+=== ADR 06: Gliederung des Frontends in Features
+==== Kontext
+Die Angular-UI umfasst mehrere Teilbereiche (Spiele, Teams, Benutzer/Login) mit je
+eigenen Seiten, Logik und Formularen. Die Codebase soll übersichtlich bleiben und neue
+Funktionen sollen sich klar einordnen lassen.
+
+==== Betrachtete Alternativen
+* *Gliederung nach technischem Typ:* globale Ordner `pages/`, `components/`, `services/`
+* *Gliederung nach Feature:* ein Ordner pro Fachbereich mit allem, was dazugehört
+* *Gliederung nach Pages*: ein Ordern pro "URL" welcher ein Benutzer aufruft.
+
+==== Entscheidung
+Der Code wird nach Features gegliedert mit folgenden ausnahmen:
+
+* `authentication/`: Auth Service, Interceptor, Route Guards
+* `components/`: App-weite Components (Navigation, Side-Nav, Skeleton-Loader)
+* `config/`: Routen und Konfiguration
+* `core/`: von mehreren Features genutzte Services und Typen (z. B. `TeamApi`)
+
+==== Begründung
+* Zusammengehörige Code-Teile sind in einem Feature gebündelt.
+* Die Features sind voneinander unabhängig.
+* Mithilfe von Servicerworkern kann mit Angular eine PWA umgesetzt werden.
+
+==== Konsequenz
+* Code, der von mehreren Features genutzt wird, muss nach `core/` verschoben werden.
+* Die Entscheidung, was ein Feature und was querschnittlich ist, muss bei neuem Code bewusst getroffen werden.
+* Die Struktur ist in jedem Feature ähnlich, was die Orientierung vereinfacht.
+
+
+=== ADR 07: Pages, Smart Containers und Dumb Components
+==== Kontext
+Innerhalb eines Features müssen Routing-Spezifische-Sachen, Datenbeschaffung und
+Darstellung organisiert werden. Funktionen werden teilweise wiederverwendet oder auf
+einem anderen Gerät anders dargestellt.
+
+==== Betrachtete Alternativen
+* *Eine Komponente pro Seite:* sie kennt die Route, lädt die Daten und stellt sie dar
+* *Page, Smart Container und Dumb Component:* Aufgaben auf drei Arten von Komponenten verteilt
+
+==== Entscheidung
+Komponenten werden in drei Rollen geteilt:
+
+* *`Page`:* wird vom Router geladen und entspricht einer URL. Sie liest Routenparameter und bindet `Smart Containers` ein.
+* *`Smart Container`:* Orchestrator einer View. Er beschafft die Daten über Services, hält die Logik und reagiert auf Ereignisse.
+* *`Dumb Component`:* reine Darstellung. Sie erhält Daten über Inputs und meldet Aktionen über Outputs. Sie kennt weder Services noch das Backend.
+
+==== Begründung
+* `Smart Containers` sind innerhalb eines Features wiederverwendbar.
+* `Dumb Components` sind einfach testbar und wiederverwendbar
+* Zuständigkeiten sind klar getrennt.
+
+==== Konsequenz
+* Für eine Funktion sind mehrere Dateien und Komponenten nötig
+* Daten und Ereignisse werden über Inputs und Outputs durchgereicht, was bei tiefer Verschachtelung aufwendig werden kann.
+
+=== ADR 08: UI-Bibliothek und Styling (Angular Material und Tailwind CSS)
+==== Kontext
+Die Oberfläche braucht interaktive Elemente wie Dialoge, Formulare, etc. Ausserdem muss
+das Layout auf Desktop und Mobile funktionieren.
+
+==== Betrachtete Alternativen
+* Nur Angular Material, Layout mit eigenem CSS
+* Nur Tailwind CSS, Komponenten selbst bauen
+* Pico Css
+
+==== Entscheidung
+Es werden Angular Material und Tailwind CSS kombiniert, mit klarer Aufgabenteilung:
+
+* *Angular Material* liefert die interaktiven Komponenten (Dialog, Formularfelde, Select, etc.)
+* *Tailwind CSS* wird für Layout, Abstände, Typografie und responsives Verhalten direkt in den Templates verwendet.
+
+==== Begründung
+* Komponenten wie Dialog, Select, Datepicker und Formularfelder sind aufwendig in einer Eigenimplementation.
+* Für Abstände, Grid und Breakpoints ist Tailwind deutlich schneller als eigenes CSS.
+* Nur Tailwind hätte bedeutet, alle interaktiven Komponenten selbst zu bauen. Nur
+Material hätte für das Layout viel eigenes CSS erfordert.
+
+==== Konsequenz
+* Es gibt zwei Systeme für das Styling. Die Aufgabenteilung (Material für Komponenten,
+Tailwind für Layout) muss eingehalten werden, sonst wird das Erscheinungsbild
+uneinheitlich.
+* Farben für Spielereignisse (Tor, Karten, Auswechslung, Live-Anzeige) sind eigene Variablen (`--lt-*`) und nicht Teil der Material-Palette.
+* Templates enthalten viele Utility-Klassen, das kann die Lesbarkeit verringern.
+* Material-Komponenten lassen sich nur begrenzt vom Material-Design-Look abweichend gestalten.
+* Beide Bibliotheken haben eigene Versionen und Upgrades (aktuell Tailwind 4 mit PostCSS-Plugin, Angular Material passend zu Angular).
+* Bundle-Size steigt durch Material-Components.
