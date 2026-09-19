@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { LoginForm } from '../../dumb_components/login-form/login-form';
-import { WebauthnService } from '../../services/webautn.service';
+import { WebauthnService } from '../../services/webauthn.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';

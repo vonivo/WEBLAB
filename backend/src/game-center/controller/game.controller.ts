@@ -22,7 +22,7 @@ export class GameController {
   }
 
   @Get(":gameId")
-  async getGameGyId(@Param("gameId", IsObjectIdPipe) gameId: string) {
+  async getGameById(@Param("gameId", IsObjectIdPipe) gameId: string) {
     const game = await this.gameService.findById(gameId);
     if (!game) {
       throw new NotFoundException(`Game with ID ${gameId} not found`);

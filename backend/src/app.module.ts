@@ -3,7 +3,7 @@ import { AppController } from "./app.controller.js";
 import { GameCenterModule } from "./game-center/game-center.module.js";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ConfigModule, ConfigService, ConfigType } from "@nestjs/config";
-import { AuthenticationModule } from "./authentication/authentication.moudule.js";
+import { AuthenticationModule } from "./authentication/authentication.module.js";
 import { CacheModule } from "@nestjs/cache-manager";
 import webauthnConfig from "./config/webauthn.config.js";
 import mongoConfig from "./config/mongo.config.js";

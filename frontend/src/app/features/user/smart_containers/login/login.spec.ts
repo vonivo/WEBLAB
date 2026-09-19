@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { describe, expect, it, vi } from 'vitest';
 import { Login } from './login';
-import { WebauthnService } from '../../services/webautn.service';
+import { WebauthnService } from '../../services/webauthn.service';
 
 describe('Login', () => {
   it('should create', async () => {
