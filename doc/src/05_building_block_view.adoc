@@ -276,9 +276,6 @@ die REST-Aufrufe, Domain-Services enthalten Logik, die nur im Client benötigt w
 |`features/user/services/`
 |===
 
-
-
-=== Level 3
 === Level 3
 Auf eine weitere Zerlegung wird verzichtet. Die Komponenten der Angular-UI und des
 Backends sind überschaubar und folgen den Konventionen ihrer Frameworks, eine weitere

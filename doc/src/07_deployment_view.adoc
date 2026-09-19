@@ -3,98 +3,56 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-deployment-view]]
 
 
-== Deployment View
+== Verteilungssicht
+=== Produktionsumgebung
+Die Anwendung wird vollständig containerisiert betrieben. (`docker-compose.yml`)
+Die Deployment-Umgebung besteht aus drei Docker-Containern:
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Content
-The deployment view describes:
+* *Frontend*: Enthält Angular App welche über Nginx ausgeliefert wird.
+* *Backend*: Enthält NestJs Applikation
+* *MongoDB*: MongoDB 7 als persistente Datenbank.
 
- 1. technical infrastructure used to execute your system, with infrastructure elements like geographical locations, environments, computers, processors, channels and net topologies as well as other infrastructure elements and
+Die Container sind über das Docker-Netzwerk `devnet` verbunden.
+Nach Aussen wird ausschliesslich der Port `80` des Frontends freigegeben.
 
-2. mapping of (software) building blocks to that infrastructure elements.
+Die MongoDB-Daten werden über ein Docker Volume `mongo-data` persistent gespeichert.
 
-Often systems are executed in different environments, e.g. development environment, test environment, production environment. In such cases you should document all relevant environments.
+[plantuml, deployment-overview, svg]
+----
+@startuml
+node "Docker Host" as host {
 
-Especially document a deployment view if your software is executed as distributed system with more than one computer, processor, server or container or when you design and construct your own hardware processors and chips.
+node "Docker Network: devnet" as network {
 
-From a software perspective it is sufficient to capture only those elements of an infrastructure that are needed to show a deployment of your building blocks. Hardware architects can go beyond that and describe an infrastructure to any level of detail they need to capture.
+node "Frontend Container" as frontend {
+  artifact "Nginx\nAngular Production Build" as frontendApp
+}
 
-.Motivation
-Software does not run without hardware.
-This underlying infrastructure can and will influence a system and/or some
-cross-cutting concepts. Therefore, there is a need to know the infrastructure.
+node "Backend Container" as backend {
+  artifact "Node.js Backend" as backendApp
+}
 
-.Form
+database "MongoDB 7" as mongo
 
-Maybe a highest level deployment diagram is already contained in section 3.2. as
-technical context with your own infrastructure as ONE black box. In this section one can
-zoom into this black box using additional deployment diagrams:
+}
 
-* UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
-when your infrastructure is more complex.
-* When your (hardware) stakeholders prefer other kinds of diagrams rather than a deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.
+folder "Docker Volume" as volume {
+    file "mongo-data" as mongoData
+    }
+}
 
+actor "Client / Browser" as client
 
-.Further Information
+client -> frontend : HTTP :80
+frontend --> backend : HTTP :3000
+backend -> mongo : MongoDB :27017
+mongo -> mongoData : persistent data
 
-See https://docs.arc42.org/section-7/[Deployment View] in the arc42 documentation.
+@enduml
+----
 
-****
-endif::arc42help[]
+=== E2E-Testumgebung
+Auch die Testumgebung für die E2E-Tests wird containerisiert erstellt. (`docker-compose.e2e.yml`)
 
-=== Infrastructure Level 1
+Einziger Unterschied ist das der Port `4200` für das Frontend exponiert wird.
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Describe (usually in a combination of diagrams, tables, and text):
-
-* distribution of a system to multiple locations, environments, computers, processors, .., as well as physical connections between them
-* important justifications or motivations for this deployment structure
-* quality and/or performance features of this infrastructure
-* mapping of software artifacts to elements of this infrastructure
-
-For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
-****
-endif::arc42help[]
-
-_**<Overview Diagram>**_
-
-Motivation::
-
-_<explanation in text form>_
-
-Quality and/or Performance Features::
-
-_<explanation in text form>_
-
-Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
-
-
-=== Infrastructure Level 2
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
-
-Please copy the structure from level 1 for each selected element.
-****
-endif::arc42help[]
-
-==== _<Infrastructure Element 1>_
-
-_<diagram + explanation>_
-
-==== _<Infrastructure Element 2>_
-
-_<diagram + explanation>_
-
-...
-
-==== _<Infrastructure Element n>_
-
-_<diagram + explanation>_
