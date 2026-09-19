@@ -1,180 +1,187 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-building-block-view]]
-
-
 == Building Block View
+=== Level 1: Whitebox Gesamtsystem
+image:ContainerDiagram.png[]
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Content
-The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, ...) as well as their dependencies (relationships, associations, ...)
-
-This view is mandatory for every architecture documentation.
-In analogy to a house this is the _floor plan_.
-
-.Motivation
-Maintain an overview of your source code by making its structure understandable through
-abstraction.
-
-This allows you to communicate with your stakeholder on an abstract level without disclosing implementation details.
-
-.Form
-The building block view is a hierarchical collection of black boxes and white boxes
-(see figure below) and their descriptions.
-
-image::05_building_blocks-EN.png["Hierarchy of building blocks"]
-
-*Level 1* is the white box description of the overall system together with black
-box descriptions of all contained building blocks.
-
-*Level 2* zooms into some building blocks of level 1.
-Thus it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.
-
-*Level 3* zooms into selected building blocks of level 2, and so on.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-5/[Building Block View] in the arc42 documentation.
-
-****
-endif::arc42help[]
-
-=== Whitebox Overall System
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Here you describe the decomposition of the overall system using the following white box template. It contains
-
- * an overview diagram
- * a motivation for the decomposition
- * black box descriptions of the contained building blocks. For these we offer you alternatives:
-
-   ** use _one_ table for a short and pragmatic overview of all contained building blocks and their interfaces
-   ** use a list of black box descriptions of the building blocks according to the black box template (see below).
-   Depending on your choice of tool this list could be sub-chapters (in text files), sub-pages (in a Wiki) or nested elements (in a modeling tool).
-
-
- * (optional:) important interfaces, that are not explained in the black box templates of a building block, but are very important for understanding the white box.
-Since there are so many ways to specify interfaces why do not provide a specific template for them.
- In the worst case you have to specify and describe syntax, semantics, protocols, error handling,
- restrictions, versions, qualities, necessary compatibilities and many things more.
-In the best case you will get away with examples or simple signatures.
-
-****
-endif::arc42help[]
-
-_**<Overview Diagram>**_
-
-Motivation::
-
-_<text explanation>_
-
-
-Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
-
-Important Interfaces::
-_<Description of important interfaces>_
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Insert your explanations of black boxes from level 1:
-
-If you use tabular form you will only describe your black boxes with name and
-responsibility according to the following schema:
-
-[cols="1,2" options="header"]
 |===
-| **Name** | **Responsibility**
-| _<black box 1>_ | _<Text>_
-| _<black box 2>_ | _<Text>_
+|Name |Verantwortlichkeit
+
+|Static Content
+|Liefert die Angular-SPA aus.
+
+|Angular-UI
+|Darstellung der Informationen und behandlung der Benutzerinteraktionen.
+
+|NestJs Backend
+|Businesslogik, Validierung, Verwalten von Daten
+
+|MongoDB
+|Persistieren der Daten.
 |===
 
+==== Blackbox Static Content
+*Zweck/Verantwortung*
 
+Stellt die Build-Artefakte der Angular-SPA (HTML, CSS, JavaScript, Assets) per HTTP bereit. Der Baustein enthält keine Logik und keinen Zustand.
 
-If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
-Its headline is the name of the black box.
-****
-endif::arc42help[]
+*Schnittstelle(n)*
 
-==== <Name black box 1>
+* HTTP GET auf statische Dateien (Einstiegspunkt `index.html`)
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Here you describe <black box 1>
-according the the following black box template:
+==== Blackbox Angular-UI
+*Zweck/Verantwortung*
 
-* Purpose/Responsibility
-* Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.
-* (Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, ....
-* (Optional) directory/file location
-* (Optional) Fulfilled requirements (if you need traceability to requirements).
-* (Optional) Open issues/problems/risks
+Single-Page-Application, die den Live-Ticker im Webbrowser darstellt und
+Benutzerinteraktionen behandelt. Ruft alle Daten über die REST-API des Backends ab.
 
-****
-endif::arc42help[]
+*Schnittstelle(n)*
 
-_<Purpose/Responsibility>_
+Die UI stellt selbst keine Schnittstelle bereit, sie nutzt folgende:
 
-_<Interface(s)>_
+* *REST-API des NestJS-Backends* (JSON über HTTP), siehe <<Blackbox NestJs Backend>>
+* *Browser-LocalStorage* zur lokalen Ablage von Authentifizierungsdaten
+* *WebAuthn-Browser-API* (`navigator.credentials`) für die passwortlose Authentifizierung
 
-_<(Optional) Quality/Performance Characteristics>_
+*Verzeichnis/Dateiort*: `frontend/`
 
-_<(Optional) Directory/File Location>_
+==== Blackbox NestJs Backend
+*Zweck/Verantwortung*
 
-_<(Optional) Fulfilled Requirements>_
+Zentrale Anwendungslogik: Verwaltung von Spielen, Spielereignissen und Teams,
+Validierung der Eingaben, Authentifizierung per
+WebAuthn sowie der gesamte Datenzugriff auf MongoDB.
 
-_<(optional) Open Issues/Problems/Risks>_
+*Schnittstelle(n)*
 
+REST-API (JSON). Schreibende Operationen an Spielen sind durch einen `AuthGuard` geschützt.
 
+`/games`
 
+[cols="1,2,1,3"]
+|===
+|Methode |Pfad |Auth |Beschreibung
 
-==== <Name black box 2>
+|GET
+|`/games/{gameId}`
+|nein
+|Spiel anhand der ID abrufen
 
-_<black box template>_
+|POST
+|`/games`
+|ja
+|Neues Spiel anlegen (`CreateGameDto`)
 
-==== <Name black box n>
+|POST
+|`/games/{gameId}/events`
+|ja
+|Spielereignis zu einem Spiel hinzufügen (`GameEventDto`)
+|===
 
-_<black box template>_
+`/teams`
 
+[cols="1,2,1,3"]
+|===
+|Methode |Pfad |Auth |Beschreibung
 
-==== <Name interface 1>
+|GET
+|`/teams`
+|ja
+|Alle Teams abrufen
 
-...
+|GET
+|`/teams/{teamId}`
+|ja
+|Team anhand der ID abrufen
 
-==== <Name interface m>
+|POST
+|`/teams`
+|ja
+|Team anlegen (`TeamDto`)
 
+|PUT
+|`/teams/{teamId}`
+|ja
+|Team ändern (`TeamDto`)
 
+|DELETE
+|`/teams/{teamId}`
+|ja
+|Team löschen
+|===
+
+`/webauthn`
+
+[cols="1,3,3"]
+|===
+|Methode |Pfad |Beschreibung
+
+|GET
+|`/webauthn/generate-registration-options?username=`
+|Registrierungsoptionen für einen Benutzer erzeugen
+
+|POST
+|`/webauthn/verify-registration?username=`
+|Registrierung verifizieren
+
+|GET
+|`/webauthn/generate-authentication-options?username=`
+|Authentifizierungsoptionen erzeugen
+
+|POST
+|`/webauthn/verify-authentication?username=`
+|Authentifizierung verifizieren
+|===
+
+Zusätzlich greift das Backend über den MongoDB-Treiber auf die Datenbank zu, siehe <<Blackbox MongoDB>>.
+
+*Verzeichnis/Dateiort*: `backend/`
+
+==== Blackbox MongoDB
+*Zweck/Verantwortung*
+
+Persistente Speicherung der Anwendungsdaten (Games, Teams,
+User).
+
+*Schnittstelle(n)*
+
+* MongoDB-Protokoll (Treiber/ODM), ausschliesslich vom NestJS-Backend genutzt
 
 === Level 2
+==== White Box NestJs Backend
+image::ComponentDiagramBackend.png[]
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
+Das Backend ist in verschiedenen Module aufgeteilt. Die wichtigsten Module hierbei
+sind `Authentication` und `GameCenter`, wobei `GameCenter` auf dem `Authentication`-Modul aufbaut.
 
-You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system
-****
-endif::arc42help[]
+|===
+|Name |Verantwortlichkeit
 
-==== White Box _<building block 1>_
+|Team Controller
+|REST-API-Schnittstelle für Team-Funktioanlität (`/teams`)
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-...describes the internal structure of _building block 1_.
-****
-endif::arc42help[]
+|Team Service
+|Kapselt alle Businesslogik bezüglich Team, zuständig für die Datenspeicherung
 
-_<white box template>_
+|Game Controller
+|REST-API-Schnittstelle für Game-Funktioanlität (`/games`)
+
+|Game Service
+|Kapselt alle Businesslogik bezüglich Game, zuständig für die Datenspeicherung
+
+|WebAuthn Controller
+|REST-Endpunkte für Registrierung und Anmeldung per WebAuthn (`/webauthn`).
+
+|Authentication Service
+|Erstellung des JWT nach erfolgreicher Authentifizierung.
+
+|User Service
+|Businesslogik zu Benutzern.
+
+|Auth Guard
+|Schützt Endpunkte vor unautorisiertem Zugriff.
+|===
 
 ==== White Box _<building block 2>_
 
@@ -183,43 +190,96 @@ _<white box template>_
 
 ...
 
-==== White Box _<building block m>_
+==== White Box Angular-UI
+image::ComponentDiagramUI.png[]
+Die Angular-UI ist nach Fachbereichen (Features) gegliedert: Game, Team und Login.
+Jedes Feature enthält seine eigenen Seiten, Container-Komponenten und Services und ist
+damit weitgehend unabhängig von den anderen.
+Querschnittlichte Aspekte (Routing, Authentifizierung, App-Layout) liegen ausserhalb
+der Features. Die Feature-Seiten werden per Lazy Loading erst beim Aufruf der
+jeweiligen Route geladen.
 
+*Struktur der Features*
 
-_<white box template>_
+Innerhalb eines Features wird die Verantwortung auf `Pages`, `Smart Containers` und
+`Dumb Components` aufgeteilt. Eine Page entspricht einer vom Benutzer aufgerufenen URL
+(Route) und bindet die passenden `Smart Containers` ein.
+
+Ein `Smart Container` ist ein Orchestrator: Er besitzt die Datenbeschaffung und die
+Logik einer View und delegiert die reine Darstellung an `Dumb Components`.
+`Dumb Components` erhalten ihre Daten ausschliesslich über Inputs und melden
+Benutzeraktionen über Outputs. Sie kennen weder Services noch das Backend.
+
+`Smart Containers` greifen über `Services` auf das Backend zu. `API-Services` kapseln
+die REST-Aufrufe, Domain-Services enthalten Logik, die nur im Client benötigt wird.
+
+*Enthaltene Bausteine*
+
+[cols="1,3,2"]
+|===
+|Name |Verantwortlichkeit |Verzeichnis (`frontend/src/app/`)
+
+|App Shell
+|Grundlayout mit Navigation, Side-Nav und Router-Outlet. Blendet Navigationseinträge abhängig vom Login-Status ein oder aus.
+|`app.ts`, `components/`
+
+|Router
+|Ordnet Pfade den Pages zu (Lazy Loading) und wendet die Route Guards an.
+|`config/app.routes.ts`, `config/paths.config.ts`
+
+|Auth Service
+|Hält das JWT und den Login-Status. Das Token wird im LocalStorage (`auth`) persistiert.
+|`authentication/auth.service.ts`
+
+|Auth Interceptor
+|Ergänzt jeden ausgehenden HTTP-Request um den Header `Authorization: Bearer <JWT>`, sofern ein Token vorhanden ist.
+|`authentication/auth.interceptor.ts`
+
+|Route Guards
+|`authGuard` leitet nicht angemeldete Benutzer auf `/login` um, `anonymousGuard` verhindert den Zugang zur Login-Seite für angemeldete Benutzer.
+|`authentication/guards/`
+
+|Game Pages
+|Seiten für Spielübersicht, Spieldetail sowie das Erfassen von Spielen und Spielereignissen.
+|`features/game/pages/`
+
+|Game Smart Containers
+|Home, Spielliste, Spieldetail, Spiel erfassen und Ereignis erfassen. Laden Spiele und Teams und lösen Erstellungsaktionen aus. Enthalten die Dumb Components des Features.
+|`features/game/smart_containers/`, `features/game/dumb_components/`
+
+|Game Service
+|Clientseitige Spiellogik: Status (live, bevorstehend, beendet) und Torstand aus den Spielereignissen ableiten.
+|`features/game/service/game.service.ts`
+
+|Game API
+|Zugriff auf die REST-Schnittstelle `/api/games`.
+|`features/game/service/game.api.ts`
+
+|Team Pages
+|Seiten für Team-Übersicht und Team-Detail (nur für angemeldete Benutzer erreichbar).
+|`features/team/pages/`
+
+|Team Smart Containers
+|Team-Liste mit Erfassen, Ändern und Löschen von Teams. Enthalten die Dumb Components des Features.
+|`features/team/smart_containers/`, `features/team/dumb_components/`
+
+|Team API
+|Zugriff auf die REST-Schnittstelle `/api/teams`. Wird auch vom Game-Feature genutzt, um beim Erfassen eines Spiels die Teams zu laden.
+|`core/services/team.api.ts`
+
+|Login Container
+|Registrierung und Anmeldung mit Login-Formular.
+|`features/user/smart_containers/`, `features/user/dumb_components/`
+
+|WebAuthn Service
+|Führt den WebAuthn-Ablauf (Optionen holen, Browser-Dialog, Ergebnis verifizieren) mit `@simplewebauthn/browser` durch und übergibt das erhaltene JWT an den Auth Service.
+|`features/user/services/`
+|===
 
 
 
 === Level 3
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
-
-When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.
-****
-endif::arc42help[]
-
-==== White Box <_building block x.1_>
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-Specifies the internal structure of _building block x.1_.
-****
-endif::arc42help[]
-
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_
+=== Level 3
+Auf eine weitere Zerlegung wird verzichtet. Die Komponenten der Angular-UI und des
+Backends sind überschaubar und folgen den Konventionen ihrer Frameworks, eine weitere
+Detaillierung würde die Struktur des Codes nur wiederholen.

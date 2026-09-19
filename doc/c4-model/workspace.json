@@ -5,7 +5,9 @@
   "description" : "DSL of Live Ticker c4 model",
   "documentation" : { },
   "id" : 1,
-  "lastModifiedDate" : "2026-09-19T08:19:08Z",
+  "lastModifiedAgent" : "structurizr/diagrams/958d18f6-36de-46a9-8ee6-6579771a4301",
+  "lastModifiedDate" : "2026-09-19T11:02:02Z",
+  "lastModifiedUser" : "1602978517",
   "model" : {
     "people" : [ {
       "description" : "Benutzer welcher die Live Ticker Applikation nutzt.",
@@ -15,9 +17,27 @@
         "structurizr.dsl.identifier" : "user"
       },
       "relationships" : [ {
-        "description" : "Ruft Infromationen zu Spielen ab",
+        "description" : "Ruft Informationen zu Spielen ab",
         "destinationId" : "3",
-        "id" : "5",
+        "id" : "31",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Lädt UI von",
+        "destinationId" : "4",
+        "id" : "33",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Sieht Game Informationen",
+        "destinationId" : "5",
+        "id" : "34",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Nutzt",
+        "destinationId" : "6",
+        "id" : "51",
         "sourceId" : "1",
         "tags" : "Relationship"
       } ],
@@ -32,13 +52,523 @@
       "relationships" : [ {
         "description" : "Erfasst Games/Teams/Events",
         "destinationId" : "3",
-        "id" : "4",
+        "id" : "30",
+        "sourceId" : "2",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Lädt UI von",
+        "destinationId" : "4",
+        "id" : "35",
+        "sourceId" : "2",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Pflegt Games und Teams",
+        "destinationId" : "5",
+        "id" : "36",
+        "sourceId" : "2",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Nutzt",
+        "destinationId" : "6",
+        "id" : "52",
         "sourceId" : "2",
         "tags" : "Relationship"
       } ],
       "tags" : "Element,Person"
     } ],
     "softwareSystems" : [ {
+      "containers" : [ {
+        "description" : "HTML, CSS, JavaScript, etc.",
+        "documentation" : { },
+        "id" : "4",
+        "name" : "Static Content",
+        "properties" : {
+          "structurizr.dsl.identifier" : "liveTicker.staticContent"
+        },
+        "relationships" : [ {
+          "description" : "liefert aus",
+          "destinationId" : "5",
+          "id" : "37",
+          "sourceId" : "4",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container,Folder"
+      }, {
+        "components" : [ {
+          "description" : "Layout mit Navigation, Side-Nav und Router-Outlet.",
+          "documentation" : { },
+          "group" : "Shell & Routing",
+          "id" : "6",
+          "name" : "App Shell",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.appShell"
+          },
+          "relationships" : [ {
+            "description" : "Rendert Seiten (Router-Outlet)",
+            "destinationId" : "7",
+            "id" : "53",
+            "sourceId" : "6",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Liest Login-Status für Navigation",
+            "destinationId" : "8",
+            "id" : "54",
+            "sourceId" : "6",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Ordnet Pfade den Pages zu (Lazy Loading) und wendet Guards an.",
+          "documentation" : { },
+          "group" : "Shell & Routing",
+          "id" : "7",
+          "name" : "Router",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.router"
+          },
+          "relationships" : [ {
+            "description" : "Prüft Zugriff",
+            "destinationId" : "10",
+            "id" : "55",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Lädt (lazy)",
+            "destinationId" : "11",
+            "id" : "57",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Lädt (lazy)",
+            "destinationId" : "15",
+            "id" : "58",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Lädt (lazy)",
+            "destinationId" : "18",
+            "id" : "59",
+            "sourceId" : "7",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Hält das JWT (Signal + LocalStorage) und den Login-Status.",
+          "documentation" : { },
+          "group" : "Authentication",
+          "id" : "8",
+          "name" : "Auth Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.authService"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Ergänzt alle HTTP-Requests um den Bearer-Token.",
+          "documentation" : { },
+          "group" : "Authentication",
+          "id" : "9",
+          "name" : "Auth Interceptor",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.authInterceptor"
+          },
+          "relationships" : [ {
+            "description" : "Liest JWT",
+            "destinationId" : "8",
+            "id" : "72",
+            "sourceId" : "9",
+            "tags" : "Relationship"
+          }, {
+            "description" : "REST/JSON + Bearer-JWT",
+            "destinationId" : "20",
+            "id" : "73",
+            "sourceId" : "9",
+            "tags" : "Relationship",
+            "technology" : "HTTPS"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "authGuard und anonymousGuard schützen Routen im Browser.",
+          "documentation" : { },
+          "group" : "Authentication",
+          "id" : "10",
+          "name" : "Route Guards",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.routeGuards"
+          },
+          "relationships" : [ {
+            "description" : "Liest Login-Status",
+            "destinationId" : "8",
+            "id" : "56",
+            "sourceId" : "10",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Übersicht, Detail, Spiel und Ereignis erfassen.",
+          "documentation" : { },
+          "group" : "Game",
+          "id" : "11",
+          "name" : "Game Pages",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.gamePages"
+          },
+          "relationships" : [ {
+            "description" : "Bettet ein",
+            "destinationId" : "12",
+            "id" : "60",
+            "sourceId" : "11",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Liest Login-Status",
+            "destinationId" : "8",
+            "id" : "61",
+            "sourceId" : "11",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Home, Game-Liste, Game-Detail, Add-Game, Add-Event. Enthalten die Dumb Components.",
+          "documentation" : { },
+          "group" : "Game",
+          "id" : "12",
+          "name" : "Game Smart Containers",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.gameContainers"
+          },
+          "relationships" : [ {
+            "description" : "Berechnet Status/Tore",
+            "destinationId" : "13",
+            "id" : "63",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Lädt/erstellt Spiele und Ereignisse",
+            "destinationId" : "14",
+            "id" : "64",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          }, {
+            "description" : "Lädt Teams",
+            "destinationId" : "17",
+            "id" : "65",
+            "sourceId" : "12",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Clientseitige Logik: Live/Upcoming-Status, Tore zählen.",
+          "documentation" : { },
+          "group" : "Game",
+          "id" : "13",
+          "name" : "Game Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.gameService"
+          },
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Zugriff auf /api/games über HttpClient und httpResource.",
+          "documentation" : { },
+          "group" : "Game",
+          "id" : "14",
+          "name" : "Game API",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.gameApi"
+          },
+          "relationships" : [ {
+            "description" : "HTTP-Request",
+            "destinationId" : "9",
+            "id" : "69",
+            "sourceId" : "14",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Team-Übersicht und Team-Detail.",
+          "documentation" : { },
+          "group" : "Team",
+          "id" : "15",
+          "name" : "Team Pages",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.teamPages"
+          },
+          "relationships" : [ {
+            "description" : "Bettet ein",
+            "destinationId" : "16",
+            "id" : "62",
+            "sourceId" : "15",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Team-Liste mit Erstellen, Ändern und Löschen.",
+          "documentation" : { },
+          "group" : "Team",
+          "id" : "16",
+          "name" : "Team Smart Containers",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.teamContainers"
+          },
+          "relationships" : [ {
+            "description" : "Verwaltet Teams",
+            "destinationId" : "17",
+            "id" : "66",
+            "sourceId" : "16",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Zugriff auf /api/teams.",
+          "documentation" : { },
+          "group" : "Team",
+          "id" : "17",
+          "name" : "Team API",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.teamApi"
+          },
+          "relationships" : [ {
+            "description" : "HTTP-Request",
+            "destinationId" : "9",
+            "id" : "70",
+            "sourceId" : "17",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Registrierung und Anmeldung mit Login-Formular.",
+          "documentation" : { },
+          "group" : "Login",
+          "id" : "18",
+          "name" : "Login Container",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.loginContainer"
+          },
+          "relationships" : [ {
+            "description" : "Registriert/meldet an",
+            "destinationId" : "19",
+            "id" : "67",
+            "sourceId" : "18",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "WebAuthn-Ablauf mit @simplewebauthn/browser und /api/webauthn.",
+          "documentation" : { },
+          "group" : "Login",
+          "id" : "19",
+          "name" : "WebAuthn Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.spa.webauthnService"
+          },
+          "relationships" : [ {
+            "description" : "Speichert JWT",
+            "destinationId" : "8",
+            "id" : "68",
+            "sourceId" : "19",
+            "tags" : "Relationship"
+          }, {
+            "description" : "HTTP-Request",
+            "destinationId" : "9",
+            "id" : "71",
+            "sourceId" : "19",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        } ],
+        "description" : "Single-app welche die Live-Ticker Funktioanlität dem Benutzer über ihren Webbrowser zur Verfügung stellt.",
+        "documentation" : { },
+        "id" : "5",
+        "name" : "Angular-UI",
+        "properties" : {
+          "structurizr.dsl.identifier" : "liveTicker.spa"
+        },
+        "relationships" : [ {
+          "description" : "API-Requests",
+          "destinationId" : "20",
+          "id" : "38",
+          "sourceId" : "5",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container,Browser"
+      }, {
+        "components" : [ {
+          "description" : "API-Endpoint für Game-Funktionalität",
+          "documentation" : { },
+          "group" : "GameCenter",
+          "id" : "21",
+          "name" : "Game Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.backend.gameController"
+          },
+          "relationships" : [ {
+            "description" : "uses",
+            "destinationId" : "23",
+            "id" : "40",
+            "sourceId" : "21",
+            "tags" : "Relationship"
+          }, {
+            "description" : "uses",
+            "destinationId" : "28",
+            "id" : "41",
+            "sourceId" : "21",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "API-Endpoint für Team-Funktionalität",
+          "documentation" : { },
+          "group" : "GameCenter",
+          "id" : "22",
+          "name" : "Team Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.backend.teamController"
+          },
+          "relationships" : [ {
+            "description" : "uses",
+            "destinationId" : "24",
+            "id" : "42",
+            "sourceId" : "22",
+            "tags" : "Relationship"
+          }, {
+            "description" : "uses",
+            "destinationId" : "28",
+            "id" : "43",
+            "sourceId" : "22",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Kapselt Businesslogik zu Games",
+          "documentation" : { },
+          "group" : "GameCenter",
+          "id" : "23",
+          "name" : "Game Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.backend.gameService"
+          },
+          "relationships" : [ {
+            "description" : "uses",
+            "destinationId" : "24",
+            "id" : "44",
+            "sourceId" : "23",
+            "tags" : "Relationship"
+          }, {
+            "description" : "uses",
+            "destinationId" : "29",
+            "id" : "45",
+            "sourceId" : "23",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Kapselt Businesslogik zu Teams",
+          "documentation" : { },
+          "group" : "GameCenter",
+          "id" : "24",
+          "name" : "Team Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.backend.teamService"
+          },
+          "relationships" : [ {
+            "description" : "uses",
+            "destinationId" : "29",
+            "id" : "46",
+            "sourceId" : "24",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "API-Endpoint für WebAuthn",
+          "documentation" : { },
+          "group" : "Authentication",
+          "id" : "25",
+          "name" : "WebAuthn Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.backend.webAuthnController"
+          },
+          "relationships" : [ {
+            "description" : "uses",
+            "destinationId" : "27",
+            "id" : "47",
+            "sourceId" : "25",
+            "tags" : "Relationship"
+          }, {
+            "description" : "uses",
+            "destinationId" : "26",
+            "id" : "48",
+            "sourceId" : "25",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Kapselt zur Erstellung des JWT",
+          "documentation" : { },
+          "group" : "Authentication",
+          "id" : "26",
+          "name" : "Authentication Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.backend.authService"
+          },
+          "relationships" : [ {
+            "description" : "uses",
+            "destinationId" : "29",
+            "id" : "50",
+            "sourceId" : "26",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Kapselt Businesslogik zu Benutzer",
+          "documentation" : { },
+          "group" : "Authentication",
+          "id" : "27",
+          "name" : "User Service",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.backend.userService"
+          },
+          "relationships" : [ {
+            "description" : "uses",
+            "destinationId" : "29",
+            "id" : "49",
+            "sourceId" : "27",
+            "tags" : "Relationship"
+          } ],
+          "tags" : "Element,Component"
+        }, {
+          "description" : "Authentication Guard",
+          "documentation" : { },
+          "group" : "Authentication",
+          "id" : "28",
+          "name" : "Auth Guard",
+          "properties" : {
+            "structurizr.dsl.identifier" : "liveTicker.backend.authGuard"
+          },
+          "tags" : "Element,Component"
+        } ],
+        "description" : "NestJs Backend mit REST-API",
+        "documentation" : { },
+        "id" : "20",
+        "name" : "NestJs Backend",
+        "properties" : {
+          "structurizr.dsl.identifier" : "liveTicker.backend"
+        },
+        "relationships" : [ {
+          "description" : "liest und schreibt",
+          "destinationId" : "29",
+          "id" : "39",
+          "sourceId" : "20",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container"
+      }, {
+        "description" : "MongoDB für die persistente Datenhaltung",
+        "documentation" : { },
+        "id" : "29",
+        "name" : "MongoDB",
+        "properties" : {
+          "structurizr.dsl.identifier" : "liveTicker.database"
+        },
+        "tags" : "Element,Container,Database"
+      } ],
       "description" : "Live Ticker Web-Application.",
       "documentation" : { },
       "id" : "3",
@@ -49,7 +579,7 @@
       "relationships" : [ {
         "description" : "SPA-Webapplikation",
         "destinationId" : "1",
-        "id" : "6",
+        "id" : "32",
         "sourceId" : "3",
         "tags" : "Relationship"
       } ],
@@ -58,18 +588,345 @@
   },
   "name" : "Live Ticker",
   "properties" : {
-    "structurizr.inspection.error" : "3",
-    "structurizr.dsl" : "d29ya3NwYWNlICJMaXZlIFRpY2tlciIgIkRTTCBvZiBMaXZlIFRpY2tlciBjNCBtb2RlbCIgewogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKICAgICAgICB1c2VyID0gcGVyc29uICJVc2VyIiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICJCZW51dHplciB3ZWxjaGVyIGRpZSBMaXZlIFRpY2tlciBBcHBsaWthdGlvbiBudXR6dC4KICAgICAgICB9CiAgICAgICAgYWRtID0gcGVyc29uICJBZG1pbiIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiQWRtaW4gYmVudXR6ZXIgd2VsY2hlcyBUZWFtcywgR2FtZXMgdW5kIEV2ZW50cyB2ZXJ3YWx0ZXQuIgogICAgICAgIH0KCiAgICAgICAgbGl2ZVRpY2tlciA9IHNvZnR3YXJlU3lzdGVtICJMaXZlIFRpY2tlciIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiTGl2ZSBUaWNrZXIgV2ViLUFwcGxpY2F0aW9uLiIKICAgICAgICB9CgogICAgICAgIGFkbSAtPiBsaXZlVGlja2VyICJFcmZhc3N0IEdhbWVzL1RlYW1zL0V2ZW50cyIKICAgICAgICB1c2VyIC0+IGxpdmVUaWNrZXIgIlJ1ZnQgSW5mcm9tYXRpb25lbiB6dSBTcGllbGVuIGFiIgogICAgICAgIGxpdmVUaWNrZXIgLT4gdXNlciAiU1BBLVdlYmFwcGxpa2F0aW9uIgogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzeXN0ZW1Db250ZXh0IGxpdmVUaWNrZXIgIktvbnRleHREaWFncmFtIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiRWxlbWVudCIgewogICAgICAgICAgICAgICAgY29sb3IgIzAwNjZiMwogICAgICAgICAgICAgICAgc3Ryb2tlICMwMDY2YjMKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDcKICAgICAgICAgICAgICAgIHNoYXBlIHJvdW5kZWRib3gKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJQZXJzb24iIHsKICAgICAgICAgICAgICAgIHNoYXBlIHBlcnNvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRhdGFiYXNlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBjeWxpbmRlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkJvdW5kYXJ5IiB7CiAgICAgICAgICAgICAgICBzdHJva2VXaWR0aCA1CiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmVsYXRpb25zaGlwICJSZWxhdGlvbnNoaXAiIHsKICAgICAgICAgICAgICAgIHRoaWNrbmVzcyA0CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgY29uZmlndXJhdGlvbiB7CiAgICAgICAgc2NvcGUgc29mdHdhcmVzeXN0ZW0KICAgIH0KfQ==",
     "structurizr.inspection.info" : "0",
     "structurizr.inspection.ignore" : "0",
-    "structurizr.inspection.warning" : "0"
+    "structurizr.inspection.error" : "49",
+    "structurizr.inspection.warning" : "0",
+    "structurizr.dsl" : "d29ya3NwYWNlICJMaXZlIFRpY2tlciIgIkRTTCBvZiBMaXZlIFRpY2tlciBjNCBtb2RlbCIgewogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKICAgICAgICB1c2VyID0gcGVyc29uICJVc2VyIiB7CiAgICAgICAgICAgIGRlc2NyaXB0aW9uICJCZW51dHplciB3ZWxjaGVyIGRpZSBMaXZlIFRpY2tlciBBcHBsaWthdGlvbiBudXR6dC4KICAgICAgICB9CiAgICAgICAgYWRtID0gcGVyc29uICJBZG1pbiIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiQWRtaW4gYmVudXR6ZXIgd2VsY2hlcyBUZWFtcywgR2FtZXMgdW5kIEV2ZW50cyB2ZXJ3YWx0ZXQuIgogICAgICAgIH0KCiAgICAgICAgbGl2ZVRpY2tlciA9IHNvZnR3YXJlU3lzdGVtICJMaXZlIFRpY2tlciIgewogICAgICAgICAgICBkZXNjcmlwdGlvbiAiTGl2ZSBUaWNrZXIgV2ViLUFwcGxpY2F0aW9uLiIKCiAgICAgICAgICAgIHN0YXRpY0NvbnRlbnQgPSBjb250YWluZXIgICJTdGF0aWMgQ29udGVudCIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkhUTUwsIENTUywgSmF2YVNjcmlwdCwgZXRjLiIKICAgICAgICAgICAgICAgIHRhZ3MgIkZvbGRlciIKICAgICAgICAgICAgfQoKICAgICAgICAgICAgc3BhID0gY29udGFpbmVyICAiQW5ndWxhci1VSSIgewogICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlNpbmdsZS1hcHAgd2VsY2hlIGRpZSBMaXZlLVRpY2tlciBGdW5rdGlvYW5saXTDpHQgZGVtIEJlbnV0emVyIMO8YmVyIGlocmVuIFdlYmJyb3dzZXIgenVyIFZlcmbDvGd1bmcgc3RlbGx0LiIKICAgICAgICAgICAgICAgIHRhZ3MgIkJyb3dzZXIiCgogICAgICAgICAgICAgICAgZ3JvdXAgIlNoZWxsICYgUm91dGluZyIgewogICAgICAgICAgICAgICAgICAgIGFwcFNoZWxsID0gY29tcG9uZW50ICJBcHAgU2hlbGwiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkxheW91dCBtaXQgTmF2aWdhdGlvbiwgU2lkZS1OYXYgdW5kIFJvdXRlci1PdXRsZXQuIgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICByb3V0ZXIgPSBjb21wb25lbnQgIlJvdXRlciIgewogICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiT3JkbmV0IFBmYWRlIGRlbiBQYWdlcyB6dSAoTGF6eSBMb2FkaW5nKSB1bmQgd2VuZGV0IEd1YXJkcyBhbi4iCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgIGdyb3VwICJBdXRoZW50aWNhdGlvbiIgewogICAgICAgICAgICAgICAgICAgIGF1dGhTZXJ2aWNlID0gY29tcG9uZW50ICJBdXRoIFNlcnZpY2UiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkjDpGx0IGRhcyBKV1QgKFNpZ25hbCArIExvY2FsU3RvcmFnZSkgdW5kIGRlbiBMb2dpbi1TdGF0dXMuIgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICBhdXRoSW50ZXJjZXB0b3IgPSBjb21wb25lbnQgIkF1dGggSW50ZXJjZXB0b3IiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkVyZ8Okbnp0IGFsbGUgSFRUUC1SZXF1ZXN0cyB1bSBkZW4gQmVhcmVyLVRva2VuLiIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgcm91dGVHdWFyZHMgPSBjb21wb25lbnQgIlJvdXRlIEd1YXJkcyIgewogICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiYXV0aEd1YXJkIHVuZCBhbm9ueW1vdXNHdWFyZCBzY2jDvHR6ZW4gUm91dGVuIGltIEJyb3dzZXIuIgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBncm91cCAiR2FtZSIgewogICAgICAgICAgICAgICAgICAgIGdhbWVQYWdlcyA9IGNvbXBvbmVudCAiR2FtZSBQYWdlcyIgewogICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiw5xiZXJzaWNodCwgRGV0YWlsLCBTcGllbCB1bmQgRXJlaWduaXMgZXJmYXNzZW4uIgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICBnYW1lQ29udGFpbmVycyA9IGNvbXBvbmVudCAiR2FtZSBTbWFydCBDb250YWluZXJzIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJIb21lLCBHYW1lLUxpc3RlLCBHYW1lLURldGFpbCwgQWRkLUdhbWUsIEFkZC1FdmVudC4gRW50aGFsdGVuIGRpZSBEdW1iIENvbXBvbmVudHMuIgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICBnYW1lU2VydmljZSA9IGNvbXBvbmVudCAiR2FtZSBTZXJ2aWNlIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJDbGllbnRzZWl0aWdlIExvZ2lrOiBMaXZlL1VwY29taW5nLVN0YXR1cywgVG9yZSB6w6RobGVuLiIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgZ2FtZUFwaSA9IGNvbXBvbmVudCAiR2FtZSBBUEkiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlp1Z3JpZmYgYXVmIC9hcGkvZ2FtZXMgw7xiZXIgSHR0cENsaWVudCB1bmQgaHR0cFJlc291cmNlLiIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgZ3JvdXAgIlRlYW0iIHsKICAgICAgICAgICAgICAgICAgICB0ZWFtUGFnZXMgPSBjb21wb25lbnQgIlRlYW0gUGFnZXMiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlRlYW0tw5xiZXJzaWNodCB1bmQgVGVhbS1EZXRhaWwuIgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICB0ZWFtQ29udGFpbmVycyA9IGNvbXBvbmVudCAiVGVhbSBTbWFydCBDb250YWluZXJzIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJUZWFtLUxpc3RlIG1pdCBFcnN0ZWxsZW4sIMOEbmRlcm4gdW5kIEzDtnNjaGVuLiIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgdGVhbUFwaSA9IGNvbXBvbmVudCAiVGVhbSBBUEkiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIlp1Z3JpZmYgYXVmIC9hcGkvdGVhbXMuIgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICBncm91cCAiTG9naW4iIHsKICAgICAgICAgICAgICAgICAgICBsb2dpbkNvbnRhaW5lciA9IGNvbXBvbmVudCAiTG9naW4gQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJSZWdpc3RyaWVydW5nIHVuZCBBbm1lbGR1bmcgbWl0IExvZ2luLUZvcm11bGFyLiIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgd2ViYXV0aG5TZXJ2aWNlID0gY29tcG9uZW50ICJXZWJBdXRobiBTZXJ2aWNlIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJXZWJBdXRobi1BYmxhdWYgbWl0IEBzaW1wbGV3ZWJhdXRobi9icm93c2VyIHVuZCAvYXBpL3dlYmF1dGhuLiIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGJhY2tlbmQgPSBjb250YWluZXIgIk5lc3RKcyBCYWNrZW5kIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiTmVzdEpzIEJhY2tlbmQgbWl0IFJFU1QtQVBJIgoKICAgICAgICAgICAgICAgIGdyb3VwICJHYW1lQ2VudGVyIiB7CiAgICAgICAgICAgICAgICAgICAgZ2FtZUNvbnRyb2xsZXIgPSBjb21wb25lbnQgIkdhbWUgQ29udHJvbGxlciIgewogICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiQVBJLUVuZHBvaW50IGbDvHIgR2FtZS1GdW5rdGlvbmFsaXTDpHQiCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICB0ZWFtQ29udHJvbGxlciA9IGNvbXBvbmVudCAiVGVhbSBDb250cm9sbGVyIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJBUEktRW5kcG9pbnQgZsO8ciBUZWFtLUZ1bmt0aW9uYWxpdMOkdCIKICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgICAgIGdhbWVTZXJ2aWNlID0gY29tcG9uZW50ICJHYW1lIFNlcnZpY2UiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkthcHNlbHQgQnVzaW5lc3Nsb2dpayB6dSBHYW1lcyIKICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgICAgIHRlYW1TZXJ2aWNlID0gY29tcG9uZW50ICJUZWFtIFNlcnZpY2UiIHsKICAgICAgICAgICAgICAgICAgICAgICAgZGVzY3JpcHRpb24gIkthcHNlbHQgQnVzaW5lc3Nsb2dpayB6dSBUZWFtcyIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgZ3JvdXAgIkF1dGhlbnRpY2F0aW9uIiB7CiAgICAgICAgICAgICAgICAgICAgd2ViQXV0aG5Db250cm9sbGVyID0gY29tcG9uZW50ICJXZWJBdXRobiBDb250cm9sbGVyIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJBUEktRW5kcG9pbnQgZsO8ciBXZWJBdXRobiIKICAgICAgICAgICAgICAgICAgICB9CgoKICAgICAgICAgICAgICAgICAgICBhdXRoU2VydmljZSA9IGNvbXBvbmVudCAiQXV0aGVudGljYXRpb24gU2VydmljZSIgewogICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiS2Fwc2VsdCB6dXIgRXJzdGVsbHVuZyBkZXMgSldUIgogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgdXNlclNlcnZpY2UgPSBjb21wb25lbnQgIlVzZXIgU2VydmljZSIgewogICAgICAgICAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiS2Fwc2VsdCBCdXNpbmVzc2xvZ2lrIHp1IEJlbnV0emVyIgogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgYXV0aEd1YXJkID0gY29tcG9uZW50ICJBdXRoIEd1YXJkIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uICJBdXRoZW50aWNhdGlvbiBHdWFyZCIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgIH0KCiAgICAgICAgICAgIGRhdGFiYXNlID0gY29udGFpbmVyICJNb25nb0RCIiB7CiAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbiAiTW9uZ29EQiBmw7xyIGRpZSBwZXJzaXN0ZW50ZSBEYXRlbmhhbHR1bmciCiAgICAgICAgICAgICAgICB0YWdzICJEYXRhYmFzZSIKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgICAgYWRtIC0+IGxpdmVUaWNrZXIgIkVyZmFzc3QgR2FtZXMvVGVhbXMvRXZlbnRzIgogICAgICAgIHVzZXIgLT4gbGl2ZVRpY2tlciAiUnVmdCBJbmZvcm1hdGlvbmVuIHp1IFNwaWVsZW4gYWIiCiAgICAgICAgbGl2ZVRpY2tlciAtPiB1c2VyICJTUEEtV2ViYXBwbGlrYXRpb24iCgoKICAgICAgICB1c2VyIC0+IGxpdmVUaWNrZXIuc3RhdGljQ29udGVudCAiTMOkZHQgVUkgdm9uIgogICAgICAgIHVzZXIgLT4gbGl2ZVRpY2tlci5zcGEgIlNpZWh0IEdhbWUgSW5mb3JtYXRpb25lbiIKICAgICAgICBhZG0gLT4gbGl2ZVRpY2tlci5zdGF0aWNDb250ZW50ICJMw6RkdCBVSSB2b24iCiAgICAgICAgYWRtIC0+IGxpdmVUaWNrZXIuc3BhICJQZmxlZ3QgR2FtZXMgdW5kIFRlYW1zIgogICAgICAgIGxpdmVUaWNrZXIuc3RhdGljQ29udGVudCAtPiBsaXZlVGlja2VyLnNwYSAibGllZmVydCBhdXMiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEgLT4gbGl2ZVRpY2tlci5iYWNrZW5kICJBUEktUmVxdWVzdHMiCiAgICAgICAgbGl2ZVRpY2tlci5iYWNrZW5kIC0+IGxpdmVUaWNrZXIuZGF0YWJhc2UgImxpZXN0IHVuZCBzY2hyZWlidCIKCiAgICAgICAgbGl2ZVRpY2tlci5iYWNrZW5kLmdhbWVDb250cm9sbGVyIC0+IGxpdmVUaWNrZXIuYmFja2VuZC5nYW1lU2VydmljZSAidXNlcyIKICAgICAgICBsaXZlVGlja2VyLmJhY2tlbmQuZ2FtZUNvbnRyb2xsZXIgLT4gbGl2ZVRpY2tlci5iYWNrZW5kLmF1dGhHdWFyZCAidXNlcyIKICAgICAgICBsaXZlVGlja2VyLmJhY2tlbmQudGVhbUNvbnRyb2xsZXIgLT4gbGl2ZVRpY2tlci5iYWNrZW5kLnRlYW1TZXJ2aWNlICJ1c2VzIgogICAgICAgIGxpdmVUaWNrZXIuYmFja2VuZC50ZWFtQ29udHJvbGxlciAtPiBsaXZlVGlja2VyLmJhY2tlbmQuYXV0aEd1YXJkICJ1c2VzIgogICAgICAgIGxpdmVUaWNrZXIuYmFja2VuZC5nYW1lU2VydmljZSAtPiBsaXZlVGlja2VyLmJhY2tlbmQudGVhbVNlcnZpY2UgInVzZXMiCiAgICAgICAgbGl2ZVRpY2tlci5iYWNrZW5kLmdhbWVTZXJ2aWNlIC0+IGxpdmVUaWNrZXIuZGF0YWJhc2UgInVzZXMiCiAgICAgICAgbGl2ZVRpY2tlci5iYWNrZW5kLnRlYW1TZXJ2aWNlIC0+IGxpdmVUaWNrZXIuZGF0YWJhc2UgInVzZXMiCiAgICAgICAgbGl2ZVRpY2tlci5iYWNrZW5kLndlYkF1dGhuQ29udHJvbGxlciAtPiBsaXZlVGlja2VyLmJhY2tlbmQudXNlclNlcnZpY2UgInVzZXMiCiAgICAgICAgbGl2ZVRpY2tlci5iYWNrZW5kLndlYkF1dGhuQ29udHJvbGxlciAtPiBsaXZlVGlja2VyLmJhY2tlbmQuYXV0aFNlcnZpY2UgInVzZXMiCiAgICAgICAgbGl2ZVRpY2tlci5iYWNrZW5kLnVzZXJTZXJ2aWNlIC0+IGxpdmVUaWNrZXIuZGF0YWJhc2UgInVzZXMiCiAgICAgICAgbGl2ZVRpY2tlci5iYWNrZW5kLmF1dGhTZXJ2aWNlIC0+IGxpdmVUaWNrZXIuZGF0YWJhc2UgInVzZXMiCgoKICAgICAgICB1c2VyIC0+IGxpdmVUaWNrZXIuc3BhLmFwcFNoZWxsICJOdXR6dCIKICAgICAgICBhZG0gIC0+IGxpdmVUaWNrZXIuc3BhLmFwcFNoZWxsICJOdXR6dCIKCiAgICAgICAgbGl2ZVRpY2tlci5zcGEuYXBwU2hlbGwgLT4gbGl2ZVRpY2tlci5zcGEucm91dGVyICJSZW5kZXJ0IFNlaXRlbiAoUm91dGVyLU91dGxldCkiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEuYXBwU2hlbGwgLT4gbGl2ZVRpY2tlci5zcGEuYXV0aFNlcnZpY2UgIkxpZXN0IExvZ2luLVN0YXR1cyBmw7xyIE5hdmlnYXRpb24iCgogICAgICAgIGxpdmVUaWNrZXIuc3BhLnJvdXRlciAtPiBsaXZlVGlja2VyLnNwYS5yb3V0ZUd1YXJkcyAiUHLDvGZ0IFp1Z3JpZmYiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEucm91dGVHdWFyZHMgLT4gbGl2ZVRpY2tlci5zcGEuYXV0aFNlcnZpY2UgIkxpZXN0IExvZ2luLVN0YXR1cyIKICAgICAgICBsaXZlVGlja2VyLnNwYS5yb3V0ZXIgLT4gbGl2ZVRpY2tlci5zcGEuZ2FtZVBhZ2VzICJMw6RkdCAobGF6eSkiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEucm91dGVyIC0+IGxpdmVUaWNrZXIuc3BhLnRlYW1QYWdlcyAiTMOkZHQgKGxhenkpIgogICAgICAgIGxpdmVUaWNrZXIuc3BhLnJvdXRlciAtPiBsaXZlVGlja2VyLnNwYS5sb2dpbkNvbnRhaW5lciAiTMOkZHQgKGxhenkpIgoKICAgICAgICBsaXZlVGlja2VyLnNwYS5nYW1lUGFnZXMgLT4gbGl2ZVRpY2tlci5zcGEuZ2FtZUNvbnRhaW5lcnMgIkJldHRldCBlaW4iCiAgICAgICAgbGl2ZVRpY2tlci5zcGEuZ2FtZVBhZ2VzIC0+IGxpdmVUaWNrZXIuc3BhLmF1dGhTZXJ2aWNlICJMaWVzdCBMb2dpbi1TdGF0dXMiCgogICAgICAgIGxpdmVUaWNrZXIuc3BhLnRlYW1QYWdlcyAtPiBsaXZlVGlja2VyLnNwYS50ZWFtQ29udGFpbmVycyAiQmV0dGV0IGVpbiIKCiAgICAgICAgbGl2ZVRpY2tlci5zcGEuZ2FtZUNvbnRhaW5lcnMgLT4gbGl2ZVRpY2tlci5zcGEuZ2FtZVNlcnZpY2UgIkJlcmVjaG5ldCBTdGF0dXMvVG9yZSIKICAgICAgICBsaXZlVGlja2VyLnNwYS5nYW1lQ29udGFpbmVycyAtPiBsaXZlVGlja2VyLnNwYS5nYW1lQXBpICJMw6RkdC9lcnN0ZWxsdCBTcGllbGUgdW5kIEVyZWlnbmlzc2UiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEuZ2FtZUNvbnRhaW5lcnMgLT4gbGl2ZVRpY2tlci5zcGEudGVhbUFwaSAiTMOkZHQgVGVhbXMiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEudGVhbUNvbnRhaW5lcnMgLT4gbGl2ZVRpY2tlci5zcGEudGVhbUFwaSAiVmVyd2FsdGV0IFRlYW1zIgoKICAgICAgICBsaXZlVGlja2VyLnNwYS5sb2dpbkNvbnRhaW5lciAtPiBsaXZlVGlja2VyLnNwYS53ZWJhdXRoblNlcnZpY2UgIlJlZ2lzdHJpZXJ0L21lbGRldCBhbiIKICAgICAgICBsaXZlVGlja2VyLnNwYS53ZWJhdXRoblNlcnZpY2UgLT4gbGl2ZVRpY2tlci5zcGEuYXV0aFNlcnZpY2UgIlNwZWljaGVydCBKV1QiCgogICAgICAgIGxpdmVUaWNrZXIuc3BhLmdhbWVBcGkgLT4gbGl2ZVRpY2tlci5zcGEuYXV0aEludGVyY2VwdG9yICJIVFRQLVJlcXVlc3QiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEudGVhbUFwaSAtPiBsaXZlVGlja2VyLnNwYS5hdXRoSW50ZXJjZXB0b3IgIkhUVFAtUmVxdWVzdCIKICAgICAgICBsaXZlVGlja2VyLnNwYS53ZWJhdXRoblNlcnZpY2UgLT4gbGl2ZVRpY2tlci5zcGEuYXV0aEludGVyY2VwdG9yICJIVFRQLVJlcXVlc3QiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEuYXV0aEludGVyY2VwdG9yIC0+IGxpdmVUaWNrZXIuc3BhLmF1dGhTZXJ2aWNlICJMaWVzdCBKV1QiCiAgICAgICAgbGl2ZVRpY2tlci5zcGEuYXV0aEludGVyY2VwdG9yIC0+IGxpdmVUaWNrZXIuYmFja2VuZCAiUkVTVC9KU09OICsgQmVhcmVyLUpXVCIgIkhUVFBTIgogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzeXN0ZW1Db250ZXh0IGxpdmVUaWNrZXIgIktvbnRleHREaWFncmFtIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgY29udGFpbmVyIGxpdmVUaWNrZXIgIkNvbnRhaW5lckRpYWdyYW0iIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgfQoKICAgICAgICBjb21wb25lbnQgbGl2ZVRpY2tlci5iYWNrZW5kICJDb21wb25lbnREaWFncmFtQmFja2VuZCIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICB9CgogICAgICAgIGNvbXBvbmVudCBsaXZlVGlja2VyLnNwYSAiQ29tcG9uZW50RGlhZ3JhbVVJIiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiRWxlbWVudCIgewogICAgICAgICAgICAgICAgY29sb3IgIzAwNjZiMwogICAgICAgICAgICAgICAgc3Ryb2tlICMwMDY2YjMKICAgICAgICAgICAgICAgIHN0cm9rZVdpZHRoIDcKICAgICAgICAgICAgICAgIHNoYXBlIHJvdW5kZWRib3gKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJQZXJzb24iIHsKICAgICAgICAgICAgICAgIHNoYXBlIHBlcnNvbgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRhdGFiYXNlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBjeWxpbmRlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkJvdW5kYXJ5IiB7CiAgICAgICAgICAgICAgICBzdHJva2VXaWR0aCA1CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiRm9sZGVyIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBmb2xkZXIKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJCcm93c2VyIiB7CiAgICAgICAgICAgICAgICBzaGFwZSB3ZWJicm93c2VyCiAgICAgICAgICAgIH0KICAgICAgICAgICAgcmVsYXRpb25zaGlwICJSZWxhdGlvbnNoaXAiIHsKICAgICAgICAgICAgICAgIHRoaWNrbmVzcyA0CiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgY29uZmlndXJhdGlvbiB7CiAgICAgICAgc2NvcGUgc29mdHdhcmVzeXN0ZW0KICAgIH0KfQ=="
   },
   "views" : {
+    "componentViews" : [ {
+      "containerId" : "20",
+      "dimensions" : {
+        "height" : 2863,
+        "width" : 3350
+      },
+      "elements" : [ {
+        "id" : "21",
+        "x" : 350,
+        "y" : 764
+      }, {
+        "id" : "22",
+        "x" : 365,
+        "y" : 324
+      }, {
+        "id" : "23",
+        "x" : 1190,
+        "y" : 658
+      }, {
+        "id" : "24",
+        "x" : 1220,
+        "y" : 309
+      }, {
+        "id" : "25",
+        "x" : 1190,
+        "y" : 1776
+      }, {
+        "id" : "26",
+        "x" : 1980,
+        "y" : 1951
+      }, {
+        "id" : "27",
+        "x" : 1980,
+        "y" : 1601
+      }, {
+        "id" : "28",
+        "x" : 1980,
+        "y" : 1251
+      }, {
+        "id" : "29",
+        "x" : 2650,
+        "y" : 1069
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "ComponentDiagramBackend",
+      "name" : "Component View: Live Ticker - NestJs Backend",
+      "order" : 3,
+      "relationships" : [ {
+        "id" : "40",
+        "vertices" : [ {
+          "x" : 970,
+          "y" : 808
+        } ]
+      }, {
+        "id" : "41",
+        "vertices" : [ {
+          "x" : 970,
+          "y" : 1020
+        }, {
+          "x" : 1810,
+          "y" : 1020
+        } ]
+      }, {
+        "id" : "42",
+        "vertices" : [ {
+          "x" : 1140,
+          "y" : 474
+        } ]
+      }, {
+        "id" : "43",
+        "vertices" : [ {
+          "x" : 620,
+          "y" : 274
+        }, {
+          "x" : 2205,
+          "y" : 274
+        } ]
+      }, {
+        "id" : "44",
+        "vertices" : [ {
+          "x" : 1810,
+          "y" : 808
+        }, {
+          "x" : 1810,
+          "y" : 459
+        } ]
+      }, {
+        "id" : "45"
+      }, {
+        "id" : "46"
+      }, {
+        "id" : "47",
+        "vertices" : [ {
+          "x" : 1810,
+          "y" : 1751
+        } ]
+      }, {
+        "id" : "48",
+        "vertices" : [ {
+          "x" : 1810,
+          "y" : 2101
+        } ]
+      }, {
+        "id" : "49"
+      }, {
+        "id" : "50"
+      } ]
+    }, {
+      "containerId" : "5",
+      "dimensions" : {
+        "height" : 3285,
+        "width" : 6880
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 199,
+        "y" : 1340
+      }, {
+        "id" : "2",
+        "x" : 199,
+        "y" : 2190
+      }, {
+        "id" : "6",
+        "x" : 1089,
+        "y" : 1615
+      }, {
+        "id" : "7",
+        "x" : 1879,
+        "y" : 1252
+      }, {
+        "id" : "8",
+        "x" : 6079,
+        "y" : 1320
+      }, {
+        "id" : "9",
+        "x" : 5289,
+        "y" : 1514
+      }, {
+        "id" : "10",
+        "x" : 5289,
+        "y" : 309
+      }, {
+        "id" : "11",
+        "x" : 2769,
+        "y" : 989
+      }, {
+        "id" : "12",
+        "x" : 3609,
+        "y" : 783
+      }, {
+        "id" : "13",
+        "x" : 4399,
+        "y" : 571
+      }, {
+        "id" : "14",
+        "x" : 4399,
+        "y" : 921
+      }, {
+        "id" : "15",
+        "x" : 2769,
+        "y" : 1514
+      }, {
+        "id" : "16",
+        "x" : 3609,
+        "y" : 1514
+      }, {
+        "id" : "17",
+        "x" : 4399,
+        "y" : 1514
+      }, {
+        "id" : "18",
+        "x" : 3609,
+        "y" : 1964
+      }, {
+        "id" : "19",
+        "x" : 4399,
+        "y" : 1964
+      }, {
+        "id" : "20",
+        "x" : 6079,
+        "y" : 2615
+      } ],
+      "externalContainerBoundariesVisible" : false,
+      "key" : "ComponentDiagramUI",
+      "name" : "Component View: Live Ticker - Angular-UI",
+      "order" : 4,
+      "relationships" : [ {
+        "id" : "51",
+        "vertices" : [ {
+          "x" : 1039,
+          "y" : 1540
+        } ]
+      }, {
+        "id" : "52",
+        "vertices" : [ {
+          "x" : 1039,
+          "y" : 2390
+        } ]
+      }, {
+        "id" : "53",
+        "vertices" : [ {
+          "x" : 1709,
+          "y" : 1402
+        } ]
+      }, {
+        "id" : "54",
+        "vertices" : [ {
+          "x" : 1709,
+          "y" : 2390
+        }, {
+          "x" : 5909,
+          "y" : 2390
+        } ]
+      }, {
+        "id" : "55",
+        "vertices" : [ {
+          "x" : 2379,
+          "y" : 459
+        } ]
+      }, {
+        "id" : "56",
+        "vertices" : [ {
+          "x" : 5909,
+          "y" : 459
+        } ]
+      }, {
+        "id" : "57",
+        "vertices" : [ {
+          "x" : 2379,
+          "y" : 1139
+        } ]
+      }, {
+        "id" : "58",
+        "vertices" : [ {
+          "x" : 2379,
+          "y" : 1664
+        } ]
+      }, {
+        "id" : "59",
+        "vertices" : [ {
+          "x" : 2379,
+          "y" : 2114
+        } ]
+      }, {
+        "id" : "60",
+        "vertices" : [ {
+          "x" : 3389,
+          "y" : 933
+        } ]
+      }, {
+        "id" : "61",
+        "vertices" : [ {
+          "x" : 3389,
+          "y" : 1283
+        }, {
+          "x" : 5909,
+          "y" : 1283
+        } ]
+      }, {
+        "id" : "62"
+      }, {
+        "id" : "63",
+        "vertices" : [ {
+          "x" : 4229,
+          "y" : 721
+        } ]
+      }, {
+        "id" : "64",
+        "vertices" : [ {
+          "x" : 4229,
+          "y" : 1071
+        } ]
+      }, {
+        "id" : "65",
+        "vertices" : [ {
+          "x" : 4229,
+          "y" : 1190
+        } ]
+      }, {
+        "id" : "66"
+      }, {
+        "id" : "67"
+      }, {
+        "id" : "68",
+        "vertices" : [ {
+          "x" : 4899,
+          "y" : 2064
+        }, {
+          "x" : 5909,
+          "y" : 2064
+        } ]
+      }, {
+        "id" : "69",
+        "vertices" : [ {
+          "x" : 5239,
+          "y" : 1071
+        } ]
+      }, {
+        "id" : "70"
+      }, {
+        "id" : "71",
+        "vertices" : [ {
+          "x" : 4899,
+          "y" : 2189
+        }, {
+          "x" : 5239,
+          "y" : 2189
+        } ]
+      }, {
+        "id" : "72",
+        "vertices" : [ {
+          "x" : 5909,
+          "y" : 1470
+        } ]
+      }, {
+        "id" : "73",
+        "vertices" : [ {
+          "x" : 5909,
+          "y" : 1844
+        } ]
+      } ]
+    } ],
     "configuration" : {
+      "lastSavedView" : "ComponentDiagramUI",
+      "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
           "strokeWidth" : 5,
           "tag" : "Boundary"
+        }, {
+          "shape" : "WebBrowser",
+          "tag" : "Browser"
         }, {
           "shape" : "Cylinder",
           "tag" : "Database"
@@ -79,6 +936,9 @@
           "stroke" : "#0066b3",
           "strokeWidth" : 7,
           "tag" : "Element"
+        }, {
+          "shape" : "Folder",
+          "tag" : "Folder"
         }, {
           "shape" : "Person",
           "tag" : "Person"
@@ -90,6 +950,89 @@
       },
       "terminology" : { }
     },
+    "containerViews" : [ {
+      "dimensions" : {
+        "height" : 1442,
+        "width" : 4060
+      },
+      "elements" : [ {
+        "id" : "1",
+        "x" : 200,
+        "y" : 160
+      }, {
+        "id" : "2",
+        "x" : 200,
+        "y" : 610
+      }, {
+        "id" : "4",
+        "x" : 990,
+        "y" : 773
+      }, {
+        "id" : "5",
+        "x" : 1780,
+        "y" : 435
+      }, {
+        "id" : "20",
+        "x" : 2570,
+        "y" : 435
+      }, {
+        "id" : "29",
+        "x" : 3360,
+        "y" : 435
+      } ],
+      "externalSoftwareSystemBoundariesVisible" : false,
+      "key" : "ContainerDiagram",
+      "name" : "Container View: Live Ticker",
+      "order" : 2,
+      "relationships" : [ {
+        "id" : "33",
+        "vertices" : [ {
+          "x" : 770,
+          "y" : 698
+        }, {
+          "x" : 940,
+          "y" : 698
+        } ]
+      }, {
+        "id" : "34",
+        "vertices" : [ {
+          "x" : 770,
+          "y" : 277
+        }, {
+          "x" : 1610,
+          "y" : 277
+        } ]
+      }, {
+        "id" : "35",
+        "vertices" : [ {
+          "x" : 770,
+          "y" : 998
+        }, {
+          "x" : 940,
+          "y" : 998
+        } ]
+      }, {
+        "id" : "36",
+        "vertices" : [ {
+          "x" : 770,
+          "y" : 554
+        }, {
+          "x" : 1610,
+          "y" : 554
+        } ]
+      }, {
+        "id" : "37",
+        "vertices" : [ {
+          "x" : 1610,
+          "y" : 923
+        } ]
+      }, {
+        "id" : "38"
+      }, {
+        "id" : "39"
+      } ],
+      "softwareSystemId" : "3"
+    } ],
     "systemContextViews" : [ {
       "elements" : [ {
         "id" : "1",
@@ -109,11 +1052,11 @@
       "name" : "System Context View: Live Ticker",
       "order" : 1,
       "relationships" : [ {
-        "id" : "4"
+        "id" : "30"
       }, {
-        "id" : "5"
+        "id" : "31"
       }, {
-        "id" : "6"
+        "id" : "32"
       } ],
       "softwareSystemId" : "3"
     } ]
