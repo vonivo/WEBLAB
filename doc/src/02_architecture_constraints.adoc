@@ -1,29 +1,42 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-architecture-constraints]]
-== Architecture Constraints
+== Randbedingungen
 
+Ein grossteil der Randbedingungen können aus den Projekt-Anforderungen abgeleitet werden.
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-Any requirement that constraints software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
+=== Technische Randbedingungen
 
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
+|===
+|Randbedingungen |Erklärung
 
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
+|Mobile/Tablet-optimiert
+|ie Applikation soll neben der Desktop-Ansicht, auch für die Mobile/Tablet-Ansicht optimiert sein.
 
+|Automatisiertes Testing
+|Die Funktionalitäten sollen mittels sinnvollen automatisierten Unit/Integration/E2E-Tests überprüft werden.
 
-.Further Information
+|Performance
+|Lighthouse-Score von mindestens 90 (Durchschnitt aller Analysen) für Mobile sowie Desktop.
 
-See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
+|Reproduzierbarer Prod-Start
+|Das Prod-Bundle der Applikation soll reproduzierbar gestartet werden können.
 
-****
-endif::arc42help[]
+|Genutzte Technologien
+| Für die Implementation des Backends sowie Frontends soll JavaScript oder TypeScript genutzt werden.
+|===
+
+=== Organisatorische Randbedingungen
+
+|===
+|Randbedingungen |Beschreibung
+
+|Hosting
+|Das Repository wird auf GitHub gehostet.
+
+|Verwendung von AI
+|Verwendung von AI (Agents) ist erlaubt
+
+|Zeitaufwand
+|Es soll ca. ein Zeitaufwand von ca. 60h Arbeit investiert werden.
+|===
