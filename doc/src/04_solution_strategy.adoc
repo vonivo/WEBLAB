@@ -1,34 +1,28 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-solution-strategy]]
-== Solution Strategy
+== Lösungsstrategie
+Die Lösungsstrategie beschreibt die wesentlichen technischen und architektonischen Entscheidungen,
+mit denen die Anforderungen der Live-Ticker-Applikation umgesetzt werden. Das System wird als
+klassische Webanwendung mit getrenntem Frontend, Backend und Datenhaltung realisiert.
+
+=== Frontend
+Die Benutzeroberfläche wird als Single-Page-Application (SPA) mit Angular und TypeScript realisier.
+Das Angular-Frontend ist für die Darstellung der Informationen und die Interaktion mit dem Benutzer
+ zuständig und kommuniziert über eine definierte REST-API mit dem Backend.
+
+Für die Gestaltung und Umsetzung der Benutzeroberfläche werden die Angular Material Components Library sowie Tailwind CSS verwendet.
+
+=== Backend
+Das Backend wurde mithilfe von `NestJS` und `TypeScript` umgesetzt.
+Es stellt eine REST-API zur Verfügung und übernimmt die Verarbeitung von Anfragen sowie die
+serverseitige Geschäftslogik.
 
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture. It includes
+=== Persistenz
+Als Datenbank wird `MongoDB` verwendet. Die Integration von `MongoDB` in das `NestJs` Backend wird
+mithilfe von `Mongoose` realisiert. Das Datenmodell werden in Mongoose-Schemas beschrieben.
 
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
-* decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
-
-.Motivation
-These decisions form the cornerstones for your architecture. They are the foundation for many other detailed decisions or implementation rules.
-
-.Form
-Keep the explanations of such key decisions short.
-
-Motivate what was decided and why it was decided that way,
-based upon problem statement, quality goals and key constraints.
-Refer to details in the following sections.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
-
-****
-endif::arc42help[]
+=== Authentifizierung und Zugriffsschutz
+Für die Authentifizierung wird WebAuthn verwendet. Bei erfolgreicher Authentifikation wird ein
+JWT-Token ausgestellt, dass zur weiteren Authentifizierung in der REST-API verwendet werden kann.
