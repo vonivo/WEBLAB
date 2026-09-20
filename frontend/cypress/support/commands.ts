@@ -17,7 +17,9 @@ Cypress.Commands.add('login', () => {
     () => {
       cy.visit('/login');
 
-      cy.get('[data-testid=LF_USERNAME_INPUT]').type('newUsername');
+      const username = `testuser_${Cypress._.random(100000, 999999)}`;
+
+      cy.get('[data-testid=LF_USERNAME_INPUT]').type(username);
       cy.get('[data-testid=LF_REGISTER_BTN]').click();
     },
     {

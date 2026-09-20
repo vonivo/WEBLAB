@@ -4,22 +4,23 @@ describe('Registration process', () => {
   });
 
   it('register new pass key, login and logout', () => {
-    register();
+    const username = `testuser_${Cypress._.random(100000, 999999)}`;
+    register(username);
 
     logout();
 
-    login();
+    login(username);
 
     logout();
   });
 });
 
-function register() {
+function register(username: string) {
   cy.visit('/login');
   cy.get('[data-testid=LF_REGISTER_BTN]').click();
   cy.get('mat-error').should('be.visible');
 
-  cy.get('[data-testid=LF_USERNAME_INPUT]').type('newUsername');
+  cy.get('[data-testid=LF_USERNAME_INPUT]').type(username);
   cy.get('[data-testid=LF_REGISTER_BTN]').click();
 
   cy.location().should((loc) => {
@@ -35,12 +36,12 @@ function logout() {
   cy.get('[data-testid=MAIN_NAV_ITEM_login]').should('be.visible');
 }
 
-function login() {
+function login(username: string) {
   cy.visit('/login');
   cy.get('[data-testid=LF_LOGIN_BTN]').click();
   cy.get('mat-error').should('be.visible');
 
-  cy.get('[data-testid=LF_USERNAME_INPUT]').type('newUsername');
+  cy.get('[data-testid=LF_USERNAME_INPUT]').type(username);
   cy.get('[data-testid=LF_LOGIN_BTN]').click();
 
   cy.location().should((loc) => {

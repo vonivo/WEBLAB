@@ -72,13 +72,17 @@
   - Optimierung des Lighthouse-Scores
 
 ## 15.09.2026
-- **Zeitaufwand: ca. 5h**
+- **Zeitaufwand: ca. 5.5h**
 - **Tätigkeit:**
   - Schreiben der Kapitel 1,2,3,4,5,7,8,9,11 und 12 der Arc42-Dokumentation
 
 ## 15.09.2026
-- **Zeitaufwand: ca. 2h**
+- **Zeitaufwand: ca. 4h**
 - **Tätigkeit:**
   - Schreiben der Kapitel 6 und 10 der Arc42-Dokumentation
   - Fixen von Sicherheits-Bug im WebAuthn-Flow
   - Fixen von kleineren Bugs
+  - Fix E2E-Tests
+  - Fazit geschrieben
+
+## Total: 63.5h

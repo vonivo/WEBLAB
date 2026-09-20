@@ -4,6 +4,7 @@ Code Repository für das Projekt des WEBLAB-Moduls.
 - [Aufgabenstellung](Aufgabenstellung.md)
 - [Architekturdokumentation](https://github.com/vonivo/WEBLAB/releases/download/latest/architecture.pdf)
 - [Arbeitsjournal](Arbeitsjournal.md)
+- [Fazit & Reflexion](./Fazit.md)
 
 ## Running the Application
 
