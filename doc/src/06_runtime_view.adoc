@@ -1,53 +1,195 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-runtime-view]]
-== Runtime View
+== Laufzeitsicht
+
+=== Szenario 1: Hinzufügen eines Spiels
+Ein Client übergibt Heim- und Auswärtsteam, deren Aufstellungen und das Startdatum.
+Der `GameService` lädt beide Teams über den `TeamService` und prüft, dass sie
+existieren und nicht identisch sind.
+Danach validiert er die Aufstellungen:
+
+* Alle Spieler müssen zum jeweiligen Team gehören,
+* jede Aufstellung muss mindestens einen Spieler enthalten.
+
+Bei einer Regelverletzung wird mit einer `NotFoundException` bzw.
+`BadRequestException` abgebrochen und nichts gespeichert. Andernfalls wird das Spiel
+mit einem Snapshot von Teamname, Logo und Aufstellung in MongoDB gespeichert und an
+den Client zurückgegeben.
+[plantuml, createGame, svg]
+----
+@startuml
+
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+
+actor Client
+participant "GameController" as GC
+participant "GameService" as GS
+participant "TeamService" as TS
+database "MongoDB\n(gameModel)" as DB
+
+Client -> GC : createGame(createGameDto)
+activate GC
+GC -> GS : createGame(createGameDto)
+activate GS
+
+== Teams validieren ==
+
+GS -> GS : validateTeam(homeTeamId)
+activate GS
+GS -> TS : findById(homeTeamId)
+activate TS
+TS --> GS : TeamDocument | null
+deactivate TS
+alt Heimteam nicht gefunden
+    GS --> Client : NotFoundException\n("Team with id ... not found")
+else Heimteam gefunden
+    GS --> GS : homeTeam
+end
+deactivate GS
+
+GS -> GS : validateTeam(awayTeamId)
+activate GS
+GS -> TS : findById(awayTeamId)
+activate TS
+TS --> GS : TeamDocument | null
+deactivate TS
+alt Auswärtsteam nicht gefunden
+    GS --> Client : NotFoundException\n("Team with id ... not found")
+else Auswärtsteam gefunden
+    GS --> GS : awayTeam
+end
+deactivate GS
+
+alt homeTeam.id == awayTeam.id
+    GS --> Client : BadRequestException\n("Game must consist of two separate teams")
+end
+
+== Aufstellungen validieren ==
+
+GS -> GS : validatePlayersOfTeam(homeTeam, lineupHomeTeam)
+activate GS
+alt ungültige Spieler-IDs vorhanden
+    GS --> Client : NotFoundException\n("Players with id ... not valid")
+else Aufstellung leer
+    GS --> Client : BadRequestException\n("Lineup ... must at least contain one player")
+else gültig
+    GS --> GS : lineUpHome : Player[]
+end
+deactivate GS
+
+GS -> GS : validatePlayersOfTeam(awayTeam, lineupAwayTeam)
+activate GS
+alt ungültige Spieler-IDs vorhanden
+    GS --> Client : NotFoundException\n("Players with id ... not valid")
+else Aufstellung leer
+    GS --> Client : BadRequestException\n("Lineup ... must at least contain one player")
+else gültig
+    GS --> GS : lineUpAway : Player[]
+end
+deactivate GS
+
+== Spiel anlegen ==
+
+GS -> GS : new gameModel({homeTeam, awayTeam, startDate})
+GS -> DB : newGame.save()
+activate DB
+DB --> GS : Game
+deactivate DB
+
+GS --> GC : Game
+deactivate GS
+GC --> Client : Game
+deactivate GC
+
+@enduml
+----
 
 
-ifdef::arc42help[]
-[role="arc42help"]
-****
-.Contents
-The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:
 
-* important use cases or features: how do building blocks execute them?
-* interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?
-* operation and administration: launch, start-up, stop
-* error and exception scenarios
+=== Szenario 2: Add Event
+Ein Client sendet ein Spielereignis (z. B. Tor) für ein bestehendes Spiel an den
+`GameController`, der den Aufruf an den `GameService` weiterreicht.
+Der Service lädt das Spiel und wählt anhand des Ereignisses die betroffene Mannschaft.
+Dann prüft er, dass der primäre und der sekundäre Spieler, sofern angegeben, zur
+Aufstellung dieser Mannschaft gehören. Zusätzlich gelten zwei Regeln: Ein Tor
+benötigt einen primären Spieler, und primärer und sekundärer Spieler dürfen nicht
+identisch sein. Bei einer Verletzung wird mit einer `NotFoundException` bzw.
+`BadRequestException` abgebrochen. Andernfalls wird das Ereignis an die Ereignisliste
+des Spiels in MongoDB angehängt und dem Client zurückgegeben.
+[plantuml, addEvent, svg]
+----
+@startuml
+actor Client
+participant "GameController" as GC
+participant "GameService" as GS
+database "MongoDB\n(gameModel)" as DB
 
-Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their *architectural relevance*. It is *not* important to describe a large number of scenarios. You should rather document a representative selection.
+Client -> GC : Event hinzufügen (HTTP-Request)
+activate GC
+GC -> GS : addEvent(event, gameId)
+activate GS
 
-.Motivation
-You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).
+== Spiel laden ==
 
-.Form
-There are many notations for describing scenarios, e.g.
+GS -> DB : findById(gameId).lean()
+activate DB
+DB --> GS : Game | null
+deactivate DB
+alt Spiel nicht gefunden
+    GS --> GC : NotFoundException\n("Game ... not found")
+    GC --> Client : 404
+end
 
-* numbered list of steps (in natural language)
-* activity diagrams or flow charts
-* sequence diagrams
-* BPMN or EPCs (event process chains)
-* state machines
-* ...
+GS -> GS : teamSnapshot = (event.team == HOME) ? homeTeam : awayTeam
 
+== Spieler prüfen ==
 
-.Further Information
+GS -> GS : resolvePlayerFromLineUpId(teamSnapshot, primaryPlayerId)
+activate GS
+alt primaryPlayerId nicht in Aufstellung
+    GS --> GC : BadRequestException\n("Player ... is not part of the selected team's lineup")
+    GC --> Client : 400
+else primaryPlayerId leer oder gültig
+    GS --> GS : ObjectId | undefined
+end
+deactivate GS
 
-See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
+GS -> GS : resolvePlayerFromLineUpId(teamSnapshot, secondaryPlayerId)
+activate GS
+alt secondaryPlayerId nicht in Aufstellung
+    GS --> GC : BadRequestException\n("Player ... is not part of the selected team's lineup")
+    GC --> Client : 400
+else secondaryPlayerId leer oder gültig
+    GS --> GS : ObjectId | undefined
+end
+deactivate GS
 
-****
-endif::arc42help[]
+== Regeln prüfen ==
 
-=== <Runtime Scenario 1>
+alt type == GOAL und primaryPlayerId fehlt
+    GS --> GC : BadRequestException\n("primaryPlayerId is required for GOAL events")
+    GC --> Client : 400
+end
 
+alt primaryPlayerId == secondaryPlayerId
+    GS --> GC : BadRequestException\n("primaryPlayerId cannot be equal to secondaryPlayerId")
+    GC --> Client : 400
+end
 
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
+== Event speichern ==
 
-=== <Runtime Scenario 2>
+GS -> GS : createdEvent = {minute, minuteExtra ?? 0, type,\nteam, primaryPlayerId, secondaryPlayerId, timeStamp}
+GS -> DB : findByIdAndUpdate(gameId, {$push: {events: event}})
+activate DB
+DB --> GS : Game
+deactivate DB
 
-=== ...
+GS --> GC : createdEvent
+deactivate GS
+GC --> Client : createdEvent
+deactivate GC
 
-=== <Runtime Scenario n>
+@enduml
+----
