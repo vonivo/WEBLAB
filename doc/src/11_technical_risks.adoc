@@ -10,9 +10,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 |Internationalisierung: Bisher wird nur die Sprache EN ausgeliefert.
 |Grundstein für weitere Sprachen mit `ngx-translate` gelegt und könnte einfach hinzugefügt werden.
 
-|Registrierung: Die Registrierung ist bisher nicht beschränkt und jeder kann einfach einen Account erstellen und dan Daten bearbeiten.
-|Ist soweit angedacht, dass die Applikation einfach getestet werden kann. Wenn die Applikation produktiv geht, muss dies entsprechend gefixt werden.
-
 |Live-Updates: Neue Ereignisse erscheinen nur nach Neuladen oder Navigation. Es gibt weder WebSockets noch Polling, obwohl die Anforderung "Ereignisse ohne Reload" (Should have) besteht.
 |Offen. Polling als einfache Lösung oder WebSockets/SSE für Echtzeit ergänzen.
 
@@ -24,9 +21,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 |Challenge im Arbeitsspeicher: Die WebAuthn-Challenges liegen im lokalen Cache des Backends. Bei mehreren Instanzen oder einem Neustart schlägt ein laufender Ablauf fehl.
 |Bei einer Instanz unproblematisch. Für Skalierung einen gemeinsamen Cache (z. B. Redis) verwenden.
-
-|Eingabevalidierung und Missbrauchsschutz: Die WebAuthn-Endpunkte nehmen den Body untypisiert (`any`) entgegen, und ein Rate-Limiting ist nicht vorhanden.
-|Offen. DTOs mit `class-validator` ergänzen, Rate-Limiting für die Auth-Endpunkte prüfen.
 
 |Spieleliste ohne Paginierung: `GET /games` lädt alle Spiele mit allen Ereignissen und sortiert im Speicher. Die Antwort wächst mit jedem Spiel.
 |Bei kleiner Datenmenge unproblematisch. Später Paginierung, Filter nach Status und Sortierung in der Datenbank.

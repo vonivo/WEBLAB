@@ -56,3 +56,10 @@ Then run the Cypress tests:
 cd frontend
 npm run cypress:run
 ```
+
+
+Offen:
+Registrierung Schützen,
+Interceptor: Token validity prüfen
+Arbeitsjournal
+Chapter 10 und 6
