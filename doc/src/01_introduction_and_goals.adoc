@@ -9,7 +9,7 @@ Bisher können folgende Events eines Matches erfasst werden:
 
 * Goals (Mit Spieler und Assist Spieler)
 * Kickoff und Ende des Spiels
-* Halbzeit, Start- und ende eines Drittels
+* Halbzeit, Start- und Ende eines Drittels
 
 Weitere Funktionalitäten können der https://github.com/vonivo/WEBLAB/blob/main/Aufgabenstellung.md[Aufgabenstellung.md] entnommen werden
 
@@ -23,7 +23,7 @@ Weitere Funktionalitäten können der https://github.com/vonivo/WEBLAB/blob/main
 a|
 
 * Als Benutzer möchte den Aktuellen Stand eines Games vor allem unterwegs auf meinem Handy abfragen können.
-* Als Administrator möchte ich die Verwaltung der Spiele auf meinen grossen Desktop-Monitor erledigen können, damit ich eine besser Übersicht habe.
+* Als Administrator möchte ich die Verwaltung der Spiele auf meinen grossen Desktop-Monitor erledigen können, damit ich eine bessere Übersicht habe.
 
 
 |Performance
@@ -40,7 +40,7 @@ a|
 ich dem Benutzer eine möglichst komplette User-Experience bieten kann.
 
 |Reproduzierbarkeit
-|Die Applikation soll auf verschiedenen Systeme mit nur einem Befehl starbar sein.
+|Die Applikation soll auf verschiedenen Systeme mit nur einem Befehl startbar sein.
 a|
 * Als Dozent, welcher diese Arbeit korrigiert, möchte ich die Applikation mit nur einem Befehl (`docker compose up --build`) starten können, damit ich nicht viel Zeit in das Setup investieren muss.
 |===
@@ -51,5 +51,5 @@ a|
 |Role/Name|Contact|Expectations
 | _Entwickler_ | _mailto:ivo.vonrickenbach@stud.hslu.ch[Ivo von Rickenbach]_ | _Einhalten Anforderungen und gelernten Best-Practices._
 | _Dozent_ | _mailto:dominik.witschard@hslu.ch[Dominik Witschard]_ | _Einhalten der funktionalen und nicht funktionen Anforderungen. Einhalten der Form des Projekts._
-| _Anfällige Benutzer_ |  | _Gute User-Experience, Featurecompletness_
+| _Endbenutzer_ |  | _Gute User-Experience, Feature-Completeness_
 |===

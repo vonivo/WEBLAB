@@ -11,7 +11,7 @@ Ein grossteil der Randbedingungen können aus den Projekt-Anforderungen abgeleit
 |Randbedingungen |Erklärung
 
 |Mobile/Tablet-optimiert
-|ie Applikation soll neben der Desktop-Ansicht, auch für die Mobile/Tablet-Ansicht optimiert sein.
+|Die Applikation soll neben der Desktop-Ansicht, auch für die Mobile/Tablet-Ansicht optimiert sein.
 
 |Automatisiertes Testing
 |Die Funktionalitäten sollen mittels sinnvollen automatisierten Unit/Integration/E2E-Tests überprüft werden.

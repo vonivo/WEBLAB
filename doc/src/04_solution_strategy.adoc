@@ -7,22 +7,22 @@ mit denen die Anforderungen der Live-Ticker-Applikation umgesetzt werden. Das Sy
 klassische Webanwendung mit getrenntem Frontend, Backend und Datenhaltung realisiert.
 
 === Frontend
-Die Benutzeroberfläche wird als Single-Page-Application (SPA) mit Angular und TypeScript realisier.
+Die Benutzeroberfläche wird als Single-Page-Application (SPA) mit Angular und TypeScript realisiert.
 Das Angular-Frontend ist für die Darstellung der Informationen und die Interaktion mit dem Benutzer
  zuständig und kommuniziert über eine definierte REST-API mit dem Backend.
 
 Für die Gestaltung und Umsetzung der Benutzeroberfläche werden die Angular Material Components Library sowie Tailwind CSS verwendet.
 
 === Backend
-Das Backend wurde mithilfe von `NestJS` und `TypeScript` umgesetzt.
+Das Backend wurde mithilfe von `NestJs` und `TypeScript` umgesetzt.
 Es stellt eine REST-API zur Verfügung und übernimmt die Verarbeitung von Anfragen sowie die
 serverseitige Geschäftslogik.
 
 
 === Persistenz
 Als Datenbank wird `MongoDB` verwendet. Die Integration von `MongoDB` in das `NestJs` Backend wird
-mithilfe von `Mongoose` realisiert. Das Datenmodell werden in Mongoose-Schemas beschrieben.
+mithilfe von `Mongoose` realisiert. Das Datenmodell wird in Mongoose-Schemas beschrieben.
 
 === Authentifizierung und Zugriffsschutz
 Für die Authentifizierung wird WebAuthn verwendet. Bei erfolgreicher Authentifikation wird ein
-JWT-Token ausgestellt, dass zur weiteren Authentifizierung in der REST-API verwendet werden kann.
+JWT-Token ausgestellt, das zur weiteren Authentifizierung in der REST-API verwendet werden kann.

@@ -149,7 +149,6 @@ workspace "Live Ticker" "DSL of Live Ticker c4 model" {
         liveTicker.backend.webAuthnController -> liveTicker.backend.userService "uses"
         liveTicker.backend.webAuthnController -> liveTicker.backend.authService "uses"
         liveTicker.backend.userService -> liveTicker.database "uses"
-        liveTicker.backend.authService -> liveTicker.database "uses"
 
 
         user -> liveTicker.spa.appShell "Nutzt"

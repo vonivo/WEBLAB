@@ -44,3 +44,41 @@
   - Implementation der Game-List-View
   - Implementation der Create-Game
   - Beginn mit der Game-Detail-View
+
+## 10.09.2026
+- **Zeitaufwand: ca. 8h**
+- **Tätigkeit:**
+  - Fertigstellung der Game-Detail-View
+  - Switch auf Lazy-Loading wegen der Bundle-Size
+  - Implementation von Backend-DTO-Validierung
+
+## 11.09.2026
+- **Zeitaufwand: ca. 8h**
+- **Tätigkeit:**
+  - Schreiben von Backend Unit- und Integrationstests
+  - Schreiben von E2E-Test für die Teilbereiche Team und Login
+
+## 14.09.2026
+- **Zeitaufwand: ca. 2h**
+- **Tätigkeit:**
+  - Refactoring der bestehenden E2E-Tests
+  - Beginn mit den E2E-Tests für das Game-Feature
+
+## 15.09.2026
+- **Zeitaufwand: ca. 3h**
+- **Tätigkeit:**
+  - Fertigstellung der E2E-Test des Game-Features
+  - Hinzufügen von den docker-compose Umgebungen von PROD und E2E
+  - Optimierung des Lighthouse-Scores
+
+## 15.09.2026
+- **Zeitaufwand: ca. 5h**
+- **Tätigkeit:**
+  - Schreiben der Kapitel 1,2,3,4,5,7,8,9,11 und 12 der Arc42-Dokumentation
+
+## 15.09.2026
+- **Zeitaufwand: ca. 2h**
+- **Tätigkeit:**
+  - Schreiben der Kapitel 6 und 10 der Arc42-Dokumentation
+  - Fixen von Sicherheits-Bug im WebAuthn-Flow
+  - Fixen von kleineren Bugs

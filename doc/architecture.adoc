@@ -7,9 +7,9 @@
 include::src/config.adoc[]
 
 = image:arc42-logo.png[arc42] Template
-:revnumber: {revnumber}
-:revdate: {revdate}
-:revremark: {revremark}
+:revnumber: 1.0
+:revdate: 20.09.2026
+:revremark: First version
 :toc-title: Table of Contents
 
 
@@ -19,18 +19,6 @@ include::src/about-arc42.adoc[]
 
 // horizontal line
 ***
-
-ifdef::arc42help[]
-[role="arc42help"]
-****
-[NOTE]
-====
-This version of the template contains some help and explanations.
-It is used for familiarization with arc42 and the understanding of the concepts.
-For documentation of your own system you use better the _plain_ version.
-====
-****
-endif::arc42help[]
 
 // numbering from here on
 :numbered:

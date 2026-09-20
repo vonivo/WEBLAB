@@ -56,8 +56,3 @@ Then run the Cypress tests:
 cd frontend
 npm run cypress:run
 ```
-
-
-Offen:
-Arbeitsjournal
-Chapter 6

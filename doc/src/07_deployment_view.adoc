@@ -5,7 +5,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Verteilungssicht
 === Produktionsumgebung
-Die Anwendung wird vollständig containerisiert betrieben. (`docker-compose.yml`)
+Die Anwendung wird vollständig containerisiert betrieben. (`docker-compose.yaml`)
 Die Deployment-Umgebung besteht aus drei Docker-Containern:
 
 * *Frontend*: Enthält Angular App welche über Nginx ausgeliefert wird.
@@ -54,5 +54,5 @@ mongo -> mongoData : persistent data
 === E2E-Testumgebung
 Auch die Testumgebung für die E2E-Tests wird containerisiert erstellt. (`docker-compose.e2e.yml`)
 
-Einziger Unterschied ist das der Port `4200` für das Frontend exponiert wird.
+Einziger Unterschied ist dass der Port `4200` für das Frontend exponiert wird.
 

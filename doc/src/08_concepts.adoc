@@ -4,7 +4,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 == Querschnittliche Konzepte
 
 === Datenmodell
-Das Datenmodell besteht aus insgesamt 3 MonogDB-Kollektionen:
+Das Datenmodell besteht aus insgesamt 3 MonogDB-Collections:
 
 * User
 * Team
@@ -156,7 +156,7 @@ Durch diese Struktur sind alle Informationen welche benötigt werden in einem Do
 
 === Authentication
 Die Anmeldung erfolgt passwortlos mit WebAuthn (Passkeys) und liefert ein JWT.
-Geschütze Funktionen (z.b. das Erstellen eines Teams) erfordern ein gültiges JWT.
+Geschützte Funktionen (z.B. das Erstellen eines Teams) erfordern ein gültiges JWT.
 
 *Backend*
 
@@ -168,12 +168,12 @@ Geschütze Funktionen (z.b. das Erstellen eines Teams) erfordern ein gültiges J
 
 * Nach erfolgreichem Login/Register wird der `AuthService` aufgerufen, welcher das JWT im LocalStorage des Browsers speichert.
 * Bei jedem HTTP-Request wird über den `authInterceptor` das JWT an den Request angefügt.
-* `AuthService` stellt dem Rest der Applikation den Login-Status des benutzers zur Verfügung.
+* `AuthService` stellt dem Rest der Applikation den Login-Status des Benutzers zur Verfügung.
 
 === Validierung
 *Backend*
 
-Input-Validierung auf der Seite des Backends wird mittles einer `global ValidationPipe` mit class-validatorDTOs realisiert.
+Input-Validierung auf der Seite des Backends wird mittels einer `global ValidationPipe` mit class-validatorDTOs realisiert.
 Weitergehende Business-Validation-Rules werden von den einzelnen Service-Klassen ausgeführt.
 
 *Frontend*

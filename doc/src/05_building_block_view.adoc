@@ -1,7 +1,7 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-building-block-view]]
-== Building Block View
+== Bausteinsicht
 === Level 1: Whitebox Gesamtsystem
 image:ContainerDiagram.png[]
 
@@ -12,7 +12,7 @@ image:ContainerDiagram.png[]
 |Liefert die Angular-SPA aus.
 
 |Angular-UI
-|Darstellung der Informationen und behandlung der Benutzerinteraktionen.
+|Darstellung der Informationen und Behandlung der Benutzerinteraktionen.
 
 |NestJs Backend
 |Businesslogik, Validierung, Verwalten von Daten
@@ -40,7 +40,7 @@ Benutzerinteraktionen behandelt. Ruft alle Daten über die REST-API des Backends
 
 Die UI stellt selbst keine Schnittstelle bereit, sie nutzt folgende:
 
-* *REST-API des NestJS-Backends* (JSON über HTTP), siehe <<Blackbox NestJs Backend>>
+* *REST-API des NestJs-Backends* (JSON über HTTP), siehe <<Blackbox NestJs Backend>>
 * *Browser-LocalStorage* zur lokalen Ablage von Authentifizierungsdaten
 * *WebAuthn-Browser-API* (`navigator.credentials`) für die passwortlose Authentifizierung
 
@@ -55,7 +55,8 @@ WebAuthn sowie der gesamte Datenzugriff auf MongoDB.
 
 *Schnittstelle(n)*
 
-REST-API (JSON). Schreibende Operationen an Spielen sind durch einen `AuthGuard` geschützt.
+REST-API (JSON). Schreibende Operationen an Spielen
+und Teams sind durch einen `AuthGuard` geschützt.
 
 `/games`
 
@@ -146,7 +147,7 @@ User).
 
 *Schnittstelle(n)*
 
-* MongoDB-Protokoll (Treiber/ODM), ausschliesslich vom NestJS-Backend genutzt
+* MongoDB-Protokoll (Treiber/ODM), ausschliesslich vom NestJs-Backend genutzt
 
 === Level 2
 ==== White Box NestJs Backend
@@ -159,13 +160,13 @@ sind `Authentication` und `GameCenter`, wobei `GameCenter` auf dem `Authenticati
 |Name |Verantwortlichkeit
 
 |Team Controller
-|REST-API-Schnittstelle für Team-Funktioanlität (`/teams`)
+|REST-API-Schnittstelle für Team-Funktionalität (`/teams`)
 
 |Team Service
 |Kapselt alle Businesslogik bezüglich Team, zuständig für die Datenspeicherung
 
 |Game Controller
-|REST-API-Schnittstelle für Game-Funktioanlität (`/games`)
+|REST-API-Schnittstelle für Game-Funktionalität (`/games`)
 
 |Game Service
 |Kapselt alle Businesslogik bezüglich Game, zuständig für die Datenspeicherung
@@ -183,19 +184,12 @@ sind `Authentication` und `GameCenter`, wobei `GameCenter` auf dem `Authenticati
 |Schützt Endpunkte vor unautorisiertem Zugriff.
 |===
 
-==== White Box _<building block 2>_
-
-
-_<white box template>_
-
-...
-
 ==== White Box Angular-UI
 image::ComponentDiagramUI.png[]
 Die Angular-UI ist nach Fachbereichen (Features) gegliedert: Game, Team und Login.
 Jedes Feature enthält seine eigenen Seiten, Container-Komponenten und Services und ist
 damit weitgehend unabhängig von den anderen.
-Querschnittlichte Aspekte (Routing, Authentifizierung, App-Layout) liegen ausserhalb
+Querschnittliche Aspekte (Routing, Authentifizierung, App-Layout) liegen ausserhalb
 der Features. Die Feature-Seiten werden per Lazy Loading erst beim Aufruf der
 jeweiligen Route geladen.
 

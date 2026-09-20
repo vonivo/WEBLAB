@@ -68,7 +68,7 @@ export class WebAuthNController {
     };
 
     const options = await generateRegistrationOptions(opts);
-    await this.cache.set(`challenge:${username}`, options.challenge, 60_000);
+    await this.cache.set(`reg:challenge:${username}`, options.challenge, 60_000);
     return options;
   }
 
@@ -78,7 +78,7 @@ export class WebAuthNController {
     @Query("username") username: string,
   ) {
     const expectedChallenge = await this.cache.get<string>(
-      `challenge:${username}`,
+      `reg:challenge:${username}`,
     );
 
     let verification: VerifiedRegistrationResponse;
@@ -127,7 +127,7 @@ export class WebAuthNController {
     };
 
     const options = await generateAuthenticationOptions(opts);
-    await this.cache.set(`challenge:${username}`, options.challenge, 60_000);
+    await this.cache.set(`auth:challenge:${username}`, options.challenge, 60_000);
 
     return options;
   }
@@ -138,7 +138,7 @@ export class WebAuthNController {
     @Query("username") username: string,
   ) {
     const expectedChallenge = await this.cache.get<string>(
-      `challenge:${username}`,
+      `auth:challenge:${username}`,
     );
 
     const dbCredential = await this.userService.findCredential(

@@ -1,7 +1,7 @@
 ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-design-decisions]]
-== Architecture Decisions
+== Architekturentscheidungen
 
 === ADR 01: Datenbanktechnologie
 ==== Kontext
@@ -33,14 +33,14 @@ bestehende Dokumente ihre alte Struktur
 
 === ADR 02: Backend-Technologie
 ==== Kontext
-Die Backend-Technologie kann frei gewählt werden mit der Auflage das ein JavaScript/TypeScript backend genutzt wird.
+Die Backend-Technologie kann frei gewählt werden mit der Auflage dass ein JavaScript/TypeScript Backend genutzt wird.
 
 ==== Betrachtete Alternativen
 * NestJs
 * Express (ohne zusätzliches Framework)
 
 ==== Entscheidung
-Für die Backentechnologie wird NestJs verwendet.
+Für das Backend wird NestJs verwendet.
 
 ==== Begründung
 NestJs bietet ein Framework mit vorgegebener Struktur (Module, Controller, Services, Dependency Injection) und integriert viele benötigte Funktionen:
@@ -66,7 +66,7 @@ Vergangene Spiele historisch korrekt angezeigt werden.
 * *Snapshot:* Beim Erstellen des Spiels werden Name, Logo und die Aufstellung aus dem Team in das Spiel kopiert.
 
 ==== Entscheidung
-eim Erstellen eines Spiels wird ein Snapshot der beiden Teams im Spiel gespeichert
+Beim Erstellen eines Spiels wird ein Snapshot der beiden Teams im Spiel gespeichert
 (`GameTeam`: Name, Logo und Aufstellung). Zusätzlich bleibt die ID des Teams als
 Referenz erhalten.
 
@@ -83,7 +83,7 @@ Referenz erhalten.
 geschieht nur beim Erstellen des Spiels im `Game Service`.
 * Beim Hinzufügen von Ereignissen werden Spieler-IDs gegen die Aufstellung des Spiels geprüft und nicht gegen das Team.
 
-=== ADR 04: Authentication via Webauthn
+=== ADR 04: Authentifizierung via WebAuthn
 ==== Kontext
 Die Verwaltung von Spielen und Teams darf nur von angemeldeten Benutzern gemacht werden.
 
@@ -92,12 +92,12 @@ Die Verwaltung von Spielen und Teams darf nur von angemeldeten Benutzern gemacht
 * WebAuthn
 
 ==== Entscheidung
-Für die Authentication wird WebAuthn verwendet.
+Für die Authentifizierung wird WebAuthn verwendet.
 
 ==== Begründung
 Damit ein möglichst grosser Lerneffekt erzielt werden kann, wird WebAuthn verwendet,
 da damit bisher noch keine Erfahrungen gesammelt wurden.
-Zusätzlich müssen keine Passwörter gespeichert werden und das Login-Verfahren ist Phishing-Resistent
+Zusätzlich müssen keine Passwörter gespeichert werden und das Login-Verfahren ist phishing-resistent
 
 ==== Konsequenz
 * Die Datenbank enthält keine geheimen Anmeldedaten. Pro Benutzer werden nur Credentials (ID, öffentlicher Schlüssel, Zähler, Transports) gespeichert.
@@ -121,9 +121,9 @@ Für spätere Weiterentwicklungen soll die Technologie PWAs unterstützen.
 Das Frontend wird als Single-Page-Application mit Angular (TypeScript) umgesetzt.
 
 ==== Begründung
-* Das Framework Angular wurde im kurs WEBLAB behandelt.
+* Das Framework Angular wurde im Kurs WEBLAB behandelt.
 * Das Konzept (Dekoratoren, Dependency Injection, Services) ist dem von NestJs sehr ähnlich, siehe ADR 02. In Frontend und Backend wird TypeScript verwendet.
-* Mithilfe von Servicerworkern kann mit Angular eine PWA umgesetzt werden.
+* Mithilfe von Service Workern kann mit Angular eine PWA umgesetzt werden.
 
 ==== Konsequenz
 * Die Anwendung muss gebuildet werden und als statische Dateien ausgeliefert werden.
@@ -138,10 +138,10 @@ Funktionen sollen sich klar einordnen lassen.
 ==== Betrachtete Alternativen
 * *Gliederung nach technischem Typ:* globale Ordner `pages/`, `components/`, `services/`
 * *Gliederung nach Feature:* ein Ordner pro Fachbereich mit allem, was dazugehört
-* *Gliederung nach Pages*: ein Ordern pro "URL" welcher ein Benutzer aufruft.
+* *Gliederung nach Pages*: ein Ordner pro "URL" welcher ein Benutzer aufruft.
 
 ==== Entscheidung
-Der Code wird nach Features gegliedert mit folgenden ausnahmen:
+Der Code wird nach Features gegliedert mit folgenden Ausnahmen:
 
 * `authentication/`: Auth Service, Interceptor, Route Guards
 * `components/`: App-weite Components (Navigation, Side-Nav, Skeleton-Loader)
@@ -151,7 +151,6 @@ Der Code wird nach Features gegliedert mit folgenden ausnahmen:
 ==== Begründung
 * Zusammengehörige Code-Teile sind in einem Feature gebündelt.
 * Die Features sind voneinander unabhängig.
-* Mithilfe von Servicerworkern kann mit Angular eine PWA umgesetzt werden.
 
 ==== Konsequenz
 * Code, der von mehreren Features genutzt wird, muss nach `core/` verschoben werden.
@@ -198,7 +197,7 @@ das Layout auf Desktop und Mobile funktionieren.
 ==== Entscheidung
 Es werden Angular Material und Tailwind CSS kombiniert, mit klarer Aufgabenteilung:
 
-* *Angular Material* liefert die interaktiven Komponenten (Dialog, Formularfelde, Select, etc.)
+* *Angular Material* liefert die interaktiven Komponenten (Dialog, Formularfelder, Select, etc.)
 * *Tailwind CSS* wird für Layout, Abstände, Typografie und responsives Verhalten direkt in den Templates verwendet.
 
 ==== Begründung
