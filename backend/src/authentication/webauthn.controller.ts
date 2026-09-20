@@ -68,7 +68,11 @@ export class WebAuthNController {
     };
 
     const options = await generateRegistrationOptions(opts);
-    await this.cache.set(`reg:challenge:${username}`, options.challenge, 60_000);
+    await this.cache.set(
+      `reg:challenge:${username}`,
+      options.challenge,
+      60_000,
+    );
     return options;
   }
 
@@ -127,7 +131,11 @@ export class WebAuthNController {
     };
 
     const options = await generateAuthenticationOptions(opts);
-    await this.cache.set(`auth:challenge:${username}`, options.challenge, 60_000);
+    await this.cache.set(
+      `auth:challenge:${username}`,
+      options.challenge,
+      60_000,
+    );
 
     return options;
   }
