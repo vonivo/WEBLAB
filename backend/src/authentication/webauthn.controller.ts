@@ -47,7 +47,11 @@ export class WebAuthNController {
 
   @Get("/generate-registration-options")
   async generateRegistrationOptions(@Query("username") username: string) {
-    const user = await this.userService.findOrCreate(username);
+    const user = await this.userService.findByUsername(username);
+
+    if (user != null) {
+      throw new HttpException("User already exists", HttpStatus.BAD_REQUEST);
+    }
 
     const opts: GenerateRegistrationOptionsOpts = {
       rpName: this.rpName,
@@ -55,11 +59,7 @@ export class WebAuthNController {
       userName: username,
       timeout: 60000,
       attestationType: "none",
-      excludeCredentials: user.credentials.map((cred) => ({
-        id: cred.id,
-        type: "public-key",
-        transports: cred.transports,
-      })),
+      excludeCredentials: [],
       authenticatorSelection: {
         residentKey: "discouraged",
         userVerification: "preferred",

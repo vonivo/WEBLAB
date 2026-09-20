@@ -61,50 +61,50 @@ Mobile, Performance, Erweiterbarkeit, Reproduzierbarkeit). Die folgende
 |Q1
 |Benutzbarkeit
 |Ein Benutzer öffnet das Spiel auf dem Smartphone und ein Admin erfasst ein Ereignis auf dem Desktop. Beide können die Aufgabe ohne Einschränkung erledigen.
-|Responsives Layout mit Tailwind (ADR 08). Ereignisse werden am Desktop im Dialog, am Handy auf einer eigenen Seite erfasst (ADR 07).
+|Auf beiden Geräten sind Inhalte und Bedienelemente ohne horizontales Scrollen oder Zoomen nutzbar.
 
 |Q2
 |Performance
-|Ein Benutzer öffnet die Anwendung mit einer langsamen Verbindung. Das Prod-Bundle erreicht im Lighthouse-Score mindestens 90.
-|Seiten werden per Lazy Loading erst bei Bedarf geladen, die Auslieferung erfolgt als statische Dateien. TODO: Lighthouse-Messung eintragen.
+|Ein Benutzer öffnet die Anwendung mit einer 3G Verbindung.
+|Das Prod-Bundle erreicht im durchschnittlichen Lighthouse-Score mindestens 90.
 
 |Q3
 |Erweiterbarkeit
-|Der Betreiber ergänzt ein neues Feature (z. B. Saisons). Änderungen betreffen im Wesentlichen einen neuen Feature-Ordner im Frontend und ein neues Modul im Backend.
-|Gliederung nach Features (ADR 06), Trennung in Pages, Smart und Dumb Components (ADR 07), Module in NestJs (ADR 02).
+|Der Betreiber möchte ein neues Feature ergänzen (z. B. Saisons).
+|Änderungen betreffen im Wesentlichen einen neuen Feature-Ordner im Frontend und ein Modul im Backend.
 
 |Q4
 |Reproduzierbarkeit
-|Ein Dozent startet die Anwendung mit `docker compose up --build`. Danach ist sie unter `http://localhost` erreichbar.
-|Docker-Compose-Setup mit allen Bausteinen (siehe README).
+|Ein Dozent möchte die Anwendung starten.
+|Die Anwendung ist mittels `docker compose up --build` startbar. Danach ist sie unter `http://localhost` erreichbar.
 
 |Q5
 |Sicherheit
-|Ein nicht angemeldeter Benutzer versucht, ein Spiel oder Team zu ändern. Das Backend lehnt die Anfrage mit `401` ab.
-|`AuthGuard` mit JWT (ADR 04, Kapitel 8). Abgedeckt durch Unit-Tests des Guards.
+|Ein nicht angemeldeter Benutzer versucht, ein Spiel oder Team zu ändern.
+|Das Backend lehnt die Anfrage mit `401` ab.
 
 |Q6
 |Datenkonsistenz
-|Ein Team wird nach einem Spiel umbenannt oder gelöscht. Das vergangene Spiel zeigt weiterhin den ursprünglichen Namen und die ursprüngliche Aufstellung.
-|Snapshot der Teams im Spiel (ADR 03).
+|Ein Team wird nach einem Spiel umbenannt oder gelöscht.
+|Das vergangene Spiel zeigt weiterhin den ursprünglichen Namen und die ursprüngliche Aufstellung.
 
 |Q7
 |Zuverlässigkeit der Eingaben
-|Ein Admin erfasst ein Spiel mit zwei gleichen Teams oder ein Tor ohne Spieler. Das Backend lehnt die Anfrage ab und speichert nichts.
-|Validierung im `Game Service` und mit DTOs (`class-validator`), Prüfung der Spieler gegen die Aufstellung.
+|Ein Admin erfasst ein Spiel mit zwei gleichen Teams oder ein Tor ohne Spieler.
+|Das Backend lehnt die Anfrage ab und speichert nichts.
 
 |Q8
 |Wartbarkeit
-|Ein Entwickler pusht eine Änderung. Formatierung, Build und Unit-Tests laufen automatisch und melden Fehler innerhalb der CI.
-|GitHub Actions für Frontend und Backend (siehe Teststrategie).
+|Ein Entwickler pusht eine Änderung.
+|Formatierung, Build und Unit-Tests laufen automatisch und melden Fehler innerhalb der CI.
 
 |Q9
 |Internationalisierung
-|Es soll eine weitere Sprache angeboten werden. Dafür genügt eine zusätzliche Übersetzungsdatei.
-|`ngx-translate` mit Übersetzungsdateien unter `/i18n/`.
+|Es soll eine weitere Sprache angeboten werden.
+|Dafür genügt eine zusätzliche Übersetzungsdatei.
 
 |Q10
 |Aktualität
-|Ein Admin erfasst ein Tor. Ein Benutzer sieht es innerhalb weniger Sekunden, ohne die Seite neu zu laden.
-|*Nicht erfüllt.* Es gibt kein Polling und keine WebSockets, siehe Kapitel 11.
+|Ein Admin erfasst ein Tor.
+|Ein Benutzer sieht es innerhalb von 5 Sekunden, ohne die Seite neu zu laden.
 |===

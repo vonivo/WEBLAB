@@ -20,7 +20,7 @@ export class UserService {
     return user;
   }
 
-  async findOrCreate(username: string): Promise<User> {
+  async findOrCreate(username: string): Promise<UserDocument> {
     let user = await this.findByUsername(username);
     if (!user) {
       user = await this.userModel.create({ username, credentials: [] });
@@ -32,10 +32,12 @@ export class UserService {
     username: string,
     credential: WebAuthnCredential,
   ): Promise<void> {
-    const user = await this.findByUsernameOrThrow(username);
+    const user = await this.findOrCreate(username);
 
     const alreadyExists = user.credentials.some((c) => c.id === credential.id);
-    if (alreadyExists) return;
+    if (alreadyExists) {
+      return;
+    }
 
     user.credentials.push({
       id: credential.id,

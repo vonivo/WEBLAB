@@ -59,7 +59,5 @@ npm run cypress:run
 
 
 Offen:
-Registrierung Schützen,
-Interceptor: Token validity prüfen
 Arbeitsjournal
-Chapter 10 und 6
+Chapter 6

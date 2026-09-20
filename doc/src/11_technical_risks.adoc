@@ -13,9 +13,6 @@ ifndef::imagesdir[:imagesdir: ../images]
 |Live-Updates: Neue Ereignisse erscheinen nur nach Neuladen oder Navigation. Es gibt weder WebSockets noch Polling, obwohl die Anforderung "Ereignisse ohne Reload" (Should have) besteht.
 |Offen. Polling als einfache Lösung oder WebSockets/SSE für Echtzeit ergänzen.
 
-|Token-Ablauf: Es gibt kein Refresh-Token, und die Angular-UI prüft weder den Ablauf noch behandelt sie `401`. Nach Ablauf wirkt der Benutzer angemeldet, Requests schlagen aber fehl. In `jwt.config.ts` liest `refreshTokenExpiration` ausserdem die falsche Variable.
-|Offen. `401` im Interceptor behandeln (Logout und Umleitung auf `/login`), Refresh-Token oder längere Gültigkeit prüfen.
-
 |Token-Speicherung: Das JWT liegt im LocalStorage (bei XSS auslesbar) und bleibt nach dem Logout bis zum Ablauf gültig.
 |Akzeptiert für den Projektrahmen. Bei produktivem Betrieb Cookies (`HttpOnly`) und kurze Gültigkeit prüfen.
 
