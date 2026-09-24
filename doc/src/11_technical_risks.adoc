@@ -21,4 +21,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 |Spieleliste ohne Paginierung: `GET /games` lädt alle Spiele mit allen Ereignissen und sortiert im Speicher. Die Antwort wächst mit jedem Spiel.
 |Bei kleiner Datenmenge unproblematisch. Später Paginierung, Filter nach Status und Sortierung in der Datenbank.
+
+|Keine Validierung der Event Reihenfolge.
+|Event-Reihenfolge wird momentan noch nicht validiert. Events können bis jetzt auch noch nicht gelöscht werden.
 |===

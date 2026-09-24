@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { GameApi } from '../../service/game.api';
 import { Game, GameEventType, GameSide } from '../../game.types';
 import { GameDetailHeader } from '../../dumb_components/game-detail-header/game-detail-header';
@@ -13,7 +13,7 @@ import { GameService } from '../../service/game.service';
   styleUrl: './home.css',
   templateUrl: './home.html',
 })
-export class Home {
+export class Home implements OnInit {
   readonly gameService = inject(GameService);
   private readonly gameApi = inject(GameApi);
 
@@ -59,4 +59,8 @@ export class Home {
   }
 
   protected readonly GameSide = GameSide;
+
+  ngOnInit(): any {
+    this.gamesResource.reload();
+  }
 }
